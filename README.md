@@ -1,2 +1,3 @@
-# sample-website-flarum-sso
-Sample website for Flarum SSO Extension
+# Flarum SSO Extension Website plugin
+
+Plugin for your PHP website to get the SSO extension working
