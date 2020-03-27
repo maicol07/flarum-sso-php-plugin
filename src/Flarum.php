@@ -1,7 +1,9 @@
 <?php
 
+use Delight\Cookie\Cookie;
+
 /**
- * Class Flarum
+ * Flarum SSO
  *
  * @author fabwu
  * @author maicol07
@@ -9,18 +11,41 @@
  */
 class Flarum
 {
-    /* @var string Cookie name */
-    const REMEMBER_ME_KEY = 'flarum_remember';
+    /* @var Cookie */
+    private $cookie;
 
-    /* @var object Config options */
-    private $config;
+    /* @var string Flarum URL */
+    private $url;
 
-    /**
-     * Flarum constructor.
-     */
-    public function __construct()
+    /* @var string Domain of your main site without http:// or https:// */
+    private $root_domain;
+
+    /* @var string Random key from the api_keys table of your Flarum forum */
+    private $api_key;
+
+	/* @var string Random token to create passwords */
+    private $password_token;
+
+    /* @var int How many days should the login be valid */
+    private $lifetime;
+
+	/**
+	 * Flarum constructor
+	 *
+	 * @param string $url
+	 * @param string $root_domain
+	 * @param string $api_key
+	 * @param string $password_token
+	 * @param int $lifetime
+	 */
+    public function __construct(string $url, string $root_domain, string $api_key, string $password_token, int $lifetime=14)
     {
-        $this->config = require __DIR__ . '/config.php';
+        $this->url = $url;
+        $this->root_domain = $root_domain;
+        $this->api_key = $api_key;
+        $this->password_token = $password_token;
+        $this->lifetime = $lifetime;
+        $this->cookie = new Cookie('flarum_remember');
     }
 
     /**
@@ -33,7 +58,7 @@ class Flarum
      * @param string|null $password
      * @return string
      */
-    public function login($username, $email, $password=null)
+    public function login(string $username, string $email, $password=null)
     {
         if (empty($password)) {
             $password = $this->createPassword($username);
@@ -48,7 +73,7 @@ class Flarum
             $token = $this->getToken($username, $password);
         }
 
-        return $this->setRememberCookie($token);
+        return $this->setCookie($token, time() + $this->getLifetimeSeconds());
     }
 
     /**
@@ -57,15 +82,17 @@ class Flarum
      */
     public function logout()
     {
-        $this->removeCookie();
+		$flarum_cookie = new Cookie('flarum_session');
+		$flarum_cookie->delete();
+		return $this->cookie->delete();
     }
 
     /**
-     * Redirect the user to your Flarum instance
+     * Redirects the user to your Flarum instance
      */
     public function redirectToForum()
     {
-        header('Location: ' . $this->config->flarum_url);
+        header('Location: ' . $this->url);
         die();
     }
 
@@ -76,7 +103,7 @@ class Flarum
      * @return string
      */
     public function getForumLink() {
-        return $this->config->flarum_url;
+        return $this->url;
     }
 
     /**
@@ -85,9 +112,9 @@ class Flarum
      * @param string $username
      * @return string
      */
-    private function createPassword($username)
+    private function createPassword(string $username)
     {
-        return hash('sha256', $username . $this->config->password_token);
+        return hash('sha256', $username . $this->password_token);
     }
 
     /**
@@ -97,7 +124,7 @@ class Flarum
      * @param string $password
      * @return string
      */
-    private function getToken($username, $password)
+    private function getToken(string $username, string $password)
     {
         $data = [
             'identification' => $username,
@@ -112,14 +139,14 @@ class Flarum
 
     /**
      * Sign up user in Flarum. Generally, you should use this method when an user successfully log into
-     * your SSO system (or main website) and you found out that don't have a token (because has no account on Flarum)
+     * your SSO system (or main website) and you found out that user don't have a token (because he hasn't an account on Flarum)
      *
      * @param string $username
      * @param string $password
      * @param string $email
      * @return bool
      */
-    private function signup($username, $password, $email)
+    private function signup(string $username, string $password, string $email)
     {
         $data = [
             "data" => [
@@ -143,7 +170,7 @@ class Flarum
      *
      * @param string $username
      */
-    public function delete($username) {
+    public function delete(string $username) {
         $response = $this->sendRequest("/api/users/" . $username, [], 'GET');
         if (!empty($response['id'])) {
             $this->sendRequest("/api/users/" . $response['id'], [], 'DELETE');
@@ -158,54 +185,36 @@ class Flarum
      * @param string $method
      * @return mixed
      */
-    private function sendRequest($path, $data=[], $method='POST')
+    private function sendRequest(string $path, array $data=[], string $method='POST')
     {
 
         // use key 'http' even if you send the request to https://...
         $options = [
             'http' => [
-                'header'  => 'Authorization: Token ' . $this->config->flarum_api_key . '; userId=1',
+                'header'  => 'Authorization: Token ' . $this->api_key . '; userId=1',
                 'method'  => $method,
                 'content' => http_build_query($data),
                 'ignore_errors' => true
             ]
         ];
         $context  = stream_context_create($options);
-        $result = file_get_contents($this->config->flarum_url . $path, false, $context);
+        $result = file_get_contents($this->url . $path, false, $context);
         return json_decode($result, true);
-    }
-
-    /**
-     * Set the remember me cookie
-     *
-     * @param string $token
-     * @return bool
-     */
-    private function setRememberCookie($token)
-    {
-        return $this->setCookie(self::REMEMBER_ME_KEY, $token, time() + $this->getLifetimeSeconds());
-    }
-
-    /**
-     * Remove the remember me cookie
-     */
-    private function removeCookie()
-    {
-        unset($_COOKIE[self::REMEMBER_ME_KEY]);
-        return $this->setCookie(self::REMEMBER_ME_KEY, '', time() - 10);
     }
 
     /**
      * Set Flarum auth cookie
      *
-     * @param string $key
      * @param string $token
      * @param int $time
      * @return bool
      */
-    private function setCookie($key, $token, $time)
+    private function setCookie(string $token, int $time)
     {
-        return setcookie($key, $token, $time, '/', $this->config->root_domain);
+    	$this->cookie->setValue($token);
+    	$this->cookie->setExpiryTime($time);
+    	$this->cookie->setDomain($this->root_domain);
+    	return $this->cookie->save();
     }
 
     /**
@@ -215,6 +224,6 @@ class Flarum
      */
     private function getLifetimeSeconds()
     {
-        return $this->config->lifetime_in_days * 60 * 60 * 24;
+        return $this->lifetime * 60 * 60 * 24;
     }
 }

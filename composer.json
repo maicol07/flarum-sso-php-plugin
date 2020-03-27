@@ -1,0 +1,21 @@
+{
+	"name": "maicol07/flarum-sso-plugin",
+	"description": "Sample website for Flarum SSO Extension",
+	"minimum-stability": "stable",
+	"license": "proprietary",
+	"authors": [
+		{
+			"name": "Maicol",
+			"email": "email@example.com"
+		}
+	],
+	"require": {
+		"php": ">=7.0",
+		"delight-im/cookie": "^3"
+	},
+	"autoload": {
+		"psr-4": {
+			"Maicol07\\SSO\\": "src/"
+		}
+	}
+}

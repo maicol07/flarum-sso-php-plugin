@@ -3,7 +3,7 @@
 Plugin Name: Flarum Single Sign On
 */
 
-require_once __DIR__ . '/Forum.php';
+require_once __DIR__ . '/src/Flarum.php';
 
 $flarum = new Flarum();
 
