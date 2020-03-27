@@ -82,8 +82,10 @@ class Flarum
      */
     public function logout()
     {
+    	// Delete the flarum session cookie to logout from Flarum
 		$flarum_cookie = new Cookie('flarum_session');
 		$flarum_cookie->delete();
+		// Delete the plugin cookie
 		return $this->cookie->delete();
     }
 
@@ -171,6 +173,8 @@ class Flarum
      * @param string $username
      */
     public function delete(string $username) {
+    	// Logout the user
+    	$this->logout();
         $response = $this->sendRequest("/api/users/" . $username, [], 'GET');
         if (!empty($response['id'])) {
             $this->sendRequest("/api/users/" . $response['id'], [], 'DELETE');
