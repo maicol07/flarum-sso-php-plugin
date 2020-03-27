@@ -19,6 +19,7 @@ You have two ways to install this plugin:
 - **Recommended!** Using composer. Execute this command to install this with composer. You need to have [composer](https://getcomposer.org) installed.
 ```
 composer require maicol07/flarum-sso-plugin
+```
 - Downloading this package from [releases](https://github.com/maicol07/flarum-sso-plugin/releases) page and importing it in your project.
 
 ## Configuration
