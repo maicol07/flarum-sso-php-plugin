@@ -1,0 +1,21 @@
+{
+	"name": "maicol07/flarum_sso_plugin_wp",
+	"description": "WordPress plugin to get Flarum SSO working",
+	"type": "project",
+	"require": {
+		"delight-im/cookie": "^3.3",
+		"paypal/rest-api-sdk-php": "*"
+	},
+	"license": "GPL",
+	"authors": [
+		{
+			"name": "Maicol",
+			"email": "maicolbattistini@live.it"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Maicol07\\SSO\\": "includes/src/"
+		}
+	}
+}
