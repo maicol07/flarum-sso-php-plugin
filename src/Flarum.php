@@ -1,7 +1,7 @@
 <?php
+namespace Maicol07\SSO;
 
 use Delight\Cookie\Cookie;
-
 /**
  * Flarum SSO
  *

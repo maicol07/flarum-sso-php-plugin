@@ -1,6 +1,6 @@
 {
 	"name": "maicol07/flarum-sso-plugin",
-	"description": "Sample website for Flarum SSO Extension",
+	"description": "Website plugin for Flarum SSO Extension",
 	"minimum-stability": "stable",
 	"license": "proprietary",
 	"authors": [
