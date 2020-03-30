@@ -15,12 +15,12 @@ You only need to set the `key` column and the `user_id` one. In the first one wr
 ## Installation
 See [here](#wordpress) for Wordpress instructions
 
-You have two ways to install this plugin:
-- **Recommended!** Using composer. Execute this command to install this with composer. You need to have [composer](https://getcomposer.org) installed.
+I'd recommend to use composer [(?)](https://github.com/delight-im/Knowledge/blob/master/Composer%20(PHP).md) to install the plugin.
+Execute this command to install this with composer. You need to have [composer](https://getcomposer.org) installed.
 ```
 composer require maicol07/flarum-sso-plugin
 ```
-- Downloading this package from [releases](https://github.com/maicol07/flarum-sso-plugin/releases) page and importing it in your project.
+You can also install this by downloading the entire package but then it would be difficult to maintain it.
 
 ## Configuration
 
