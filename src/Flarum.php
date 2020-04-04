@@ -29,6 +29,9 @@ class Flarum
     /* @var int How many days should the login be valid */
     private $lifetime;
 
+    /* @var bool Insecure mode (use only if you don't have an SSL certificate) */
+    private $insecure;
+
 	/**
 	 * Flarum constructor
 	 *
@@ -37,28 +40,33 @@ class Flarum
 	 * @param string $api_key
 	 * @param string $password_token
 	 * @param int $lifetime
+	 * @param bool $insecure
 	 */
-    public function __construct(string $url, string $root_domain, string $api_key, string $password_token, int $lifetime=14)
+    public function __construct(string $url, string $root_domain, string $api_key, string $password_token, int $lifetime=14, bool $insecure=false)
     {
         $this->url = $url;
         $this->root_domain = $root_domain;
         $this->api_key = $api_key;
         $this->password_token = $password_token;
         $this->lifetime = $lifetime;
+        $this->insecure = $insecure;
         $this->cookie = new Cookie('flarum_remember');
     }
 
-    /**
-     * Logs the user in Flarum. Generally, you should use this method when an user successfully log into
-     * your SSO system (or main website). If user is already signed up in Flarum database (not signed up with this
-     * extension) you need to pass plain user password as third parameter (for example Flarum admin)
-     *
-     * @param string $username
-     * @param string $email
-     * @param string|null $password
-     * @return string
-     */
-    public function login(string $username, string $email, $password=null)
+	/**
+	 * Logs the user in Flarum. Generally, you should use this method when an user successfully log into
+	 * your SSO system (or main website). If user is already signed up in Flarum database (not signed up with this
+	 * extension) you need to pass plain user password as third parameter (for example Flarum admin)
+	 * You can also set groups to your users with an array
+	 *
+	 * @param string $username
+	 * @param string $email
+	 * @param string|null $password
+	 * @param array|null $groups
+	 *
+	 * @return string
+	 */
+    public function login(string $username, string $email, string $password=null, array $groups=null)
     {
         if (empty($password)) {
             $password = $this->createPassword($username);
@@ -73,7 +81,54 @@ class Flarum
             $token = $this->getToken($username, $password);
         }
 
+        $this->removeGroups($username);
+        $this->setGroups($username, $groups);
+
         return $this->setCookie($token, time() + $this->getLifetimeSeconds());
+    }
+
+	/**
+	 * Sets groups to a user
+	 *
+	 * @param string $username
+	 * @param array $groups
+	 */
+    public function setGroups(string $username, array $groups) {
+	    $response = $this->sendRequest("/api/users/" . $username, [], 'GET');
+	    if (!empty($response['id'])) {
+		    $this->sendRequest("/api/users/" . $response['id'], [
+		    	'data' => [
+			    	'type' => 'users',
+				    'id' => $response['id'],
+				    'relationships' => [
+					    'groups' => [
+						    'data' => array_map(
+						        function ($group_name) {
+							        $groups = $this->sendRequest('/api/groups', [], "GET");
+							        foreach ($groups as $group) {
+								        if ($group['attributes']['nameSingular'] == $group_name) {
+									        return [
+										        'type' => 'groups',
+										        'id'   => $group[0]['id']
+									        ];
+								        }
+							        }
+							        return $group_name;
+						        }, $groups)
+					    ],
+				    ],
+			    ],
+		    ], 'UPDATE');
+	    }
+    }
+
+	/**
+	 * Removes any group from a user
+	 *
+	 * @param string $username
+	 */
+    public function removeGroups(string $username) {
+    	$this->setGroups($username, []);
     }
 
     /**
@@ -108,7 +163,8 @@ class Flarum
         return $this->url;
     }
 
-    /**
+
+	/**
      * Generates a password based on username and password token
      *
      * @param string $username
@@ -123,7 +179,7 @@ class Flarum
      * Get user token from Flarum (if user exists)
      *
      * @param string $username
-     * @param string $password
+     * @param string|null $password
      * @return string
      */
     private function getToken(string $username, string $password)
@@ -195,15 +251,32 @@ class Flarum
         // use key 'http' even if you send the request to https://...
         $options = [
             'http' => [
-                'header'  => 'Authorization: Token ' . $this->api_key . '; userId=1',
+                'header'  => 'Authorization: Token ' . $this->api_key,
                 'method'  => $method,
                 'content' => http_build_query($data),
                 'ignore_errors' => true
             ]
         ];
+        if ($this->insecure) {
+        	$options = array_merge($options, [
+		        "ssl"=>array(
+			        "verify_peer"=>false,
+			        "verify_peer_name"=>false,
+		        ),
+	        ]);
+        }
         $context  = stream_context_create($options);
         $result = file_get_contents($this->url . $path, false, $context);
         return json_decode($result, true);
+    }
+
+	/**
+	 * Sends a GET request
+	 *
+	 * @param string $path
+	 */
+    protected function get(string $path) {
+	    return $this->sendRequest($path, [], 'GET');
     }
 
     /**
