@@ -10,6 +10,10 @@
  * @subpackage Flarum_sso_plugin/admin
  */
 
+use BenMajor\ExchangeRatesAPI\ExchangeRatesAPI;
+use PayPalCheckoutSdk\Orders\OrdersGetRequest;
+use Sample\PayPalClient;
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -200,10 +204,36 @@ class Flarum_sso_plugin_Admin
 				'wp_data' => 'option',
 				'label' => __('PRO features key', 'flarum_sso_plugin'),
 			],
+			[
+				'type' => 'input',
+				'subtype' => 'checkbox',
+				'id' => 'flarum_sso_plugin_insecure',
+				'name' => 'flarum_sso_plugin_insecure',
+				'required' => 'true',
+				'get_options_list' => '',
+				'value_type'=>'normal',
+				'wp_data' => 'option',
+				'label' => __("Insecure mode (use only if you don't have an SSL certificate)", 'flarum_sso_plugin'),
+			],
 		];
 		// Default values
 		if ( get_option( 'flarum_sso_plugin_lifetime' ) === false ) // Nothing yet saved
 			update_option( 'flarum_sso_plugin_lifetime', 14 );
+		if (!empty(get_option('flarum_sso_plugin_pro_key'))) {
+			$client   = PayPalClient::client();
+			$response = $client->execute( new OrdersGetRequest( get_option( 'flarum_sso_plugin_pro_key' ) ) );
+
+			$lookup   = new ExchangeRatesAPI();
+			$currency = $response->result->purchase_units[0]->amount->currency;
+			$amount   = $response->result->purchase_units[0]->amount->value;
+			$date     = $response->result->create_time;
+			$dt       = new DateTime( $date );
+
+			$value = $lookup->setBaseCurrency( $currency )->addDateFrom( $dt->format( 'Y-M-D' ) )->convert( 'EUR', $amount );
+			if ( $value >= 100 ) {
+				update_option( 'flarum_sso_plugin_pro_active', true );
+			}
+		}
 
 		foreach ($fields as $field) {
 			add_settings_field(
@@ -227,7 +257,10 @@ class Flarum_sso_plugin_Admin
 	 * Display message on plugin settings page
 	 */
 	public function flarum_sso_plugin_display_general_account() {
-		echo '<p>' . __("These settings apply to all Flarum SSO Plugin functionality. To know more about something check the <a href='https://docs.maicol07.it/docs/en/flarum_sso_plugin/wp/introduction'>docs</a>", "flarum_sso_plugin") . '</p>';
+		echo '<p>' . __("These settings apply to all Flarum SSO Plugin functionality. To know more about something check the <a href='https://docs.maicol07.it/docs/en/flarum_sso_plugin/wpa/introduction'>docs</a>", "flarum_sso_plugin") . '</p>';
+		if (get_option('flarum_sso_plugin_pro_activate')) {
+			echo '<p style="color: green">' . __("PRO features activated!") . "</p>";
+		}
 	}
 
 	/**
@@ -236,17 +269,6 @@ class Flarum_sso_plugin_Admin
 	 * @param $args
 	 */
 	public function flarum_sso_plugin_render_settings_field($args) {
-		/* EXAMPLE INPUT
-				  'type'      => 'input',
-				  'subtype'   => '',
-				  'id'    => $this->plugin_name.'_example_setting',
-				  'name'      => $this->plugin_name.'_example_setting',
-				  'required' => 'required="required"',
-				  'get_option_list' => "",
-					'value_type' = serialized OR normal,
-		'wp_data'=>(option or post_meta),
-		'post_id' =>
-		*/
 		if($args['wp_data'] == 'option'){
 			$wp_data_value = get_option($args['name']);
 		} elseif($args['wp_data'] == 'post_meta'){
@@ -254,7 +276,6 @@ class Flarum_sso_plugin_Admin
 		}
 
 		switch ($args['type']) {
-
 			case 'input':
 				$value = ($args['value_type'] == 'serialized') ? serialize($wp_data_value) : $wp_data_value;
 				if($args['subtype'] != 'checkbox'){
@@ -289,7 +310,6 @@ class Flarum_sso_plugin_Admin
 	 */
 	public function enqueue_styles()
 	{
-
 		/**
 		 * This function is provided for demonstration purposes only.
 		 *
@@ -303,7 +323,6 @@ class Flarum_sso_plugin_Admin
 		 */
 
 		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/flarum_sso_plugin-admin.css', array(), $this->version, 'all');
-
 	}
 
 	/**
@@ -313,7 +332,6 @@ class Flarum_sso_plugin_Admin
 	 */
 	public function enqueue_scripts()
 	{
-
 		/**
 		 * This function is provided for demonstration purposes only.
 		 *
@@ -325,9 +343,7 @@ class Flarum_sso_plugin_Admin
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/flarum_sso_plugin-admin.js', array('jquery'), $this->version, false);
-
 	}
 
 }

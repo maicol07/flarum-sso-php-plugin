@@ -4,9 +4,10 @@
 	"type": "project",
 	"require": {
 		"delight-im/cookie": "^3.3",
-		"paypal/rest-api-sdk-php": "*"
+		"benmajor/exchange-rates-api": "^1.0",
+		"paypal/paypal-checkout-sdk": "1.0.1"
 	},
-	"license": "GPL",
+	"license": "GNU GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Maicol",

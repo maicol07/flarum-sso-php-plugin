@@ -33,7 +33,6 @@ Basically, you need to do this:
 
 ## Wordpress
 
-**Do not use this WP plugin from master branch because I'm working on a new version. Wait until a new version is released**
 This extension comes with a Wordpress plugin which allows you to login into Wordpress and gain also access to your Flarum
 forum. In order to install the plugin execute the following steps after adding an api key to Flarum (see Step 1 above):
 
