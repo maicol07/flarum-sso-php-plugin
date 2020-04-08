@@ -2,6 +2,7 @@
 namespace Maicol07\SSO;
 
 use Delight\Cookie\Cookie;
+
 /**
  * Flarum SSO
  *
@@ -17,11 +18,11 @@ class Flarum
     /* @var string Flarum URL */
     private $url;
 
-    /* @var string Domain of your main site without http:// or https:// */
+    /* @var string Main site or SSO system domain */
     private $root_domain;
 
-    /* @var string Random key from the api_keys table of your Flarum forum */
-    private $api_key;
+    /* @var \Flagrow\Flarum\Api\Flarum Api client */
+	private $api;
 
 	/* @var string Random token to create passwords */
     private $password_token;
@@ -29,28 +30,39 @@ class Flarum
     /* @var int How many days should the login be valid */
     private $lifetime;
 
-    /* @var bool Insecure mode (use only if you don't have an SSL certificate) */
+    /* @var bool  */
     private $insecure;
 
 	/**
 	 * Flarum constructor
 	 *
-	 * @param string $url
-	 * @param string $root_domain
-	 * @param string $api_key
-	 * @param string $password_token
-	 * @param int $lifetime
-	 * @param bool $insecure
+	 * @param string $url Flarum URL
+	 * @param string $root_domain Main site or SSO system domain
+	 * @param string $api_key Random key from the api_keys table of your Flarum forum
+	 * @param string $password_token Random token to create passwords
+	 * @param int $lifetime How many days should the login be valid
+	 * @param bool $insecure Insecure mode (use only if you don't have an SSL certificate)
 	 */
     public function __construct(string $url, string $root_domain, string $api_key, string $password_token, int $lifetime=14, bool $insecure=false)
     {
+    	// Urls
         $this->url = $url;
+        $url = parse_url($root_domain);
+        if (!empty($url['host'])) {
+        	$root_domain = $url['host'];
+        }
         $this->root_domain = $root_domain;
-        $this->api_key = $api_key;
         $this->password_token = $password_token;
-        $this->lifetime = $lifetime;
-        $this->insecure = $insecure;
+
+        // Api client
+        $options = [];
+        if ($insecure) {
+        	$options['verify'] = false;
+        }
+        $this->api = new \Flagrow\Flarum\Api\Flarum($this->url, ['token' => $api_key], $options);
+
         $this->cookie = new Cookie('flarum_remember');
+	    $this->lifetime = $lifetime;
     }
 
 	/**
@@ -81,7 +93,6 @@ class Flarum
             $token = $this->getToken($username, $password);
         }
 
-        $this->removeGroups($username);
         $this->setGroups($username, $groups);
 
         return $this->setCookie($token, time() + $this->getLifetimeSeconds());
@@ -91,44 +102,78 @@ class Flarum
 	 * Sets groups to a user
 	 *
 	 * @param string $username
-	 * @param array $groups
+	 * @param array|null $groups
 	 */
-    public function setGroups(string $username, array $groups) {
-	    $response = $this->sendRequest("/api/users/" . $username, [], 'GET');
-	    if (!empty($response['id'])) {
-		    $this->sendRequest("/api/users/" . $response['id'], [
-		    	'data' => [
-			    	'type' => 'users',
-				    'id' => $response['id'],
-				    'relationships' => [
-					    'groups' => [
-						    'data' => array_map(
-						        function ($group_name) {
-							        $groups = $this->sendRequest('/api/groups', [], "GET");
-							        foreach ($groups as $group) {
-								        if ($group['attributes']['nameSingular'] == $group_name) {
-									        return [
-										        'type' => 'groups',
-										        'id'   => $group[0]['id']
-									        ];
-								        }
-							        }
-							        return $group_name;
-						        }, $groups)
-					    ],
+    public function setGroups(string $username, $groups) {
+    	if (is_null($groups)) {
+    		return;
+	    }
+	    $user = $this->api->users($username)->request();
+	    if (!empty($user->id)) {
+	    	$group_names = [];
+	    	// Check if user is admin
+		    if ($user->relationships['groups'][1]->id == 1) {
+		    	$group_names[] = [
+		    		'type' => 'groups',
+				    'id' => 1
+			    ];
+		    }
+
+		    $flarum_groups = $this->api->groups(null)->request();
+		    foreach ($flarum_groups->items as $group) {
+			    if (in_array($group->attributes['nameSingular'], $groups)) {
+				    $group_names[] = [
+					    'type' => 'groups',
+					    'id'   => $group->id
+				    ];
+				    unset($groups[array_search($group->attributes['nameSingular'], $groups)]);
+			    }
+		    }
+
+		    // Create groups not found
+		    foreach ($groups as $group) {
+		    	$id = $this->createGroup($group);
+			    $group_names[] = [
+				    'type' => 'groups',
+				    'id'   => $id
+			    ];
+		    }
+
+		    $this->api->users($user->id)->patch([
+			    'relationships' => [
+				    'groups' => [
+					    'data' => $group_names
 				    ],
 			    ],
-		    ], 'UPDATE');
+		    ])->request();
 	    }
     }
 
 	/**
-	 * Removes any group from a user
+	 * Removes any group from a user.
 	 *
 	 * @param string $username
 	 */
     public function removeGroups(string $username) {
     	$this->setGroups($username, []);
+    }
+
+	/**
+	 * Add a group to Flarum
+	 *
+	 * @param string $group
+	 *
+	 * @return mixed
+	 */
+    public function createGroup(string $group) {
+	    $response = $this->api->groups(null)->post([
+	    	'type' => 'groups',
+		    'attributes' => [
+		    	'namePlural' => $group,
+			    'nameSingular' => $group
+		    ]
+	    ])->request();
+	    return $response->id;
     }
 
     /**
@@ -143,6 +188,46 @@ class Flarum
 		// Delete the plugin cookie
 		return $this->cookie->delete();
     }
+
+	/**
+	 * Sign up user in Flarum. Generally, you should use this method when an user successfully log into
+	 * your SSO system (or main website) and you found out that user don't have a token (because he hasn't an account on Flarum)
+	 *
+	 * @param string $username
+	 * @param string $password
+	 * @param string $email
+	 * @return bool
+	 */
+	private function signup(string $username, string $password, string $email)
+	{
+		$data = [
+			"type" => "users",
+			"attributes" => [
+				"username" => $username,
+				"password" => $password,
+				"email" => $email,
+			]
+		];
+
+		$user = $this->api->users(null)->post($data)->request();
+
+		return isset($user->id);
+	}
+
+	/**
+	 * Deletes a user from Flarum database. Generally, you should use this method when an user successfully deleted
+	 * his account from your SSO system (or main website)
+	 *
+	 * @param string $username
+	 */
+	public function delete(string $username) {
+		// Logout the user
+		$this->logout();
+		$user = $this->api->users($username);
+		if (!empty($user->id)) {
+			$this->api->users($user->id)->delete()->request();
+		}
+	}
 
     /**
      * Redirects the user to your Flarum instance
@@ -190,93 +275,10 @@ class Flarum
             'lifetime' => $this->getLifetimeSeconds(),
         ];
 
-        $response = $this->sendRequest('/api/token', $data);
+        $json = $this->api->getRest()->post($this->url . '/api/token', ['json' => $data])->getBody()->getContents();
+        $response = json_decode($json);
 
-        return isset($response['token']) ? $response['token'] : '';
-    }
-
-    /**
-     * Sign up user in Flarum. Generally, you should use this method when an user successfully log into
-     * your SSO system (or main website) and you found out that user don't have a token (because he hasn't an account on Flarum)
-     *
-     * @param string $username
-     * @param string $password
-     * @param string $email
-     * @return bool
-     */
-    private function signup(string $username, string $password, string $email)
-    {
-        $data = [
-            "data" => [
-                "type" => "users",
-                "attributes" => [
-                    "username" => $username,
-                    "password" => $password,
-                    "email" => $email,
-                ]
-            ]
-        ];
-
-        $response = $this->sendRequest('/api/users', $data);
-
-        return isset($response['data']['id']);
-    }
-
-    /**
-     * Deletes a user from Flarum database. Generally, you should use this method when an user successfully deleted
-     * his account from your SSO system (or main website)
-     *
-     * @param string $username
-     */
-    public function delete(string $username) {
-    	// Logout the user
-    	$this->logout();
-        $response = $this->sendRequest("/api/users/" . $username, [], 'GET');
-        if (!empty($response['id'])) {
-            $this->sendRequest("/api/users/" . $response['id'], [], 'DELETE');
-        }
-    }
-
-    /**
-     * Send a request to Flarum JSON API. Default method is POST.
-     *
-     * @param string $path
-     * @param array $data
-     * @param string $method
-     * @return mixed
-     */
-    private function sendRequest(string $path, array $data=[], string $method='POST')
-    {
-
-        // use key 'http' even if you send the request to https://...
-        $options = [
-            'http' => [
-                'header'  => 'Authorization: Token ' . $this->api_key,
-                'method'  => $method,
-                'content' => http_build_query($data),
-                'ignore_errors' => true
-            ]
-        ];
-        if ($this->insecure) {
-        	$options = array_merge($options, [
-		        "ssl"=>array(
-			        "verify_peer"=>false,
-			        "verify_peer_name"=>false,
-		        ),
-	        ]);
-        }
-        $context  = stream_context_create($options);
-        $result = file_get_contents($this->url . $path, false, $context);
-        return json_decode($result, true);
-    }
-
-	/**
-	 * Sends a GET request
-	 *
-	 * @param string $path
-	 */
-    protected function get(string $path) {
-	    return $this->sendRequest($path, [], 'GET');
+        return isset($response->token) ? $response->token : '';
     }
 
     /**
