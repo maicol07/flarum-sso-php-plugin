@@ -1,7 +1,9 @@
-<?php
+<?php /** @noinspection PhpUndefinedMethodInspection */
+
 namespace Maicol07\SSO;
 
 use Delight\Cookie\Cookie;
+use GuzzleHttp\Exception\ClientException;
 
 /**
  * Flarum SSO
@@ -275,10 +277,17 @@ class Flarum
             'lifetime' => $this->getLifetimeSeconds(),
         ];
 
-        $json = $this->api->getRest()->post($this->url . '/api/token', ['json' => $data])->getBody()->getContents();
-        $response = json_decode($json);
+        try {
+	        $json = $this->api->getRest()->post( $this->url . '/api/token', [ 'json' => $data ] )->getBody()->getContents();
+	        $response = json_decode( $json );
 
-        return isset($response->token) ? $response->token : '';
+	        return isset( $response->token ) ? $response->token : '';
+        } catch (ClientException $e) {
+        	if ($e->getResponse()->getReasonPhrase() == "Unauthorized") {
+        		return null;
+	        }
+        	throw $e;
+        }
     }
 
     /**
