@@ -14,26 +14,26 @@ use GuzzleHttp\Exception\ClientException;
  */
 class Flarum
 {
-    /* @var Cookie */
-    private $cookie;
+	/* @var Cookie */
+	private $cookie;
 
-    /* @var string Flarum URL */
-    private $url;
+	/* @var string Flarum URL */
+	private $url;
 
-    /* @var string Main site or SSO system domain */
-    private $root_domain;
+	/* @var string Main site or SSO system domain */
+	private $root_domain;
 
-    /* @var \Flagrow\Flarum\Api\Flarum Api client */
+	/* @var \Flagrow\Flarum\Api\Flarum Api client */
 	private $api;
 
 	/* @var string Random token to create passwords */
-    private $password_token;
+	private $password_token;
 
-    /* @var int How many days should the login be valid */
-    private $lifetime;
+	/* @var int How many days should the login be valid */
+	private $lifetime;
 
-    /* @var bool  */
-    private $insecure;
+	/* @var bool */
+	private $insecure;
 
 	/**
 	 * Flarum constructor
@@ -45,27 +45,27 @@ class Flarum
 	 * @param int $lifetime How many days should the login be valid
 	 * @param bool $insecure Insecure mode (use only if you don't have an SSL certificate)
 	 */
-    public function __construct(string $url, string $root_domain, string $api_key, string $password_token, int $lifetime=14, bool $insecure=false)
-    {
-    	// Urls
-        $this->url = $url;
-        $url = parse_url($root_domain);
-        if (!empty($url['host'])) {
-        	$root_domain = $url['host'];
-        }
-        $this->root_domain = $root_domain;
-        $this->password_token = $password_token;
+	public function __construct(string $url, string $root_domain, string $api_key, string $password_token, int $lifetime = 14, bool $insecure = false)
+	{
+		// Urls
+		$this->url = $url;
+		$url = parse_url($root_domain);
+		if (!empty($url['host'])) {
+			$root_domain = $url['host'];
+		}
+		$this->root_domain = $root_domain;
+		$this->password_token = $password_token;
 
-        // Api client
-        $options = [];
-        if ($insecure) {
-        	$options['verify'] = false;
-        }
-        $this->api = new \Flagrow\Flarum\Api\Flarum($this->url, ['token' => $api_key], $options);
+		// Api client
+		$options = [];
+		if ($insecure) {
+			$options['verify'] = false;
+		}
+		$this->api = new \Flagrow\Flarum\Api\Flarum($this->url, ['token' => $api_key], $options);
 
-        $this->cookie = new Cookie('flarum_remember');
-	    $this->lifetime = $lifetime;
-    }
+		$this->cookie = new Cookie('flarum_remember');
+		$this->lifetime = $lifetime;
+	}
 
 	/**
 	 * Logs the user in Flarum. Generally, you should use this method when an user successfully log into
@@ -80,25 +80,31 @@ class Flarum
 	 *
 	 * @return string
 	 */
-    public function login(string $username, string $email, string $password=null, array $groups=null)
-    {
-        if (empty($password)) {
-            $password = $this->createPassword($username);
-        }
-        $token = $this->getToken($username, $password);
+	public function login(string $username, string $email, string $password = null, $groups = null)
+	{
+		if (empty($password)) {
+			$password = $this->createPassword($username);
+		}
+		$token = $this->getToken($username, $password);
+		// Backward compatibility: search for existing user
+		$users = $this->getUserslist();
+		if (empty($token) and in_array($username, $users)) {
+			$password = $this->createPassword($username);
+			$token = $this->getToken($username, $password);
+		}
 
-        if (empty($token)) {
-            $signed_up = $this->signup($username, $password, $email);
-            if (!$signed_up) {
-                return false;
-            }
-            $token = $this->getToken($username, $password);
-        }
+		if (empty($token)) {
+			$signed_up = $this->signup($username, $password, $email, $groups);
+			if (!$signed_up) {
+				return false;
+			}
+			$token = $this->getToken($username, $password);
+		}
 
-        $this->setGroups($username, $groups);
+		$this->setGroups($username, $groups);
 
-        return $this->setCookie($token, time() + $this->getLifetimeSeconds());
-    }
+		return $this->setCookie($token, time() + $this->getLifetimeSeconds());
+	}
 
 	/**
 	 * Sets groups to a user
@@ -106,59 +112,65 @@ class Flarum
 	 * @param string $username
 	 * @param array|null $groups
 	 */
-    public function setGroups(string $username, $groups) {
-    	if (is_null($groups)) {
-    		return;
-	    }
-	    $user = $this->api->users($username)->request();
-	    if (!empty($user->id)) {
-	    	$group_names = [];
-	    	// Check if user is admin
-		    if ($user->relationships['groups'][1]->id == 1) {
-		    	$group_names[] = [
-		    		'type' => 'groups',
-				    'id' => 1
-			    ];
-		    }
+	public function setGroups(string $username, $groups)
+	{
+		if (is_null($groups)) {
+			return;
+		}
+		$user = $this->api->users($username)->request();
+		if (!empty($user->id)) {
+			$group_names = [];
+			// Check if user is admin
+			$user_groups = $user->relationships['groups'];
+			if (!empty($user_groups) and $user_groups[1]->id == 1) {
+				$group_names[] = [
+					'type' => 'groups',
+					'id' => 1
+				];
+			}
 
-		    $flarum_groups = $this->api->groups(null)->request();
-		    foreach ($flarum_groups->items as $group) {
-			    if (in_array($group->attributes['nameSingular'], $groups)) {
-				    $group_names[] = [
-					    'type' => 'groups',
-					    'id'   => $group->id
-				    ];
-				    unset($groups[array_search($group->attributes['nameSingular'], $groups)]);
-			    }
-		    }
+			$flarum_groups = $this->api->groups(null)->request();
+			foreach ($flarum_groups->items as $group) {
+				if (in_array($group->attributes['nameSingular'], $groups)) {
+					$group_names[] = [
+						'type' => 'groups',
+						'id' => $group->id
+					];
+					unset($groups[array_search($group->attributes['nameSingular'], $groups)]);
+				}
+			}
 
-		    // Create groups not found
-		    foreach ($groups as $group) {
-		    	$id = $this->createGroup($group);
-			    $group_names[] = [
-				    'type' => 'groups',
-				    'id'   => $id
-			    ];
-		    }
+			// Create groups not found
+			foreach ($groups as $group) {
+				if (empty($group) or !is_string($group)) {
+					return;
+				}
+				$id = $this->createGroup($group);
+				$group_names[] = [
+					'type' => 'groups',
+					'id' => $id
+				];
+			}
 
-		    $this->api->users($user->id)->patch([
-			    'relationships' => [
-				    'groups' => [
-					    'data' => $group_names
-				    ],
-			    ],
-		    ])->request();
-	    }
-    }
+			$this->api->users($user->id)->patch([
+				'relationships' => [
+					'groups' => [
+						'data' => $group_names
+					],
+				],
+			])->request();
+		}
+	}
 
 	/**
 	 * Removes any group from a user.
 	 *
 	 * @param string $username
 	 */
-    public function removeGroups(string $username) {
-    	$this->setGroups($username, []);
-    }
+	public function removeGroups(string $username)
+	{
+		$this->setGroups($username, []);
+	}
 
 	/**
 	 * Add a group to Flarum
@@ -167,24 +179,25 @@ class Flarum
 	 *
 	 * @return mixed
 	 */
-    public function createGroup(string $group) {
-	    $response = $this->api->groups(null)->post([
-	    	'type' => 'groups',
-		    'attributes' => [
-		    	'namePlural' => $group,
-			    'nameSingular' => $group
-		    ]
-	    ])->request();
-	    return $response->id;
-    }
+	public function createGroup(string $group)
+	{
+		$response = $this->api->groups(null)->post([
+			'type' => 'groups',
+			'attributes' => [
+				'namePlural' => $group,
+				'nameSingular' => $group
+			]
+		])->request();
+		return $response->id;
+	}
 
-    /**
-     * Logs out the user from Flarum. Generally, you should use this method when an user successfully logged out from
-     * your SSO system (or main website)
-     */
-    public function logout()
-    {
-    	// Delete the flarum session cookie to logout from Flarum
+	/**
+	 * Logs out the user from Flarum. Generally, you should use this method when an user successfully logged out from
+	 * your SSO system (or main website)
+	 */
+	public function logout()
+	{
+		// Delete the flarum session cookie to logout from Flarum
 		$flarum_cookie = new Cookie('flarum_session');
 		$url = parse_url($this->url);
 		$flarum_cookie->setDomain($url['host']);
@@ -194,7 +207,7 @@ class Flarum
 		$flarum_cookie->delete();
 		// Delete the plugin cookie
 		return $this->cookie->delete();
-    }
+	}
 
 	/**
 	 * Sign up user in Flarum. Generally, you should use this method when an user successfully log into
@@ -203,9 +216,10 @@ class Flarum
 	 * @param string $username
 	 * @param string $password
 	 * @param string $email
+	 * @param array|null $groups
 	 * @return bool
 	 */
-	private function signup(string $username, string $password, string $email)
+	private function signup(string $username, string $password, string $email, $groups = null)
 	{
 		$data = [
 			"type" => "users",
@@ -216,9 +230,16 @@ class Flarum
 			]
 		];
 
-		$user = $this->api->users(null)->post($data)->request();
-
-		return isset($user->id);
+		try {
+			$user = $this->api->users(null)->post($data)->request();
+			$this->setGroups($username, $groups);
+			return isset($user->id);
+		} catch (ClientException $e) {
+			if ($e->getResponse()->getReasonPhrase() == "Unprocessable Entity") {
+				return null;
+			}
+			throw $e;
+		}
 	}
 
 	/**
@@ -227,7 +248,8 @@ class Flarum
 	 *
 	 * @param string $username
 	 */
-	public function delete(string $username) {
+	public function delete(string $username)
+	{
 		// Logout the user
 		$this->logout();
 		$user = $this->api->users($username);
@@ -236,87 +258,137 @@ class Flarum
 		}
 	}
 
-    /**
-     * Redirects the user to your Flarum instance
-     */
-    public function redirectToForum()
-    {
-        header('Location: ' . $this->url);
-        die();
-    }
+	/**
+	 * Updates a user. Warning! User needs to be find with username or email, so one of those two has to be the old one
+	 *
+	 * @param string $username Old/new username. Username will be changed if email matches the one in Flarum database,
+	 * else it will be used to find the user ID
+	 * @param string $email Old/new email. Email will be changed if username matches the one in Flarum database,
+	 * else it will be used to find the user ID
+	 * @param string|null $password New password (changes old password to this one)
+	 */
+	public function update(string $username, string $email, string $password = null)
+	{
+		// Get user ID
+		$users = $this->getUsersList(true);
+		$id = null;
+		foreach ($users as $user) {
+			if ($user->attributes['username'] == $username or $user->attributes['email'] == $email) {
+				$id = $user->id;
+			}
+		}
+		// Update username and email
+		$this->api->users($id)->patch([
+			'attributes' => [
+				'username' => $username,
+				'email' => $email,
+				'password' => $password
+			]
+		])->request();
+	}
 
-    /**
-     * Returns Flarum link
-     *
-     * @author maicol07
-     * @return string
-     */
-    public function getForumLink() {
-        return $this->url;
-    }
+	/**
+	 * Redirects the user to your Flarum instance
+	 */
+	public function redirectToForum()
+	{
+		header('Location: ' . $this->url);
+		die();
+	}
+
+	/**
+	 * Returns Flarum link
+	 *
+	 * @return string
+	 * @author maicol07
+	 */
+	public function getForumLink()
+	{
+		return $this->url;
+	}
 
 
 	/**
-     * Generates a password based on username and password token
-     *
-     * @param string $username
-     * @return string
-     */
-    private function createPassword(string $username)
-    {
-        return hash('sha256', $username . $this->password_token);
-    }
+	 * Generates a password based on username and password token
+	 *
+	 * @param string $username
+	 * @return string
+	 */
+	private function createPassword(string $username)
+	{
+		return hash('sha256', $username . $this->password_token);
+	}
 
-    /**
-     * Get user token from Flarum (if user exists)
-     *
-     * @param string $username
-     * @param string|null $password
-     * @return string
-     */
-    private function getToken(string $username, string $password)
-    {
-        $data = [
-            'identification' => $username,
-            'password' => $password,
-            'lifetime' => $this->getLifetimeSeconds(),
-        ];
+	/**
+	 * Get user token from Flarum (if user exists)
+	 *
+	 * @param string $username
+	 * @param string|null $password
+	 * @return string
+	 */
+	private function getToken(string $username, string $password)
+	{
+		$data = [
+			'identification' => $username,
+			'password' => $password,
+			'lifetime' => $this->getLifetimeSeconds(),
+		];
 
-        try {
-	        $json = $this->api->getRest()->post( $this->url . '/api/token', [ 'json' => $data ] )->getBody()->getContents();
-	        $response = json_decode( $json );
+		try {
+			$json = $this->api->getRest()->post($this->url . '/api/token', ['json' => $data])->getBody()->getContents();
+			$response = json_decode($json);
 
-	        return isset( $response->token ) ? $response->token : '';
-        } catch (ClientException $e) {
-        	if ($e->getResponse()->getReasonPhrase() == "Unauthorized") {
-        		return null;
-	        }
-        	throw $e;
-        }
-    }
+			return isset($response->token) ? $response->token : '';
+		} catch (ClientException $e) {
+			if ($e->getResponse()->getReasonPhrase() == "Unauthorized") {
+				return null;
+			}
+			throw $e;
+		}
+	}
 
-    /**
-     * Set Flarum auth cookie
-     *
-     * @param string $token
-     * @param int $time
-     * @return bool
-     */
-    private function setCookie(string $token, int $time)
-    {
-    	$this->cookie->setValue($token);
-    	$this->cookie->setExpiryTime($time);
-    	$this->cookie->setDomain($this->root_domain);
-    	return $this->cookie->save();
-    }
+	/**
+	 * Gets the list of the users' usernames actually signed up on Flarum
+	 *
+	 * @param bool $full If true, returns the full users list (with other info) and not only the usernames
+	 *
+	 * @return array
+	 */
+	private function getUsersList(bool $full = false)
+	{
+		$response = $this->api->users(null)->request()->items;
+		if ($full) {
+			return $response;
+		}
+		$list = [];
+		foreach ($response as $user) {
+			$list[] = $user->attributes['username'];
+		}
+		return $list;
+	}
 
-    /**
-     * Get Token lifetime in seconds
-     *
-     * @return float|int
-     */
-    private function getLifetimeSeconds()
-    {
-        return $this->lifetime * 60 * 60 * 24;
-    }
+	/**
+	 * Set Flarum auth cookie
+	 *
+	 * @param string $token
+	 * @param int $time
+	 * @return bool
+	 */
+	private function setCookie(string $token, int $time)
+	{
+		$this->cookie->setValue($token);
+		$this->cookie->setExpiryTime($time);
+		$this->cookie->setDomain($this->root_domain);
+		return $this->cookie->save();
+	}
+
+	/**
+	 * Get Token lifetime in seconds
+	 *
+	 * @return float|int
+	 */
+	private function getLifetimeSeconds()
+	{
+		return $this->lifetime * 60 * 60 * 24;
+	}
 }
