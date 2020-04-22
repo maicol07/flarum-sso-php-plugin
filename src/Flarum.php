@@ -260,7 +260,7 @@ class Flarum
 			// Check if user is admin
 			$user_groups = $user->relationships['groups'];
 			if (array_key_exists(1, $user_groups)) {
-				if ($this->set_groups_admins) {
+				if (!$this->set_groups_admins) {
 					return;
 				}
 				$group_names[] = [
@@ -367,7 +367,7 @@ class Flarum
 	public function update(string $username, string $email, string $password = null)
 	{
 		// Get user ID
-		$users = $this->getUsersList(true);
+		$users = $this->getUsersList();
 		$id = null;
 		foreach ($users as $user) {
 			if ($user->attributes['username'] == $username or $user->attributes['email'] == $email) {
