@@ -16,26 +16,26 @@ use Illuminate\Support\Collection;
  */
 class Flarum
 {
-	/* @var Cookie */
-	private $cookie;
-
-	/* @var string Flarum URL */
-	private $url;
-
-	/* @var string Main site or SSO system domain */
-	private $root_domain;
-
 	/* @var \Flagrow\Flarum\Api\Flarum Api client */
 	private $api;
 
-	/* @var string Random token to create passwords */
-	private $password_token;
+	/* @var Cookie */
+	private $cookie;
 
 	/* @var int How many days should the login be valid */
 	private $lifetime;
 
-	/* @var bool */
-	private $insecure;
+	/* @var string Random token to create passwords */
+	private $password_token;
+
+	/* @var string Main site or SSO system domain */
+	private $root_domain;
+
+	/* @var bool Set groups also for admins */
+	private $set_groups_admins;
+
+	/* @var string Flarum URL */
+	private $url;
 
 	/**
 	 * Flarum constructor
@@ -46,8 +46,10 @@ class Flarum
 	 * @param string $password_token Random token to create passwords
 	 * @param int $lifetime How many days should the login be valid
 	 * @param bool $insecure Insecure mode (use only if you don't have an SSL certificate)
+	 * @param bool $set_groups_admins Set groups for admins. Set to false if you don't want to set groups to admins
 	 */
-	public function __construct(string $url, string $root_domain, string $api_key, string $password_token, int $lifetime = 14, bool $insecure = false)
+	public function __construct(string $url, string $root_domain, string $api_key, string $password_token,
+								int $lifetime = 14, bool $insecure = false, bool $set_groups_admins = true)
 	{
 		// Urls
 		$this->url = $url;
@@ -67,6 +69,7 @@ class Flarum
 
 		$this->cookie = new Cookie('flarum_remember');
 		$this->lifetime = $lifetime;
+		$this->set_groups_admins = $set_groups_admins;
 	}
 
 	/**
@@ -141,15 +144,15 @@ class Flarum
 				$token = $this->getToken($username, $password);
 			}
 		} catch (ClientException $e) {
-			var_dump($e->getResponse()->getReasonPhrase());
 			if ($e->getCode() == 404 and $e->getResponse()->getReasonPhrase() == "Not Found") {
 				$signed_up = $this->signup($username, $password, $email, $groups);
 				if (!$signed_up) {
 					return false;
 				}
 				$token = $this->getToken($username, $password);
+			} else {
+				throw $e;
 			}
-			throw $e;
 		}
 
 		$this->setGroups($username, $groups);
@@ -253,9 +256,13 @@ class Flarum
 		$user = $this->api->users($username)->request();
 		if (!empty($user->id)) {
 			$group_names = [];
+
 			// Check if user is admin
 			$user_groups = $user->relationships['groups'];
-			if (!empty($user_groups[1]) and $user_groups[1]->id == 1) {
+			if (array_key_exists(1, $user_groups)) {
+				if ($this->set_groups_admins) {
+					return;
+				}
 				$group_names[] = [
 					'type' => 'groups',
 					'id' => 1
