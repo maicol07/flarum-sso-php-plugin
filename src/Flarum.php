@@ -89,18 +89,22 @@ class Flarum
 		}
 		$token = $this->getToken($username, $password);
 		// Backward compatibility: search for existing user
-		$users = $this->getUserslist();
-		if (empty($token) and in_array($username, $users)) {
-			$password = $this->createPassword($username);
-			$token = $this->getToken($username, $password);
-		}
-
-		if (empty($token)) {
-			$signed_up = $this->signup($username, $password, $email, $groups);
-			if (!$signed_up) {
-				return false;
+		try {
+			$user = $this->api->users($username)->request();
+			if (empty($token)) {
+				$password = $this->createPassword($username);
+				$token = $this->getToken($username, $password);
 			}
-			$token = $this->getToken($username, $password);
+		} catch (ClientException $e) {
+			var_dump($e->getResponse()->getReasonPhrase());
+			if ($e->getCode() == 404 and $e->getResponse()->getReasonPhrase() == "Not Found") {
+				$signed_up = $this->signup($username, $password, $email, $groups);
+				if (!$signed_up) {
+					return false;
+				}
+				$token = $this->getToken($username, $password);
+			}
+			throw $e;
 		}
 
 		$this->setGroups($username, $groups);
