@@ -3,7 +3,9 @@
 namespace Maicol07\SSO;
 
 use Delight\Cookie\Cookie;
+use Flagrow\Flarum\Api\Resource\Item;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Collection;
 
 /**
  * Flarum SSO
