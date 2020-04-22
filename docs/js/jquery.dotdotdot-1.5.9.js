@@ -99,6 +99,7 @@
 					conf.isTruncated = trunc;
 					return trunc;
 				}
+
 			).bind(
 				'isTruncated.dot',
 				function (e, fn) {
@@ -110,6 +111,7 @@
 					}
 					return conf.isTruncated;
 				}
+
 			).bind(
 				'originalContent.dot',
 				function (e, fn) {
@@ -121,6 +123,7 @@
 					}
 					return orgContent;
 				}
+
 			).bind(
 				'destroy.dot',
 				function (e) {

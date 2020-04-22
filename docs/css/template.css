@@ -9,7 +9,6 @@ body {
 a {
 	color: #6495ed;
 }
-
 a.anchor {
 	height: 40px;
 	margin-top: -40px;
@@ -56,7 +55,6 @@ h3.public, h3.protected, h3.private {
 .table tr:first-of-type th, .table tr:first-of-type td {
 	border-top: none;
 }
-
 .detailsbar {
 	color: #eeeeee;
 	background-color: #333333;
@@ -80,7 +78,6 @@ h3.public, h3.protected, h3.private {
 .detailsbar h1:after {
 	background: gray;
 }
-
 .detailsbar h2:after, .detailsbar h3:after {
 	background: transparent;
 }
@@ -172,11 +169,9 @@ footer.row-fluid {
 	padding: 10px;
 	min-height: 40px;
 }
-
 .footer-sections .span4 div, .footer-sections .span4 div * {
 	background-color: #555;
 }
-
 .footer-sections .span4 ul {
 	text-align: left;
 	list-style: none;
@@ -252,12 +247,10 @@ h3.public:before {
 .class #summary section .span6:first-of-type {
 	padding-left: 21px;
 }
-
 .class #summary section .span4:first-of-type:before,
 .class #summary section .span6:first-of-type:before {
 	margin-left: -21px;
 }
-
 .class #summary section.protected .span4:first-of-type:before,
 .class #summary section.protected .span6:first-of-type:before,
 h3.protected:before {
@@ -282,7 +275,6 @@ h3.private:before {
 	font-size: 0.9em;
 	color: silver;
 }
-
 .class #summary .inherited {
 	color: gray;
 	font-style: italic;
@@ -311,14 +303,12 @@ h3.private:before {
 .accordion-heading .accordion-toggle.collapsed:before {
 	content: "\f054";
 }
-
 .accordion-heading .accordion-toggle {
 	float: left;
 	width: 16px;
 	height: 16px;
 	padding: 4px 2px 4px 12px;
 }
-
 .accordion-heading a {
 	display: block;
 	padding: 4px 12px;
@@ -350,7 +340,6 @@ h3.private:before {
 .accordion-inner {
 	padding: 4px 0 4px 12px;
 }
-
 .accordion-inner ul {
 	list-style: none;
 	padding: 0;

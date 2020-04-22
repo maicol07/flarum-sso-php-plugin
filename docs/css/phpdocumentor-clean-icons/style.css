@@ -37,15 +37,12 @@ you can use the generic selector below, but it's slower:
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 }
-
 .icon-trait:before {
 	content: "\e000";
 }
-
 .icon-interface:before {
 	content: "\e001";
 }
-
 .icon-class:before {
 	content: "\e002";
 }

@@ -115,7 +115,6 @@ pre[class*="language-"] {
 .token.entity {
 	cursor: help;
 }
-
 pre[data-line] {
 	position: relative;
 	padding: 1em 0 1em 3em;
