@@ -283,7 +283,7 @@ class Flarum
 			// Create groups not found
 			foreach ($groups as $group) {
 				if (empty($group) or !is_string($group)) {
-					return;
+					continue;
 				}
 				$id = $this->createGroup($group);
 				$group_names[] = [
