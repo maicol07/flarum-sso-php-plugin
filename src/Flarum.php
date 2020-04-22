@@ -70,6 +70,51 @@ class Flarum
 	}
 
 	/**
+	 * Deletes a user from Flarum database. Generally, you should use this method when an user successfully deleted
+	 * his account from your SSO system (or main website)
+	 *
+	 * @param string $username
+	 */
+	public function delete(string $username)
+	{
+		// Logout the user
+		$this->logout();
+		$user = $this->api->users($username);
+		if (!empty($user->id)) {
+			$this->api->users($user->id)->delete()->request();
+		}
+	}
+
+	/**
+	 * Logs out the user from Flarum. Generally, you should use this method when an user successfully logged out from
+	 * your SSO system (or main website)
+	 */
+	public function logout()
+	{
+		// Delete the flarum session cookie to logout from Flarum
+		$flarum_cookie = new Cookie('flarum_session');
+		$url = parse_url($this->url);
+		$flarum_cookie->setDomain($url['host']);
+		$flarum_cookie->setPath($url['path']);
+		$flarum_cookie->setHttpOnly(true);
+		$flarum_cookie->setSecureOnly(true);
+		$flarum_cookie->delete();
+		// Delete the plugin cookie
+		return $this->cookie->delete();
+	}
+
+	/**
+	 * Returns Flarum link
+	 *
+	 * @return string
+	 * @author maicol07
+	 */
+	public function getForumLink()
+	{
+		return $this->url;
+	}
+
+	/**
 	 * Logs the user in Flarum. Generally, you should use this method when an user successfully log into
 	 * your SSO system (or main website). If user is already signed up in Flarum database (not signed up with this
 	 * extension) you need to pass plain user password as third parameter (for example Flarum admin)
@@ -110,6 +155,88 @@ class Flarum
 		$this->setGroups($username, $groups);
 
 		return $this->setCookie($token, time() + $this->getLifetimeSeconds());
+	}
+
+	/**
+	 * Generates a password based on username and password token
+	 *
+	 * @param string $username
+	 * @return string
+	 */
+	private function createPassword(string $username)
+	{
+		return hash('sha256', $username . $this->password_token);
+	}
+
+	/**
+	 * Get user token from Flarum (if user exists)
+	 *
+	 * @param string $username
+	 * @param string|null $password
+	 * @return string
+	 */
+	private function getToken(string $username, string $password)
+	{
+		$data = [
+			'identification' => $username,
+			'password' => $password,
+			'lifetime' => $this->getLifetimeSeconds(),
+		];
+
+		try {
+			$json = $this->api->getRest()->post($this->url . '/api/token', ['json' => $data])->getBody()->getContents();
+			$response = json_decode($json);
+
+			return isset($response->token) ? $response->token : '';
+		} catch (ClientException $e) {
+			if ($e->getResponse()->getReasonPhrase() == "Unauthorized") {
+				return null;
+			}
+			throw $e;
+		}
+	}
+
+	/**
+	 * Get Token lifetime in seconds
+	 *
+	 * @return float|int
+	 */
+	private function getLifetimeSeconds()
+	{
+		return $this->lifetime * 60 * 60 * 24;
+	}
+
+	/**
+	 * Sign up user in Flarum. Generally, you should use this method when an user successfully log into
+	 * your SSO system (or main website) and you found out that user don't have a token (because he hasn't an account on Flarum)
+	 *
+	 * @param string $username
+	 * @param string $password
+	 * @param string $email
+	 * @param array|null $groups
+	 * @return bool
+	 */
+	private function signup(string $username, string $password, string $email, $groups = null)
+	{
+		$data = [
+			"type" => "users",
+			"attributes" => [
+				"username" => $username,
+				"password" => $password,
+				"email" => $email,
+			]
+		];
+
+		try {
+			$user = $this->api->users(null)->post($data)->request();
+			$this->setGroups($username, $groups);
+			return isset($user->id);
+		} catch (ClientException $e) {
+			if ($e->getResponse()->getReasonPhrase() == "Unprocessable Entity") {
+				return null;
+			}
+			throw $e;
+		}
 	}
 
 	/**
@@ -169,16 +296,6 @@ class Flarum
 	}
 
 	/**
-	 * Removes any group from a user.
-	 *
-	 * @param string $username
-	 */
-	public function removeGroups(string $username)
-	{
-		$this->setGroups($username, []);
-	}
-
-	/**
 	 * Add a group to Flarum
 	 *
 	 * @param string $group
@@ -198,70 +315,37 @@ class Flarum
 	}
 
 	/**
-	 * Logs out the user from Flarum. Generally, you should use this method when an user successfully logged out from
-	 * your SSO system (or main website)
-	 */
-	public function logout()
-	{
-		// Delete the flarum session cookie to logout from Flarum
-		$flarum_cookie = new Cookie('flarum_session');
-		$url = parse_url($this->url);
-		$flarum_cookie->setDomain($url['host']);
-		$flarum_cookie->setPath($url['path']);
-		$flarum_cookie->setHttpOnly(true);
-		$flarum_cookie->setSecureOnly(true);
-		$flarum_cookie->delete();
-		// Delete the plugin cookie
-		return $this->cookie->delete();
-	}
-
-	/**
-	 * Sign up user in Flarum. Generally, you should use this method when an user successfully log into
-	 * your SSO system (or main website) and you found out that user don't have a token (because he hasn't an account on Flarum)
+	 * Set Flarum auth cookie
 	 *
-	 * @param string $username
-	 * @param string $password
-	 * @param string $email
-	 * @param array|null $groups
+	 * @param string $token
+	 * @param int $time
 	 * @return bool
 	 */
-	private function signup(string $username, string $password, string $email, $groups = null)
+	private function setCookie(string $token, int $time)
 	{
-		$data = [
-			"type" => "users",
-			"attributes" => [
-				"username" => $username,
-				"password" => $password,
-				"email" => $email,
-			]
-		];
-
-		try {
-			$user = $this->api->users(null)->post($data)->request();
-			$this->setGroups($username, $groups);
-			return isset($user->id);
-		} catch (ClientException $e) {
-			if ($e->getResponse()->getReasonPhrase() == "Unprocessable Entity") {
-				return null;
-			}
-			throw $e;
-		}
+		$this->cookie->setValue($token);
+		$this->cookie->setExpiryTime($time);
+		$this->cookie->setDomain($this->root_domain);
+		return $this->cookie->save();
 	}
 
 	/**
-	 * Deletes a user from Flarum database. Generally, you should use this method when an user successfully deleted
-	 * his account from your SSO system (or main website)
+	 * Redirects the user to your Flarum instance
+	 */
+	public function redirectToForum()
+	{
+		header('Location: ' . $this->url);
+		die();
+	}
+
+	/**
+	 * Removes any group from a user.
 	 *
 	 * @param string $username
 	 */
-	public function delete(string $username)
+	public function removeGroups(string $username)
 	{
-		// Logout the user
-		$this->logout();
-		$user = $this->api->users($username);
-		if (!empty($user->id)) {
-			$this->api->users($user->id)->delete()->request();
-		}
+		$this->setGroups($username, []);
 	}
 
 	/**
@@ -291,66 +375,6 @@ class Flarum
 				'password' => $password
 			]
 		])->request();
-	}
-
-	/**
-	 * Redirects the user to your Flarum instance
-	 */
-	public function redirectToForum()
-	{
-		header('Location: ' . $this->url);
-		die();
-	}
-
-	/**
-	 * Returns Flarum link
-	 *
-	 * @return string
-	 * @author maicol07
-	 */
-	public function getForumLink()
-	{
-		return $this->url;
-	}
-
-
-	/**
-	 * Generates a password based on username and password token
-	 *
-	 * @param string $username
-	 * @return string
-	 */
-	private function createPassword(string $username)
-	{
-		return hash('sha256', $username . $this->password_token);
-	}
-
-	/**
-	 * Get user token from Flarum (if user exists)
-	 *
-	 * @param string $username
-	 * @param string|null $password
-	 * @return string
-	 */
-	private function getToken(string $username, string $password)
-	{
-		$data = [
-			'identification' => $username,
-			'password' => $password,
-			'lifetime' => $this->getLifetimeSeconds(),
-		];
-
-		try {
-			$json = $this->api->getRest()->post($this->url . '/api/token', ['json' => $data])->getBody()->getContents();
-			$response = json_decode($json);
-
-			return isset($response->token) ? $response->token : '';
-		} catch (ClientException $e) {
-			if ($e->getResponse()->getReasonPhrase() == "Unauthorized") {
-				return null;
-			}
-			throw $e;
-		}
 	}
 
 	/**
@@ -387,30 +411,5 @@ class Flarum
 		}
 
 		return empty($filter) ? $list : $list->pluck($filter)->all();
-	}
-
-	/**
-	 * Set Flarum auth cookie
-	 *
-	 * @param string $token
-	 * @param int $time
-	 * @return bool
-	 */
-	private function setCookie(string $token, int $time)
-	{
-		$this->cookie->setValue($token);
-		$this->cookie->setExpiryTime($time);
-		$this->cookie->setDomain($this->root_domain);
-		return $this->cookie->save();
-	}
-
-	/**
-	 * Get Token lifetime in seconds
-	 *
-	 * @return float|int
-	 */
-	private function getLifetimeSeconds()
-	{
-		return $this->lifetime * 60 * 60 * 24;
 	}
 }
