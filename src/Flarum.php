@@ -124,7 +124,7 @@ class Flarum
 			$group_names = [];
 			// Check if user is admin
 			$user_groups = $user->relationships['groups'];
-			if (!empty($user_groups) and $user_groups[1]->id == 1) {
+			if (!empty($user_groups[1]) and $user_groups[1]->id == 1) {
 				$group_names[] = [
 					'type' => 'groups',
 					'id' => 1
