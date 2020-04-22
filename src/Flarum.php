@@ -348,23 +348,39 @@ class Flarum
 	}
 
 	/**
-	 * Gets the list of the users' usernames actually signed up on Flarum
+	 * Gets the list of the users actually signed up on Flarum, with all the properties
 	 *
-	 * @param bool $full If true, returns the full users list (with other info) and not only the usernames
+	 * @param null|string $filter If set, returns the full users list (with other info) and not only the usernames
+	 * Can be one of the following: type, id, attributes, attributes.username, attributes.displayName,
+	 * attributes.avatarUrl, attributes.joinTime, attributes.discussionCount, attributes.commentCount,
+	 * attributes.canEdit, attributes.canDelete, attributes.lastSeenAt, attributes.isEmailConfirmed, attributes.email,
+	 * attributes.markedAllAsReadAt, attributes.unreadNotificationCount, attributes.newNotificationCount,
+	 * attributes.preferences, attributes.canSuspend, attributes.bio, attributes.newFlagCount,
+	 * attributes.canViewRankingPage, attributes.Points, attributes.canPermanentNicknameChange, attributes.canEditPolls,
+	 * attributes.canStartPolls, attributes.canSelfEditPolls, attributes.canVotePolls, attributes.cover,
+	 * attributes.cover_thumbnail, relationships, relationships.groups
 	 *
-	 * @return array
+	 * There could be more if you have other extensions that adds them to Flarum API
+	 *
+	 * @return array|Collection
 	 */
-	private function getUsersList(bool $full = false)
+	public function getUsersList($filter = null)
 	{
-		$response = $this->api->users(null)->request()->items;
-		if ($full) {
-			return $response;
+		$offset = 0;
+		$list = collect();
+
+		while ($offset !== null) {
+			$response = $this->api->users(null)->offset($offset)->request();
+			if ($response instanceof Item and empty($response->type)) {
+				$offset = null;
+				continue;
+			}
+
+			$list = $list->merge($response->collect()->all());
+			$offset = array_key_last($list->all()) + 1;
 		}
-		$list = [];
-		foreach ($response as $user) {
-			$list[] = $user->attributes['username'];
-		}
-		return $list;
+
+		return empty($filter) ? $list : $list->pluck($filter)->all();
 	}
 
 	/**
