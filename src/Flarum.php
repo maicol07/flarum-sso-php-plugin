@@ -68,6 +68,7 @@ class Flarum
 		$this->api = new \Flagrow\Flarum\Api\Flarum($this->url, ['token' => $api_key], $options);
 
 		$this->cookie = new Cookie('flarum_remember');
+		$this->cookie->setDomain($this->root_domain);
 		$this->lifetime = $lifetime;
 		$this->set_groups_admins = $set_groups_admins;
 	}
@@ -332,7 +333,6 @@ class Flarum
 	{
 		$this->cookie->setValue($token);
 		$this->cookie->setExpiryTime($time);
-		$this->cookie->setDomain($this->root_domain);
 		return $this->cookie->save();
 	}
 
