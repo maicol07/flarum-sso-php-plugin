@@ -22,53 +22,51 @@
     <script src="../js/prism.min.js"></script>
     <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
     <script type="text/javascript">
-    function loadExternalCodeSnippets() {
-        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
-            var src = pre.getAttribute('data-src').replace( /\\/g, '/');
-            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
-            var language = 'php';
+        function loadExternalCodeSnippets() {
+            Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+                var src = pre.getAttribute('data-src').replace(/\\/g, '/');
+                var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+                var language = 'php';
 
-            var code = document.createElement('code');
-            code.className = 'language-' + language;
+                var code = document.createElement('code');
+                code.className = 'language-' + language;
 
-            pre.textContent = '';
+                pre.textContent = '';
 
-            code.textContent = 'Loading…';
+                code.textContent = 'Loading…';
 
-            pre.appendChild(code);
+                pre.appendChild(code);
 
-            var xhr = new XMLHttpRequest();
+                var xhr = new XMLHttpRequest();
 
-            xhr.open('GET', src, true);
+                xhr.open('GET', src, true);
 
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4) {
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
 
-                    if (xhr.status < 400 && xhr.responseText) {
-                        code.textContent = xhr.responseText;
+                        if (xhr.status < 400 && xhr.responseText) {
+                            code.textContent = xhr.responseText;
 
-                        Prism.highlightElement(code);
+                            Prism.highlightElement(code);
+                        } else if (xhr.status >= 400) {
+                            code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                        } else {
+                            code.textContent = '✖ Error: File does not exist, is empty or trying to view from localhost';
+                        }
                     }
-                    else if (xhr.status >= 400) {
-                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
-                    }
-                    else {
-                        code.textContent = '✖ Error: File does not exist, is empty or trying to view from localhost';
-                    }
-                }
-            };
+                };
 
-            xhr.send(null);
+                xhr.send(null);
+            });
+        }
+
+        $(document).ready(function () {
+            loadExternalCodeSnippets();
         });
-    }
-
-    $(document).ready(function(){
-        loadExternalCodeSnippets();
-    });
-    $('#source-view').on('shown', function () {
-        loadExternalCodeSnippets();
-    })
-</script>
+        $('#source-view').on('shown', function () {
+            loadExternalCodeSnippets();
+        })
+    </script>
 
     <link href="../images/favicon.ico" rel="shortcut icon"/>
     <link href="../images/apple-touch-icon.png" rel="apple-touch-icon"/>
@@ -87,15 +85,15 @@
 
             <div class="nav-collapse">
                 <ul class="nav pull-right">
-                                        <li class="dropdown">
+                    <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="../index.html">
                             API Documentation <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                                                        <li><a href="../namespaces/maicol07.html"><abbr title="\Maicol07">normal</abbr></a></li>
-                                                    </ul>
+                            <li><a href="../namespaces/maicol07.html"><abbr title="\Maicol07">normal</abbr></a></li>
+                        </ul>
                     </li>
-                                        <li class="dropdown" id="charts-menu">
+                    <li class="dropdown" id="charts-menu">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             Charts <b class="caret"></b>
                         </a>
@@ -114,17 +112,19 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">0</span>
+                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">0</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                    <i class="icon-list-alt"></i>&#160;Markers <span
+                                        class="label label-info pull-right">0</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="../reports/deprecated.html">
-                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                    <i class="icon-list-alt"></i>&#160;Deprecated <span
+                                        class="label label-info pull-right">0</span>
                                 </a>
                             </li>
                         </ul>
@@ -139,59 +139,67 @@
 </div>
 
 <div class="container-fluid" id="___">
-        <section class="row-fluid">
+    <section class="row-fluid">
         <div class="span2 sidebar">
-                                <div class="accordion" style="margin-bottom: 0">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-target="#namespace-911585071" data-toggle="collapse"></a>
-                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
-            </div>
-            <div class="accordion-body collapse in" id="namespace-911585071">
-                <div class="accordion-inner">
+            <div class="accordion" style="margin-bottom: 0">
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle " data-target="#namespace-911585071" data-toggle="collapse"></a>
+                        <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+                    </div>
+                    <div class="accordion-body collapse in" id="namespace-911585071">
+                        <div class="accordion-inner">
 
-                                                    <div class="accordion" style="margin-bottom: 0">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-target="#namespace-1388979693" data-toggle="collapse"></a>
-                                <a href="../namespaces/maicol07.html" style="margin-left: 30px; padding-left: 0">Maicol07</a>
-            </div>
-            <div class="accordion-body collapse " id="namespace-1388979693">
-                <div class="accordion-inner">
+                            <div class="accordion" style="margin-bottom: 0">
+                                <div class="accordion-group">
+                                    <div class="accordion-heading">
+                                        <a class="accordion-toggle collapsed" data-target="#namespace-1388979693"
+                                           data-toggle="collapse"></a>
+                                        <a href="../namespaces/maicol07.html"
+                                           style="margin-left: 30px; padding-left: 0">Maicol07</a>
+                                    </div>
+                                    <div class="accordion-body collapse " id="namespace-1388979693">
+                                        <div class="accordion-inner">
 
-                                                    <div class="accordion" style="margin-bottom: 0">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-target="#namespace-1208706328" data-toggle="collapse"></a>
-                                <a href="../namespaces/maicol07-sso.html" style="margin-left: 30px; padding-left: 0">SSO</a>
-            </div>
-            <div class="accordion-body collapse " id="namespace-1208706328">
-                <div class="accordion-inner">
+                                            <div class="accordion" style="margin-bottom: 0">
+                                                <div class="accordion-group">
+                                                    <div class="accordion-heading">
+                                                        <a class="accordion-toggle collapsed"
+                                                           data-target="#namespace-1208706328"
+                                                           data-toggle="collapse"></a>
+                                                        <a href="../namespaces/maicol07-sso.html"
+                                                           style="margin-left: 30px; padding-left: 0">SSO</a>
+                                                    </div>
+                                                    <div class="accordion-body collapse " id="namespace-1208706328">
+                                                        <div class="accordion-inner">
 
 
-                    <ul>
-                                                                                                    <li class="class"><a href="../classes/Maicol07-SSO-Flarum.html"><abbr title="\Maicol07\SSO\Flarum">Flarum</abbr></a></li>
+                                                            <ul>
+                                                                <li class="class"><a
+                                                                        href="../classes/Maicol07-SSO-Flarum.html"><abbr
+                                                                        title="\Maicol07\SSO\Flarum">Flarum</abbr></a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <ul>
                                             </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-
-                    <ul>
-                                                                                            </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-                    <ul>
-                                                                                            </ul>
-                </div>
-            </div>
-        </div>
-    </div>
 
         </div>
     </section>
@@ -200,12 +208,12 @@
             <div class="row-fluid">
                 <div class="span8 content class">
                     <nav>
-                                                <a href="../namespaces/maicol07-sso.html"><abbr title="\Maicol07\SSO">normal</abbr></a> <i class="icon-level-up"></i>
-                                            </nav>
+                        <a href="../namespaces/maicol07-sso.html"><abbr title="\Maicol07\SSO">normal</abbr></a> <i
+                            class="icon-level-up"></i>
+                    </nav>
 
                     <h1><small>\Maicol07\SSO</small>Flarum</h1>
                     <p><em>Flarum SSO</em></p>
-
 
 
                     <section id="summary">
@@ -223,53 +231,60 @@
                         </section>
                         <section class="row-fluid public">
                             <section class="span4">
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method___construct">__construct()</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_delete">delete()</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_logout">logout()</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_getForumLink">getForumLink()</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_login">login()</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_setGroups">setGroups()</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_createGroup">createGroup()</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_redirectToForum">redirectToForum()</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_removeGroups">removeGroups()</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_update">update()</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_getUsersList">getUsersList()</a><br />
-                                                            </section>
+                                <a class=""
+                                   href="../classes/Maicol07-SSO-Flarum.html#method___construct">__construct()</a><br/>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_delete">delete()</a><br/>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_logout">logout()</a><br/>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_getForumLink">getForumLink()</a><br/>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_login">login()</a><br/>
+                                <a class=""
+                                   href="../classes/Maicol07-SSO-Flarum.html#method_setGroups">setGroups()</a><br/>
+                                <a class=""
+                                   href="../classes/Maicol07-SSO-Flarum.html#method_createGroup">createGroup()</a><br/>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_redirectToForum">redirectToForum()</a><br/>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_removeGroups">removeGroups()</a><br/>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_update">update()</a><br/>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_getUsersList">getUsersList()</a><br/>
+                            </section>
                             <section class="span4">
-                                                                    <em>No public properties found</em>
-                                                            </section>
+                                <em>No public properties found</em>
+                            </section>
                             <section class="span4">
-                                                                    <em>No constants found</em>
-                                                            </section>
+                                <em>No constants found</em>
+                            </section>
                         </section>
                         <section class="row-fluid protected">
                             <section class="span4">
-                                                                    <em>No protected methods found</em>
-                                                            </section>
+                                <em>No protected methods found</em>
+                            </section>
                             <section class="span4">
-                                                                    <em>No protected properties found</em>
-                                                            </section>
+                                <em>No protected properties found</em>
+                            </section>
                             <section class="span4">
                                 <em>N/A</em>
                             </section>
                         </section>
                         <section class="row-fluid private">
                             <section class="span4">
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_createPassword">createPassword()</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_getToken">getToken()</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_getLifetimeSeconds">getLifetimeSeconds()</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_signup">signup()</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_setCookie">setCookie()</a><br />
-                                                            </section>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_createPassword">createPassword()</a><br/>
+                                <a class=""
+                                   href="../classes/Maicol07-SSO-Flarum.html#method_getToken">getToken()</a><br/>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_getLifetimeSeconds">getLifetimeSeconds()</a><br/>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_signup">signup()</a><br/>
+                                <a class=""
+                                   href="../classes/Maicol07-SSO-Flarum.html#method_setCookie">setCookie()</a><br/>
+                            </section>
                             <section class="span4">
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_api">$api</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_cookie">$cookie</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_lifetime">$lifetime</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_password_token">$password_token</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_root_domain">$root_domain</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_set_groups_admins">$set_groups_admins</a><br />
-                                                                    <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_url">$url</a><br />
-                                                            </section>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_api">$api</a><br/>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_cookie">$cookie</a><br/>
+                                <a class=""
+                                   href="../classes/Maicol07-SSO-Flarum.html#property_lifetime">$lifetime</a><br/>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_password_token">$password_token</a><br/>
+                                <a class=""
+                                   href="../classes/Maicol07-SSO-Flarum.html#property_root_domain">$root_domain</a><br/>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_set_groups_admins">$set_groups_admins</a><br/>
+                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_url">$url</a><br/>
+                            </section>
                             <section class="span4">
                                 <em>N/A</em>
                             </section>
@@ -281,36 +296,37 @@
 
                     <dl>
                         <dt>File</dt>
-                            <dd><a href="../files/src-flarum.html"><div class="path-wrapper">src/Flarum.php</div></a></dd>
-                                                <dt>Package</dt>
-                            <dd><div class="namespace-wrapper">src</div></dd>
-                                                <dt>Class hierarchy</dt>
-                            <dd class="hierarchy">
-                                                                                                                                                                    <div class="namespace-wrapper">\Maicol07\SSO\Flarum</div>
-                            </dd>
+                        <dd><a href="../files/src-flarum.html">
+                            <div class="path-wrapper">src/Flarum.php</div>
+                        </a></dd>
+                        <dt>Package</dt>
+                        <dd>
+                            <div class="namespace-wrapper">src</div>
+                        </dd>
+                        <dt>Class hierarchy</dt>
+                        <dd class="hierarchy">
+                            <div class="namespace-wrapper">\Maicol07\SSO\Flarum</div>
+                        </dd>
 
 
-
-
-
-                                                                        </dl>
+                    </dl>
                     <h2>Tags</h2>
                     <table class="table table-condensed">
-                                            <tr>
+                        <tr>
                             <th>
                                 author
                             </th>
                             <td>
-                                                                                                        <p>fabwu</p>
-                                                                                                        <p>maicol07</p>
-                                                            </td>
+                                <p>fabwu</p>
+                                <p>maicol07</p>
+                            </td>
                         </tr>
-                                        </table>
+                    </table>
                 </aside>
             </div>
 
 
-                                    <a id="properties" name="properties"></a>
+            <a id="properties" name="properties"></a>
             <div class="row-fluid">
                 <div class="span8 content class">
                     <h2>Properties</h2>
@@ -318,856 +334,975 @@
                 <aside class="span4 detailsbar"></aside>
             </div>
 
-                                                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="property_api" name="property_api"></a>
-            <article class="property">
-                <h3 class="private ">$api</h3>
-                <pre class="signature">$api</pre>
-                <p><em></em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="property_api" name="property_api"></a>
+                    <article class="property">
+                        <h3 class="private ">$api</h3>
+                        <pre class="signature">$api</pre>
+                        <p><em></em></p>
 
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="property_cookie" name="property_cookie"></a>
-            <article class="property">
-                <h3 class="private ">$cookie</h3>
-                <pre class="signature">$cookie</pre>
-                <p><em></em></p>
-
-
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="property_lifetime" name="property_lifetime"></a>
-            <article class="property">
-                <h3 class="private ">$lifetime</h3>
-                <pre class="signature">$lifetime</pre>
-                <p><em></em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="property_cookie" name="property_cookie"></a>
+                    <article class="property">
+                        <h3 class="private ">$cookie</h3>
+                        <pre class="signature">$cookie</pre>
+                        <p><em></em></p>
 
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="property_password_token" name="property_password_token"></a>
-            <article class="property">
-                <h3 class="private ">$password_token</h3>
-                <pre class="signature">$password_token</pre>
-                <p><em></em></p>
-
-
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="property_root_domain" name="property_root_domain"></a>
-            <article class="property">
-                <h3 class="private ">$root_domain</h3>
-                <pre class="signature">$root_domain</pre>
-                <p><em></em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="property_lifetime" name="property_lifetime"></a>
+                    <article class="property">
+                        <h3 class="private ">$lifetime</h3>
+                        <pre class="signature">$lifetime</pre>
+                        <p><em></em></p>
 
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="property_set_groups_admins" name="property_set_groups_admins"></a>
-            <article class="property">
-                <h3 class="private ">$set_groups_admins</h3>
-                <pre class="signature">$set_groups_admins</pre>
-                <p><em></em></p>
-
-
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="property_url" name="property_url"></a>
-            <article class="property">
-                <h3 class="private ">$url</h3>
-                <pre class="signature">$url</pre>
-                <p><em></em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="property_password_token" name="property_password_token"></a>
+                    <article class="property">
+                        <h3 class="private ">$password_token</h3>
+                        <pre class="signature">$password_token</pre>
+                        <p><em></em></p>
 
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="property_root_domain" name="property_root_domain"></a>
+                    <article class="property">
+                        <h3 class="private ">$root_domain</h3>
+                        <pre class="signature">$root_domain</pre>
+                        <p><em></em></p>
 
 
-                                    <a id="methods" name="methods"></a>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="property_set_groups_admins" name="property_set_groups_admins"></a>
+                    <article class="property">
+                        <h3 class="private ">$set_groups_admins</h3>
+                        <pre class="signature">$set_groups_admins</pre>
+                        <p><em></em></p>
+
+
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="property_url" name="property_url"></a>
+                    <article class="property">
+                        <h3 class="private ">$url</h3>
+                        <pre class="signature">$url</pre>
+                        <p><em></em></p>
+
+
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
+
+
+            <a id="methods" name="methods"></a>
             <div class="row-fluid">
                 <div class="span8 content class"><h2>Methods</h2></div>
                 <aside class="span4 detailsbar"></aside>
             </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method___construct" name="method___construct"></a>
-            <article class="method">
-                <h3 class="public ">__construct()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">__construct(string  <span class="argument">$url</span>, string  <span class="argument">$root_domain</span>, string  <span class="argument">$api_key</span>, string  <span class="argument">$password_token</span>, int  <span class="argument">$lifetime = 14</span>, bool  <span class="argument">$insecure = false</span>, bool  <span class="argument">$set_groups_admins = true</span>) : mixed</pre>
-                <p><em>Flarum constructor</em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method___construct" name="method___construct"></a>
+                    <article class="method">
+                        <h3 class="public ">__construct()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">__construct(string  <span class="argument">$url</span>, string  <span
+                                class="argument">$root_domain</span>, string  <span class="argument">$api_key</span>, string  <span
+                                class="argument">$password_token</span>, int  <span
+                                class="argument">$lifetime = 14</span>, bool  <span
+                                class="argument">$insecure = false</span>, bool  <span class="argument">$set_groups_admins = true</span>) : mixed</pre>
+                        <p><em>Flarum constructor</em></p>
 
 
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
+                        <h4>Parameters</h4>
+                        <table class="table table-condensed table-hover">
+                            <tr>
                                 <td>string</td>
-                                <td>$url </td>
+                                <td>$url</td>
                                 <td><p>Flarum URL</p></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>string</td>
-                                <td>$root_domain </td>
+                                <td>$root_domain</td>
                                 <td><p>Main site or SSO system domain</p></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>string</td>
-                                <td>$api_key </td>
+                                <td>$api_key</td>
                                 <td><p>Random key from the api_keys table of your Flarum forum</p></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>string</td>
-                                <td>$password_token </td>
+                                <td>$password_token</td>
                                 <td><p>Random token to create passwords</p></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>int</td>
-                                <td>$lifetime </td>
+                                <td>$lifetime</td>
                                 <td><p>How many days should the login be valid</p></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>bool</td>
-                                <td>$insecure </td>
+                                <td>$insecure</td>
                                 <td><p>Insecure mode (use only if you don't have an SSL certificate)</p></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>bool</td>
-                                <td>$set_groups_admins </td>
-                                <td><p>Set groups for admins. Set to false if you don't want to set groups to admins</p></td>
+                                <td>$set_groups_admins</td>
+                                <td><p>Set groups for admins. Set to false if you don't want to set groups to admins</p>
+                                </td>
                             </tr>
-                                            </table>
+                        </table>
 
 
-                                    <h4>Returns</h4>
-                    mixed
+                        <h4>Returns</h4>
+                        mixed
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_delete" name="method_delete"></a>
-            <article class="method">
-                <h3 class="public ">delete()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">delete(string  <span class="argument">$username</span>) : mixed</pre>
-                <p><em>Deletes a user from Flarum database. Generally, you should use this method when an user successfully deleted
-his account from your SSO system (or main website)</em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_delete" name="method_delete"></a>
+                    <article class="method">
+                        <h3 class="public ">delete()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">delete(string  <span class="argument">$username</span>) : mixed</pre>
+                        <p><em>Deletes a user from Flarum database. Generally, you should use this method when an user
+                            successfully deleted
+                            his account from your SSO system (or main website)</em></p>
 
 
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
+                        <h4>Parameters</h4>
+                        <table class="table table-condensed table-hover">
+                            <tr>
                                 <td>string</td>
-                                <td>$username </td>
+                                <td>$username</td>
                                 <td></td>
                             </tr>
-                                            </table>
+                        </table>
 
 
-                                    <h4>Returns</h4>
-                    mixed
+                        <h4>Returns</h4>
+                        mixed
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_logout" name="method_logout"></a>
-            <article class="method">
-                <h3 class="public ">logout()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">logout() : mixed</pre>
-                <p><em>Logs out the user from Flarum. Generally, you should use this method when an user successfully logged out from
-your SSO system (or main website)</em></p>
-
-
-
-
-                                    <h4>Returns</h4>
-                    mixed
-
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_getForumLink" name="method_getForumLink"></a>
-            <article class="method">
-                <h3 class="public ">getForumLink()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getForumLink() : string</pre>
-                <p><em>Returns Flarum link</em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_logout" name="method_logout"></a>
+                    <article class="method">
+                        <h3 class="public ">logout()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">logout() : mixed</pre>
+                        <p><em>Logs out the user from Flarum. Generally, you should use this method when an user
+                            successfully logged out from
+                            your SSO system (or main website)</em></p>
 
 
+                        <h4>Returns</h4>
+                        mixed
+
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_getForumLink" name="method_getForumLink"></a>
+                    <article class="method">
+                        <h3 class="public ">getForumLink()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">getForumLink() : string</pre>
+                        <p><em>Returns Flarum link</em></p>
 
 
-                                    <h4>Returns</h4>
-                    string
+                        <h4>Returns</h4>
+                        string
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            author
-                        </th>
-                        <td>
-                                                                                            <p>maicol07</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <th>
+                                author
+                            </th>
+                            <td>
+                                <p>maicol07</p>
+                            </td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_login" name="method_login"></a>
-            <article class="method">
-                <h3 class="public ">login()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">login(string  <span class="argument">$username</span>, string  <span class="argument">$email</span>, string|null  <span class="argument">$password = null</span>, array|null  <span class="argument">$groups = null</span>) : string</pre>
-                <p><em>Logs the user in Flarum. Generally, you should use this method when an user successfully log into
-your SSO system (or main website). If user is already signed up in Flarum database (not signed up with this
-extension) you need to pass plain user password as third parameter (for example Flarum admin)
-You can also set groups to your users with an array</em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_login" name="method_login"></a>
+                    <article class="method">
+                        <h3 class="public ">login()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">login(string  <span class="argument">$username</span>, string  <span
+                                class="argument">$email</span>, string|null  <span
+                                class="argument">$password = null</span>, array|null  <span class="argument">$groups = null</span>) : string</pre>
+                        <p><em>Logs the user in Flarum. Generally, you should use this method when an user successfully
+                            log into
+                            your SSO system (or main website). If user is already signed up in Flarum database (not
+                            signed up with this
+                            extension) you need to pass plain user password as third parameter (for example Flarum
+                            admin)
+                            You can also set groups to your users with an array</em></p>
 
 
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
+                        <h4>Parameters</h4>
+                        <table class="table table-condensed table-hover">
+                            <tr>
                                 <td>string</td>
-                                <td>$username </td>
+                                <td>$username</td>
                                 <td></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>string</td>
-                                <td>$email </td>
+                                <td>$email</td>
                                 <td></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>string|null</td>
-                                <td>$password </td>
+                                <td>$password</td>
                                 <td></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>array|null</td>
-                                <td>$groups </td>
+                                <td>$groups</td>
                                 <td></td>
                             </tr>
-                                            </table>
+                        </table>
 
 
-                                    <h4>Returns</h4>
-                    string
+                        <h4>Returns</h4>
+                        string
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_setGroups" name="method_setGroups"></a>
-            <article class="method">
-                <h3 class="public ">setGroups()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">setGroups(string  <span class="argument">$username</span>, array|null  <span class="argument">$groups</span>) : mixed</pre>
-                <p><em>Sets groups to a user</em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_setGroups" name="method_setGroups"></a>
+                    <article class="method">
+                        <h3 class="public ">setGroups()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">setGroups(string  <span class="argument">$username</span>, array|null  <span
+                                class="argument">$groups</span>) : mixed</pre>
+                        <p><em>Sets groups to a user</em></p>
 
 
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
+                        <h4>Parameters</h4>
+                        <table class="table table-condensed table-hover">
+                            <tr>
                                 <td>string</td>
-                                <td>$username </td>
+                                <td>$username</td>
                                 <td></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>array|null</td>
-                                <td>$groups </td>
+                                <td>$groups</td>
                                 <td></td>
                             </tr>
-                                            </table>
+                        </table>
 
 
-                                    <h4>Returns</h4>
-                    mixed
+                        <h4>Returns</h4>
+                        mixed
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_createGroup" name="method_createGroup"></a>
-            <article class="method">
-                <h3 class="public ">createGroup()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">createGroup(string  <span class="argument">$group</span>) : mixed</pre>
-                <p><em>Add a group to Flarum</em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_createGroup" name="method_createGroup"></a>
+                    <article class="method">
+                        <h3 class="public ">createGroup()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">createGroup(string  <span class="argument">$group</span>) : mixed</pre>
+                        <p><em>Add a group to Flarum</em></p>
 
 
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
+                        <h4>Parameters</h4>
+                        <table class="table table-condensed table-hover">
+                            <tr>
                                 <td>string</td>
-                                <td>$group </td>
+                                <td>$group</td>
                                 <td></td>
                             </tr>
-                                            </table>
+                        </table>
 
 
-                                    <h4>Returns</h4>
-                    mixed
+                        <h4>Returns</h4>
+                        mixed
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_redirectToForum" name="method_redirectToForum"></a>
-            <article class="method">
-                <h3 class="public ">redirectToForum()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">redirectToForum() : mixed</pre>
-                <p><em>Redirects the user to your Flarum instance</em></p>
-
-
-
-
-                                    <h4>Returns</h4>
-                    mixed
-
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_removeGroups" name="method_removeGroups"></a>
-            <article class="method">
-                <h3 class="public ">removeGroups()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">removeGroups(string  <span class="argument">$username</span>) : mixed</pre>
-                <p><em>Removes any group from a user.</em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_redirectToForum" name="method_redirectToForum"></a>
+                    <article class="method">
+                        <h3 class="public ">redirectToForum()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">redirectToForum() : mixed</pre>
+                        <p><em>Redirects the user to your Flarum instance</em></p>
 
 
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
+                        <h4>Returns</h4>
+                        mixed
+
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_removeGroups" name="method_removeGroups"></a>
+                    <article class="method">
+                        <h3 class="public ">removeGroups()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">removeGroups(string  <span class="argument">$username</span>) : mixed</pre>
+                        <p><em>Removes any group from a user.</em></p>
+
+
+                        <h4>Parameters</h4>
+                        <table class="table table-condensed table-hover">
+                            <tr>
                                 <td>string</td>
-                                <td>$username </td>
+                                <td>$username</td>
                                 <td></td>
                             </tr>
-                                            </table>
+                        </table>
 
 
-                                    <h4>Returns</h4>
-                    mixed
+                        <h4>Returns</h4>
+                        mixed
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_update" name="method_update"></a>
-            <article class="method">
-                <h3 class="public ">update()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">update(string  <span class="argument">$username</span>, string  <span class="argument">$email</span>, string|null  <span class="argument">$password = null</span>) : mixed</pre>
-                <p><em>Updates a user. Warning! User needs to be find with username or email, so one of those two has to be the old one</em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_update" name="method_update"></a>
+                    <article class="method">
+                        <h3 class="public ">update()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">update(string  <span class="argument">$username</span>, string  <span
+                                class="argument">$email</span>, string|null  <span
+                                class="argument">$password = null</span>) : mixed</pre>
+                        <p><em>Updates a user. Warning! User needs to be find with username or email, so one of those
+                            two has to be the old one</em></p>
 
 
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
+                        <h4>Parameters</h4>
+                        <table class="table table-condensed table-hover">
+                            <tr>
                                 <td>string</td>
-                                <td>$username </td>
-                                <td><p>Old/new username. Username will be changed if email matches the one in Flarum database,
-else it will be used to find the user ID</p></td>
+                                <td>$username</td>
+                                <td><p>Old/new username. Username will be changed if email matches the one in Flarum
+                                    database,
+                                    else it will be used to find the user ID</p></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>string</td>
-                                <td>$email </td>
-                                <td><p>Old/new email. Email will be changed if username matches the one in Flarum database,
-else it will be used to find the user ID</p></td>
+                                <td>$email</td>
+                                <td><p>Old/new email. Email will be changed if username matches the one in Flarum
+                                    database,
+                                    else it will be used to find the user ID</p></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>string|null</td>
-                                <td>$password </td>
+                                <td>$password</td>
                                 <td><p>New password (changes old password to this one)</p></td>
                             </tr>
-                                            </table>
+                        </table>
 
 
-                                    <h4>Returns</h4>
-                    mixed
+                        <h4>Returns</h4>
+                        mixed
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_getUsersList" name="method_getUsersList"></a>
-            <article class="method">
-                <h3 class="public ">getUsersList()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getUsersList(null|string  <span class="argument">$filter = null</span>) : array|\Illuminate\Support\Collection</pre>
-                <p><em>Gets the list of the users actually signed up on Flarum, with all the properties</em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_getUsersList" name="method_getUsersList"></a>
+                    <article class="method">
+                        <h3 class="public ">getUsersList()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">getUsersList(null|string  <span
+                                class="argument">$filter = null</span>) : array|\Illuminate\Support\Collection</pre>
+                        <p><em>Gets the list of the users actually signed up on Flarum, with all the properties</em></p>
 
 
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
+                        <h4>Parameters</h4>
+                        <table class="table table-condensed table-hover">
+                            <tr>
                                 <td>null|string</td>
-                                <td>$filter </td>
+                                <td>$filter</td>
                                 <td><p>If set, returns the full users list (with other info) and not only the usernames
-Can be one of the following: type, id, attributes, attributes.username, attributes.displayName,
-attributes.avatarUrl, attributes.joinTime, attributes.discussionCount, attributes.commentCount,
-attributes.canEdit, attributes.canDelete, attributes.lastSeenAt, attributes.isEmailConfirmed, attributes.email,
-attributes.markedAllAsReadAt, attributes.unreadNotificationCount, attributes.newNotificationCount,
-attributes.preferences, attributes.canSuspend, attributes.bio, attributes.newFlagCount,
-attributes.canViewRankingPage, attributes.Points, attributes.canPermanentNicknameChange, attributes.canEditPolls,
-attributes.canStartPolls, attributes.canSelfEditPolls, attributes.canVotePolls, attributes.cover,
-attributes.cover_thumbnail, relationships, relationships.groups</p>
-<p>There could be more if you have other extensions that adds them to Flarum API</p></td>
+                                    Can be one of the following: type, id, attributes, attributes.username,
+                                    attributes.displayName,
+                                    attributes.avatarUrl, attributes.joinTime, attributes.discussionCount,
+                                    attributes.commentCount,
+                                    attributes.canEdit, attributes.canDelete, attributes.lastSeenAt,
+                                    attributes.isEmailConfirmed, attributes.email,
+                                    attributes.markedAllAsReadAt, attributes.unreadNotificationCount,
+                                    attributes.newNotificationCount,
+                                    attributes.preferences, attributes.canSuspend, attributes.bio,
+                                    attributes.newFlagCount,
+                                    attributes.canViewRankingPage, attributes.Points,
+                                    attributes.canPermanentNicknameChange, attributes.canEditPolls,
+                                    attributes.canStartPolls, attributes.canSelfEditPolls, attributes.canVotePolls,
+                                    attributes.cover,
+                                    attributes.cover_thumbnail, relationships, relationships.groups</p>
+                                    <p>There could be more if you have other extensions that adds them to Flarum API</p>
+                                </td>
                             </tr>
-                                            </table>
+                        </table>
 
 
-                                    <h4>Returns</h4>
-                    array|\Illuminate\Support\Collection
+                        <h4>Returns</h4>
+                        array|\Illuminate\Support\Collection
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_createPassword" name="method_createPassword"></a>
-            <article class="method">
-                <h3 class="private ">createPassword()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">createPassword(string  <span class="argument">$username</span>) : string</pre>
-                <p><em>Generates a password based on username and password token</em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_createPassword" name="method_createPassword"></a>
+                    <article class="method">
+                        <h3 class="private ">createPassword()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">createPassword(string  <span
+                                class="argument">$username</span>) : string</pre>
+                        <p><em>Generates a password based on username and password token</em></p>
 
 
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
+                        <h4>Parameters</h4>
+                        <table class="table table-condensed table-hover">
+                            <tr>
                                 <td>string</td>
-                                <td>$username </td>
+                                <td>$username</td>
                                 <td></td>
                             </tr>
-                                            </table>
+                        </table>
 
 
-                                    <h4>Returns</h4>
-                    string
+                        <h4>Returns</h4>
+                        string
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_getToken" name="method_getToken"></a>
-            <article class="method">
-                <h3 class="private ">getToken()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getToken(string  <span class="argument">$username</span>, string|null  <span class="argument">$password</span>) : string</pre>
-                <p><em>Get user token from Flarum (if user exists)</em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_getToken" name="method_getToken"></a>
+                    <article class="method">
+                        <h3 class="private ">getToken()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">getToken(string  <span class="argument">$username</span>, string|null  <span
+                                class="argument">$password</span>) : string</pre>
+                        <p><em>Get user token from Flarum (if user exists)</em></p>
 
 
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
+                        <h4>Parameters</h4>
+                        <table class="table table-condensed table-hover">
+                            <tr>
                                 <td>string</td>
-                                <td>$username </td>
+                                <td>$username</td>
                                 <td></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>string|null</td>
-                                <td>$password </td>
+                                <td>$password</td>
                                 <td></td>
                             </tr>
-                                            </table>
+                        </table>
 
 
-                                    <h4>Returns</h4>
-                    string
+                        <h4>Returns</h4>
+                        string
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_getLifetimeSeconds" name="method_getLifetimeSeconds"></a>
-            <article class="method">
-                <h3 class="private ">getLifetimeSeconds()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getLifetimeSeconds() : float|int</pre>
-                <p><em>Get Token lifetime in seconds</em></p>
-
-
-
-
-                                    <h4>Returns</h4>
-                    float|int
-
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_signup" name="method_signup"></a>
-            <article class="method">
-                <h3 class="private ">signup()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">signup(string  <span class="argument">$username</span>, string  <span class="argument">$password</span>, string  <span class="argument">$email</span>, array|null  <span class="argument">$groups = null</span>) : bool</pre>
-                <p><em>Sign up user in Flarum. Generally, you should use this method when an user successfully log into
-your SSO system (or main website) and you found out that user don&#039;t have a token (because he hasn&#039;t an account on Flarum)</em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_getLifetimeSeconds" name="method_getLifetimeSeconds"></a>
+                    <article class="method">
+                        <h3 class="private ">getLifetimeSeconds()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">getLifetimeSeconds() : float|int</pre>
+                        <p><em>Get Token lifetime in seconds</em></p>
 
 
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
+                        <h4>Returns</h4>
+                        float|int
+
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_signup" name="method_signup"></a>
+                    <article class="method">
+                        <h3 class="private ">signup()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">signup(string  <span class="argument">$username</span>, string  <span
+                                class="argument">$password</span>, string  <span class="argument">$email</span>, array|null  <span
+                                class="argument">$groups = null</span>) : bool</pre>
+                        <p><em>Sign up user in Flarum. Generally, you should use this method when an user successfully
+                            log into
+                            your SSO system (or main website) and you found out that user don&#039;t have a token
+                            (because he hasn&#039;t an account on Flarum)</em></p>
+
+
+                        <h4>Parameters</h4>
+                        <table class="table table-condensed table-hover">
+                            <tr>
                                 <td>string</td>
-                                <td>$username </td>
+                                <td>$username</td>
                                 <td></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>string</td>
-                                <td>$password </td>
+                                <td>$password</td>
                                 <td></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>string</td>
-                                <td>$email </td>
+                                <td>$email</td>
                                 <td></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>array|null</td>
-                                <td>$groups </td>
+                                <td>$groups</td>
                                 <td></td>
                             </tr>
-                                            </table>
+                        </table>
 
 
-                                    <h4>Returns</h4>
-                    bool
+                        <h4>Returns</h4>
+                        bool
 
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a class="anchor" id="method_setCookie" name="method_setCookie"></a>
-            <article class="method">
-                <h3 class="private ">setCookie()</h3>
-                <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">setCookie(string  <span class="argument">$token</span>, int  <span class="argument">$time</span>) : bool</pre>
-                <p><em>Set Flarum auth cookie</em></p>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <a class="anchor" id="method_setCookie" name="method_setCookie"></a>
+                    <article class="method">
+                        <h3 class="private ">setCookie()</h3>
+                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
+                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                        <pre class="signature" style="margin-right: 54px;">setCookie(string  <span class="argument">$token</span>, int  <span
+                                class="argument">$time</span>) : bool</pre>
+                        <p><em>Set Flarum auth cookie</em></p>
 
 
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
+                        <h4>Parameters</h4>
+                        <table class="table table-condensed table-hover">
+                            <tr>
                                 <td>string</td>
-                                <td>$token </td>
+                                <td>$token</td>
                                 <td></td>
                             </tr>
-                                                    <tr>
+                            <tr>
                                 <td>int</td>
-                                <td>$time </td>
+                                <td>$time</td>
                                 <td></td>
                             </tr>
-                                            </table>
+                        </table>
 
 
-                                    <h4>Returns</h4>
-                    bool
+                        <h4>Returns</h4>
+                        bool
 
-                            </article>
+                    </article>
+                </div>
+                <aside class="span4 detailsbar">
+                    <h1><i class="icon-arrow-down"></i></h1>
+                    <dl>
+                        <dt>Inherited from</dt>
+                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
+                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
+                        </a></dd>
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td colspan="2"><em>None found</em></td>
+                        </tr>
+                    </table>
+                </aside>
+            </div>
+
         </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/Maicol07-SSO-Flarum.html"><div class="path-wrapper">\Maicol07\SSO\Flarum</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    </div>
     </section>
 
-    <div aria-hidden="true" aria-labelledby="source-view-label" class="modal hide fade" id="source-view" role="dialog" tabindex="-1">
+    <div aria-hidden="true" aria-labelledby="source-view-label" class="modal hide fade" id="source-view" role="dialog"
+         tabindex="-1">
         <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
             <h3 id="source-view-label">Flarum.php</h3>
@@ -1183,15 +1318,16 @@ your SSO system (or main website) and you found out that user don&#039;t have a 
                 <section class="span10 offset1">
                     <section class="row-fluid footer-sections">
                         <section class="span4">
-                                                        <h1><i class="icon-code"></i></h1>
+                            <h1><i class="icon-code"></i></h1>
                             <div>
                                 <ul>
-                                                                            <li><a href="../namespaces/maicol07.html"><abbr title="\Maicol07">normal</abbr></a></li>
-                                                                    </ul>
+                                    <li><a href="../namespaces/maicol07.html"><abbr title="\Maicol07">normal</abbr></a>
+                                    </li>
+                                </ul>
                             </div>
                         </section>
                         <section class="span4">
-                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <h1><i class="icon-bar-chart"></i></h1>
                             <div>
                                 <ul>
                                     <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
@@ -1199,7 +1335,7 @@ your SSO system (or main website) and you found out that user don&#039;t have a 
                             </div>
                         </section>
                         <section class="span4">
-                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <h1><i class="icon-pushpin"></i></h1>
                             <div>
                                 <ul>
                                     <li><a href="../reports/errors.html">Errors</a></li>
@@ -1212,7 +1348,7 @@ your SSO system (or main website) and you found out that user don&#039;t have a 
             </section>
             <section class="row-fluid">
                 <section class="span10 offset1">
-                    <hr />
+                    <hr/>
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
                     on April 22nd, 2020 at 15:37.
                 </section>

@@ -26,125 +26,125 @@
 // be called and the form will receive the class 'phpdocumentor-search--active', indicating search is ready. At this
 // point, the input field will also have it's 'disabled' attribute removed.
 var Search = (function () {
-	var fuse;
-	var index = [];
-	var options = {
-		shouldSort: true,
-		threshold: 0.6,
-		location: 0,
-		distance: 100,
-		maxPatternLength: 32,
-		minMatchCharLength: 1,
-		keys: [
-			"fqsen",
-			"name",
-			"summary",
-			"url"
-		]
-	};
+    var fuse;
+    var index = [];
+    var options = {
+        shouldSort: true,
+        threshold: 0.6,
+        location: 0,
+        distance: 100,
+        maxPatternLength: 32,
+        minMatchCharLength: 1,
+        keys: [
+            "fqsen",
+            "name",
+            "summary",
+            "url"
+        ]
+    };
 
-	// Credit David Walsh (https://davidwalsh.name/javascript-debounce-function)
-	// Returns a function, that, as long as it continues to be invoked, will not
-	// be triggered. The function will be called after it stops being called for
-	// N milliseconds. If `immediate` is passed, trigger the function on the
-	// leading edge, instead of the trailing.
-	function debounce(func, wait, immediate) {
-		var timeout;
+    // Credit David Walsh (https://davidwalsh.name/javascript-debounce-function)
+    // Returns a function, that, as long as it continues to be invoked, will not
+    // be triggered. The function will be called after it stops being called for
+    // N milliseconds. If `immediate` is passed, trigger the function on the
+    // leading edge, instead of the trailing.
+    function debounce(func, wait, immediate) {
+        var timeout;
 
-		return function executedFunction() {
-			var context = this;
-			var args = arguments;
+        return function executedFunction() {
+            var context = this;
+            var args = arguments;
 
-			var later = function () {
-				timeout = null;
-				if (!immediate) func.apply(context, args);
-			};
+            var later = function () {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
 
-			var callNow = immediate && !timeout;
-			clearTimeout(timeout);
-			timeout = setTimeout(later, wait);
-			if (callNow) func.apply(context, args);
-		};
-	}
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    }
 
-	function close() {
-		var form = document.querySelector('[data-search-form]');
-		var searchResults = document.querySelector('[data-search-results]');
+    function close() {
+        var form = document.querySelector('[data-search-form]');
+        var searchResults = document.querySelector('[data-search-results]');
 
-		form.classList.toggle('phpdocumentor-search--has-results', false);
-		searchResults.classList.add('phpdocumentor-search-results--hidden');
-	}
+        form.classList.toggle('phpdocumentor-search--has-results', false);
+        searchResults.classList.add('phpdocumentor-search-results--hidden');
+    }
 
-	function search(event) {
-		// prevent enter's from autosubmitting
-		event.stopPropagation();
+    function search(event) {
+        // prevent enter's from autosubmitting
+        event.stopPropagation();
 
-		var form = document.querySelector('[data-search-form]');
-		var searchResults = document.querySelector('[data-search-results]');
-		var searchResultEntries = document.querySelector('[data-search-results] > ul');
+        var form = document.querySelector('[data-search-form]');
+        var searchResults = document.querySelector('[data-search-results]');
+        var searchResultEntries = document.querySelector('[data-search-results] > ul');
 
-		searchResultEntries.innerHTML = '';
+        searchResultEntries.innerHTML = '';
 
-		if (!event.target.value) {
-			close();
-			return;
-		}
+        if (!event.target.value) {
+            close();
+            return;
+        }
 
-		form.classList.toggle('phpdocumentor-search--has-results', true);
-		searchResults.classList.remove('phpdocumentor-search-results--hidden');
-		var results = fuse.search(event.target.value);
+        form.classList.toggle('phpdocumentor-search--has-results', true);
+        searchResults.classList.remove('phpdocumentor-search-results--hidden');
+        var results = fuse.search(event.target.value);
 
-		results.forEach(function (result) {
-			var entry = document.createElement("li");
-			entry.classList.add("phpdocumentor-search-results__entry");
-			entry.innerHTML += '<h3><a href="' + result.url + '">' + result.name + "</h3>\n";
-			entry.innerHTML += '<small>' + result.fqsen + "</small>\n";
-			entry.innerHTML += '<div class="phpdocumentor-summary">' + result.summary + '</div>';
-			searchResultEntries.appendChild(entry)
-		});
-	}
+        results.forEach(function (result) {
+            var entry = document.createElement("li");
+            entry.classList.add("phpdocumentor-search-results__entry");
+            entry.innerHTML += '<h3><a href="' + result.url + '">' + result.name + "</h3>\n";
+            entry.innerHTML += '<small>' + result.fqsen + "</small>\n";
+            entry.innerHTML += '<div class="phpdocumentor-summary">' + result.summary + '</div>';
+            searchResultEntries.appendChild(entry)
+        });
+    }
 
-	function appendIndex(added) {
-		index = index.concat(added);
+    function appendIndex(added) {
+        index = index.concat(added);
 
-		// re-initialize search engine when appending an index after initialisation
-		if (typeof fuse !== 'undefined') {
-			fuse = new Fuse(index, options);
-		}
-	}
+        // re-initialize search engine when appending an index after initialisation
+        if (typeof fuse !== 'undefined') {
+            fuse = new Fuse(index, options);
+        }
+    }
 
-	function init() {
-		fuse = new Fuse(index, options);
+    function init() {
+        fuse = new Fuse(index, options);
 
-		var form = document.querySelector('[data-search-form]');
-		var searchField = document.querySelector('[data-search-form] input[type="search"');
+        var form = document.querySelector('[data-search-form]');
+        var searchField = document.querySelector('[data-search-form] input[type="search"');
 
-		form.classList.add('phpdocumentor-search--active');
+        form.classList.add('phpdocumentor-search--active');
 
-		searchField.setAttribute('placeholder', 'Search for ..');
-		searchField.removeAttribute('disabled');
-		searchField.addEventListener('keyup', debounce(search, 300));
+        searchField.setAttribute('placeholder', 'Search for ..');
+        searchField.removeAttribute('disabled');
+        searchField.addEventListener('keyup', debounce(search, 300));
 
-		window.addEventListener('keyup', function (event) {
-			if (event.code === 'Escape') {
-				close();
-			}
-		});
-	}
+        window.addEventListener('keyup', function (event) {
+            if (event.code === 'Escape') {
+                close();
+            }
+        });
+    }
 
-	return {
-		appendIndex,
-		init
-	}
+    return {
+        appendIndex,
+        init
+    }
 })();
 
 window.addEventListener('DOMContentLoaded', function () {
-	var form = document.querySelector('[data-search-form]');
+    var form = document.querySelector('[data-search-form]');
 
-	// When JS is supported; show search box. Must be before including the search for it to take effect immediately
-	form.classList.add('phpdocumentor-search--enabled');
+    // When JS is supported; show search box. Must be before including the search for it to take effect immediately
+    form.classList.add('phpdocumentor-search--enabled');
 });
 
 window.addEventListener('load', function () {
-	Search.init();
+    Search.init();
 });

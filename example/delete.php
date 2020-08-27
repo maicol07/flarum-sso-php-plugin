@@ -8,5 +8,5 @@ $forum = new Flarum('http://flarum.example.com', 'example.com', 'NotSecureToken'
 $forum->delete('username');
 
 if ($_GET['forum']) {
-	$forum->redirectToForum();
+    $forum->redirectToForum();
 }

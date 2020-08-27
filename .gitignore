@@ -1,0 +1,7 @@
+### Composer
+composer.phar
+/vendor/
+composer.lock
+
+# Ide files
+.idea/commandlinetools/
