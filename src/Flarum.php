@@ -3,9 +3,10 @@
 namespace Maicol07\SSO;
 
 use Delight\Cookie\Cookie;
-use Flagrow\Flarum\Api\Resource\Item;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
+use Maicol07\Flarum\Api\Client;
+use Maicol07\Flarum\Api\Resource\Item;
 
 /**
  * Flarum SSO
@@ -16,7 +17,7 @@ use Illuminate\Support\Collection;
  */
 class Flarum
 {
-    /* @var \Flagrow\Flarum\Api\Flarum Api client */
+    /* @var Client Api client */
     private $api;
     
     /* @var Cookie */
@@ -66,7 +67,7 @@ class Flarum
         if ($insecure) {
             $options['verify'] = false;
         }
-        $this->api = new \Maicol07\Flarum\Api\Flarum($this->url, ['token' => $api_key], $options);
+        $this->api = new Client($this->url, ['token' => $api_key], $options);
         
         $this->cookie = new Cookie('flarum_remember');
         $this->lifetime = $lifetime;

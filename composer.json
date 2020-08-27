@@ -14,7 +14,7 @@
         "ext-json": "*",
         "ext-curl": "*",
         "delight-im/cookie": "^3",
-        "maicol07/flarum-api-client": "0.2.x-dev"
+        "maicol07/flarum-api-client": "^0.2.x-dev"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master"
