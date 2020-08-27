@@ -14,7 +14,7 @@
         "ext-json": "*",
         "ext-curl": "*",
         "delight-im/cookie": "^3",
-        "flagrow/flarum-api-client": "0.2.x-dev"
+        "maicol07/flarum-api-client": "0.2.x-dev"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master"
@@ -23,11 +23,5 @@
         "psr-4": {
             "Maicol07\\SSO\\": "src/"
         }
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/maicol07/flarum-api-client"
-        }
-    ]
+    }
 }

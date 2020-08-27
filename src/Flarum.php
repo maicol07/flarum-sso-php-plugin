@@ -66,7 +66,7 @@ class Flarum
         if ($insecure) {
             $options['verify'] = false;
         }
-        $this->api = new \Flagrow\Flarum\Api\Flarum($this->url, ['token' => $api_key], $options);
+        $this->api = new \Maicol07\Flarum\Api\Flarum($this->url, ['token' => $api_key], $options);
         
         $this->cookie = new Cookie('flarum_remember');
         $this->lifetime = $lifetime;
