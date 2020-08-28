@@ -3,6 +3,7 @@
 namespace Maicol07\SSO;
 
 use Delight\Cookie\Cookie;
+use Eastwest\Json\Json;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Maicol07\Flarum\Api\Client;
@@ -48,13 +49,15 @@ class Flarum
      * @param int $lifetime How many days should the login be valid
      * @param bool $insecure Insecure mode (use only if you don't have an SSL certificate)
      * @param bool $set_groups_admins Set groups for admins. Set to false if you don't want to set groups to admins
+     *
+     * @noinspection CallableParameterUseCaseInTypeContextInspection
      */
     public function __construct(string $url, string $root_domain, string $api_key, string $password_token,
                                 int $lifetime = 14, bool $insecure = false, bool $set_groups_admins = true)
     {
         // Urls
         $this->url = $url;
-        /** @noinspection CallableParameterUseCaseInTypeContextInspection */
+    
         $url = parse_url($root_domain);
         if (!empty($url['host'])) {
             $root_domain = $url['host'];
@@ -79,8 +82,9 @@ class Flarum
      * his account from your SSO system (or main website)
      *
      * @param string $username
+     * @noinspection MissingIssetImplementationInspection
      */
-    public function delete(string $username)
+    public function delete(string $username): void
     {
         // Logout the user
         $this->logout();
@@ -94,7 +98,7 @@ class Flarum
      * Logs out the user from Flarum. Generally, you should use this method when an user successfully logged out from
      * your SSO system (or main website)
      */
-    public function logout()
+    public function logout(): bool
     {
         // Delete the flarum session cookie to logout from Flarum
         $flarum_cookie = new Cookie('flarum_session');
@@ -113,8 +117,10 @@ class Flarum
      *
      * @return string
      * @author maicol07
+     * @noinspection PhpUnused
+     * @noinspection UnknownInspectionInspection
      */
-    public function getForumLink()
+    public function getForumLink(): string
     {
         return $this->url;
     }
@@ -147,7 +153,6 @@ class Flarum
                 $token = $this->getToken($username, $password);
             }
         } catch (ClientException $e) {
-            /** @noinspection NullPointerExceptionInspection */
             if ($e->getCode() === 404 and $e->getResponse()->getReasonPhrase() === "Not Found") {
                 $signed_up = $this->signup($username, $password, $email, $groups);
                 if (!$signed_up) {
@@ -170,7 +175,7 @@ class Flarum
      * @param string $username
      * @return string
      */
-    private function createPassword(string $username)
+    private function createPassword(string $username): string
     {
         return hash('sha256', $username . $this->password_token);
     }
@@ -182,7 +187,7 @@ class Flarum
      * @param string|null $password
      * @return string
      */
-    private function getToken(string $username, string $password)
+    private function getToken(string $username, string $password): ?string
     {
         $data = [
             'identification' => $username,
@@ -192,11 +197,10 @@ class Flarum
         
         try {
             $json = $this->api->getRest()->post($this->url . '/api/token', ['json' => $data])->getBody()->getContents();
-            $response = json_decode($json);
+            $response = Json::decode($json);
             
             return $response->token ?? '';
         } catch (ClientException $e) {
-            /** @noinspection NullPointerExceptionInspection */
             if ($e->getResponse()->getReasonPhrase() === "Unauthorized") {
                 return null;
             }
@@ -224,7 +228,7 @@ class Flarum
      * @param array|null $groups
      * @return bool
      */
-    private function signup(string $username, string $password, string $email, $groups = null)
+    private function signup(string $username, string $password, string $email, $groups = null): ?bool
     {
         $data = [
             "type" => "users",
@@ -240,7 +244,7 @@ class Flarum
             $this->setGroups($username, $groups);
             return isset($user->id);
         } catch (ClientException $e) {
-            if ($e->getResponse()->getReasonPhrase() == "Unprocessable Entity") {
+            if ($e->getResponse()->getReasonPhrase() === "Unprocessable Entity") {
                 return null;
             }
             throw $e;
@@ -253,7 +257,7 @@ class Flarum
      * @param string $username
      * @param array|null $groups
      */
-    public function setGroups(string $username, $groups)
+    public function setGroups(string $username, ?array $groups): void
     {
         if (is_null($groups)) {
             return;
@@ -276,12 +280,12 @@ class Flarum
             
             $flarum_groups = $this->api->groups(null)->request();
             foreach ($flarum_groups->items as $group) {
-                if (in_array($group->attributes['nameSingular'], $groups)) {
+                if (in_array($group->attributes['nameSingular'], $groups, true)) {
                     $group_names[] = [
                         'type' => 'groups',
                         'id' => $group->id
                     ];
-                    unset($groups[array_search($group->attributes['nameSingular'], $groups)]);
+                    unset($groups[array_search($group->attributes['nameSingular'], $groups, true)]);
                 }
             }
             
@@ -333,7 +337,7 @@ class Flarum
      * @param int $time
      * @return bool
      */
-    private function setCookie(string $token, int $time)
+    private function setCookie(string $token, int $time): bool
     {
         $this->cookie->setValue($token);
         $this->cookie->setExpiryTime($time);
@@ -344,7 +348,7 @@ class Flarum
     /**
      * Redirects the user to your Flarum instance
      */
-    public function redirectToForum()
+    public function redirectToForum(): void
     {
         header('Location: ' . $this->url);
         die();
@@ -355,7 +359,7 @@ class Flarum
      *
      * @param string $username
      */
-    public function removeGroups(string $username)
+    public function removeGroups(string $username): void
     {
         $this->setGroups($username, []);
     }
@@ -369,13 +373,13 @@ class Flarum
      * else it will be used to find the user ID
      * @param string|null $password New password (changes old password to this one)
      */
-    public function update(string $username, string $email, string $password = null)
+    public function update(string $username, string $email, string $password = null): void
     {
         // Get user ID
         $users = $this->getUsersList();
         $id = null;
         foreach ($users as $user) {
-            if ($user->attributes['username'] == $username or $user->attributes['email'] == $email) {
+            if ($user->attributes['username'] === $username or $user->attributes['email'] === $email) {
                 $id = $user->id;
             }
         }
