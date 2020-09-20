@@ -71,14 +71,18 @@ class Flarum
     {
         // Urls
         $this->url = $url;
-        
+        // Fix URL scheme
+        if (empty(Arr::get(parse_url($this->url), 'scheme'))) {
+            $this->url = 'https://' . $this->url;
+        }
+    
         $url = parse_url($root_domain);
         if (!empty(Arr::get($url, 'host'))) {
             $root_domain = Arr::get($url, 'host');
         }
         $this->root_domain = $root_domain;
         $this->password_token = $password_token;
-        
+    
         // Api client
         $options = [];
         if ($insecure) {
