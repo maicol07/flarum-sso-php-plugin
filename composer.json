@@ -20,7 +20,8 @@
         "mistic100/php-hooks": "dev-master"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master"
+        "roave/security-advisories": "dev-master",
+        "vlucas/phpdotenv": "^5"
     },
     "autoload": {
         "psr-4": {
