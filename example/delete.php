@@ -10,7 +10,10 @@ $forum = new Flarum(
     env('FLARUM_HOST') ?? 'http://flarum.example.com',
     env('ROOT_DOMAIN') ?? 'example.com',
     env('API_KEY') ?? 'NotSecureToken',
-    env('PASSWORD_TOKEN') ?? 'NotSecureToken'
+    env('PASSWORD_TOKEN') ?? 'NotSecureToken',
+    env('TOKEN_LIFETIME') ?? 14,
+    env('INSECURE') ?? false,
+    env('SET_GROUPS_ADMINS') ?? true
 );
 
 $user = $_GET['user'];
