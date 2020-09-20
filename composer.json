@@ -16,7 +16,8 @@
         "delight-im/cookie": "^3",
         "illuminate/support": "^7",
         "eastwest/json": "^3",
-        "maicol07/flarum-api-client": "^1.0"
+        "maicol07/flarum-api-client": "^1",
+        "mistic100/php-hooks": "dev-master"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master"
