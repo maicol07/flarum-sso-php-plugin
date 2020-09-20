@@ -13,9 +13,13 @@ $forum = new Flarum(
     env('PASSWORD_TOKEN') ?? 'NotSecureToken'
 );
 
+$user = $_GET['user'];
+
 // Delete a user
-$forum->delete('user');
+$forum->delete($user);
 
 if (!empty($_GET['redirect'])) {
     $forum->redirect();
 }
+
+echo "Successfully deleted user $user";

@@ -19,3 +19,5 @@ $forum->logout();
 if (!empty($_GET['redirect'])) {
     $forum->redirect();
 }
+
+echo "Successfully logged out!";
