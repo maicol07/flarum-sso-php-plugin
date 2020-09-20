@@ -14,7 +14,7 @@
         "ext-json": "*",
         "ext-curl": "*",
         "delight-im/cookie": "^3",
-        "illuminate/support": "^7",
+        "illuminate/support": "^6|^7|^8",
         "eastwest/json": "^3",
         "maicol07/flarum-api-client": "^1",
         "mistic100/php-hooks": "dev-master"
