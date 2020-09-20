@@ -100,10 +100,14 @@ trait Basic
                 throw $e;
             }
         }
-        
+    
         $this->hooks->do_action('after_login', $username, $email, $password, $groups, $token);
-        
-        return $this->setCookie($token, time() + $this->getLifetimeSeconds());
+    
+        // Save cookie
+        return $this->cookie->setValue($token)
+            ->setExpiryTime(time() + $this->getLifetimeSeconds())
+            ->setDomain($this->root_domain)
+            ->save();
     }
     
     /**
@@ -175,22 +179,6 @@ trait Basic
             }
             throw $e;
         }
-    }
-    
-    /**
-     * Set Flarum auth cookie
-     *
-     * @param string $token
-     * @param int $time
-     * @return bool
-     */
-    private function setCookie(string $token, int $time): bool
-    {
-        
-        return $this->cookie->setValue($token)
-            ->setExpiryTime($time)
-            ->setDomain($this->root_domain)
-            ->save();
     }
     
     /**
