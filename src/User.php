@@ -18,12 +18,19 @@ class User
     
     /** @var int */
     public $id;
+    
+    /** @var string */
+    public $type = 'users';
+    
     /** @var Attributes */
     public $attributes;
+    
     /** @var Relationships */
     public $relationships;
+    
     /** @var bool */
     public $isAdmin = false;
+    
     /** @var Flarum */
     private $flarum;
     
