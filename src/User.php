@@ -34,7 +34,7 @@ class User
     /** @var Flarum */
     private $flarum;
     
-    public function __construct(string $username, Flarum $flarum)
+    public function __construct(?string $username, Flarum $flarum)
     {
         $this->flarum = $flarum;
         $this->flarum->user = &$this;
