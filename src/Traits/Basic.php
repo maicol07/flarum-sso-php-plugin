@@ -17,7 +17,7 @@ trait Basic
      */
     public function login()
     {
-            $this->flarum->action_hook('before_login');
+        $this->flarum->action_hook('before_login');
         
         if (empty($this->attributes->password)) {
             $this->attributes->password = $this->createPassword();
@@ -155,7 +155,7 @@ trait Basic
     {
         $data = [
             'identification' => $this->attributes->username,
-            'password' => $this->attributes->paassword,
+            'password' => $this->attributes->password,
             'lifetime' => $this->getLifetimeSeconds(),
         ];
         
