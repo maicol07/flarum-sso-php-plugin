@@ -38,6 +38,10 @@ class User
     {
         $this->flarum = $flarum;
         $this->flarum->user = &$this;
+    
+        $this->attributes = new Attributes();
+        $this->relationships = new Relationships();
+    
         $user = $this->flarum->api->users($username)->request();
         if (!empty($user->id)) {
             $this->id = $user->id;
@@ -45,7 +49,7 @@ class User
             foreach ($user->attributes as $attribute => $value) {
                 $this->attributes->$attribute = $value;
             }
-            
+        
             // Admin?
             if (array_key_exists(1, $user->relationships['groups'])) {
                 $this->isAdmin = true;
