@@ -6,6 +6,7 @@ namespace Maicol07\SSO\Traits;
 use Delight\Cookie\Cookie;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Arr;
+use RuntimeException;
 
 trait Basic
 {
@@ -13,17 +14,17 @@ trait Basic
      * Logs the user in Flarum. Generally, you should use this method when an user successfully log into
      * your SSO system (or main website).
      *
-     * @return string
+     * @return bool
      */
-    public function login()
+    public function login(): bool
     {
         $this->flarum->action_hook('before_login');
         
         if (empty($this->attributes->password)) {
-            $this->attributes->password = $this->createPassword();
+            throw new RuntimeException("User's password not set");
         }
         $token = $this->getToken();
-    
+        
         $this->flarum->action_hook('after_token_obtained', $token);
         
         // Backward compatibility: search for existing user
@@ -32,6 +33,9 @@ trait Basic
             if (empty($token)) {
                 $this->attributes->password = $this->createPassword();
                 $token = $this->getToken();
+                if (empty($token)) {
+                    return false;
+                }
             }
         } catch (ClientException $e) {
             // If user is not signed up in Flarum
