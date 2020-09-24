@@ -17,14 +17,14 @@ trait Basic
      */
     public function login()
     {
-        $this->flarum->hook_action('before_login');
+            $this->flarum->action_hook('before_login');
         
         if (empty($this->attributes->password)) {
             $this->attributes->password = $this->createPassword();
         }
         $token = $this->getToken();
     
-        $this->flarum->hook_action('after_token_obtained', $token);
+        $this->flarum->action_hook('after_token_obtained', $token);
         
         // Backward compatibility: search for existing user
         try {
@@ -40,14 +40,14 @@ trait Basic
                 if (!$signed_up) {
                     return false;
                 }
-                $this->flarum->hook_action('after_signup');
+                $this->flarum->action_hook('after_signup');
                 $token = $this->getToken();
             } else {
                 throw $e;
             }
         }
     
-        $this->flarum->hook_action('after_login', $token);
+        $this->flarum->action_hook('after_login', $token);
         
         // Save cookie
         return $this->flarum->cookie->setValue($token)
@@ -64,7 +64,7 @@ trait Basic
      */
     private function signup(): ?bool
     {
-        $this->flarum->hook_action('before_signup');
+        $this->flarum->action_hook('before_signup');
         $data = [
             "type" => "users",
             "attributes" => $this->getAttributes()
@@ -72,7 +72,7 @@ trait Basic
         
         try {
             $user = $this->flarum->api->users()->post($data)->request();
-            $this->flarum->hook_action('after_signup');
+            $this->flarum->action_hook('after_signup');
             return isset($user->id);
         } catch (ClientException $e) {
             if ($e->getResponse()->getReasonPhrase() === "Unprocessable Entity") {
@@ -87,13 +87,13 @@ trait Basic
      */
     public function update(): void
     {
-        $this->flarum->hook_action('before_update');
+        $this->flarum->action_hook('before_update');
         
         $this->flarum->api->users($this->id)->patch([
             'attributes' => $this->getAttributes()
         ])->request();
     
-        $this->flarum->hook_action('after_update');
+        $this->flarum->action_hook('after_update');
     }
     
     /**
@@ -102,7 +102,7 @@ trait Basic
      */
     public function logout(): bool
     {
-        $this->flarum->hook_action('before_logout');
+        $this->flarum->action_hook('before_logout');
         
         // Delete the flarum session cookie to logout from Flarum
         $url = parse_url($this->flarum->url);
@@ -116,7 +116,7 @@ trait Basic
         // Delete the plugin cookie
         $done = $this->flarum->cookie->delete();
     
-        $this->flarum->hook_action('after_logout', $done);
+        $this->flarum->action_hook('after_logout', $done);
         
         return $done;
     }
@@ -127,12 +127,12 @@ trait Basic
      */
     public function delete(): void
     {
-        $this->flarum->hook_action('before_delete');
+        $this->flarum->action_hook('before_delete');
         // Logout the user
         $this->logout();
         if (!empty($this->id)) {
             $this->flarum->api->users($this->id)->delete()->request();
-            $this->flarum->hook_action('after_delete');
+            $this->flarum->action_hook('after_delete');
         }
     }
     
