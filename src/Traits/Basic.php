@@ -3,9 +3,7 @@
 
 namespace Maicol07\SSO\Traits;
 
-use Delight\Cookie\Cookie;
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Support\Arr;
 use RuntimeException;
 
 trait Basic
@@ -98,31 +96,6 @@ trait Basic
         ])->request();
     
         $this->flarum->action_hook('after_update');
-    }
-    
-    /**
-     * Logs out the user from Flarum. Generally, you should use this method when an user successfully logged out from
-     * your SSO system (or main website)
-     */
-    public function logout(): bool
-    {
-        $this->flarum->action_hook('before_logout');
-        
-        // Delete the flarum session cookie to logout from Flarum
-        $url = parse_url($this->flarum->url);
-        $flarum_cookie = new Cookie('flarum_session');
-        $flarum_cookie->setDomain($this->flarum->root_domain)
-            ->setPath(Arr::get($url, 'path'))
-            ->setHttpOnly(true)
-            ->setSecureOnly(true)
-            ->delete();
-        
-        // Delete the plugin cookie
-        $done = $this->flarum->cookie->delete();
-    
-        $this->flarum->action_hook('after_logout', $done);
-        
-        return $done;
     }
     
     /**

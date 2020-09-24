@@ -91,13 +91,38 @@ class Flarum
         $this->cookie = new Cookie('flarum_remember');
         $this->lifetime = Arr::get($config, 'lifetime', 14);
         $this->set_groups_admins = Arr::get($config, 'set_groups_admins', true);
-        
+    
         // Initialize addons
         $this->hooks = new Hooks();
         foreach ($this->addons as $key => $addon) {
             unset($this->addons[$key]);
             $this->addons[$key] = new $addon($this->hooks, $this);
         }
+    }
+    
+    /**
+     * Logs out the current user from Flarum. Generally, you should use this method when an user successfully logged out from
+     * your SSO system (or main website)
+     */
+    public function logout(): bool
+    {
+        $this->action_hook('before_logout');
+        
+        // Delete the flarum session cookie to logout from Flarum
+        $url = parse_url($this->url);
+        $flarum_cookie = new Cookie('flarum_session');
+        $flarum_cookie->setDomain($this->root_domain)
+            ->setPath(Arr::get($url, 'path'))
+            ->setHttpOnly(true)
+            ->setSecureOnly(true)
+            ->delete();
+        
+        // Delete the plugin cookie
+        $done = $this->cookie->delete();
+        
+        $this->hooks->do_action('after_logout', $done);
+        
+        return $done;
     }
     
     /**
