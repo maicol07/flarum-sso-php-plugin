@@ -106,7 +106,7 @@ trait Basic
     {
         $this->flarum->action_hook('before_delete');
         // Logout the user
-        $this->logout();
+        $this->flarum->logout();
         if (!empty($this->id)) {
             $this->flarum->api->users($this->id)->delete()->request();
             $this->flarum->action_hook('after_delete');
