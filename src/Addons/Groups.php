@@ -3,68 +3,40 @@
 
 namespace Maicol07\SSO\Addons;
 
+use Illuminate\Support\Arr;
+
 class Groups extends Core
 {
     protected $actions = [
         'after_login' => 'setGroups',
-        'after_signup' => 'setGroups'
+        'after_signup' => 'setGroups',
+        'after_update' => 'setGroups'
     ];
-    protected $filters = [];
-    
-    /**
-     * Removes any group from a user.
-     *
-     * @param string $username
-     */
-    public function removeGroups(string $username): void
-    {
-        $this->setGroups($username, []);
-    }
     
     /**
      * Sets groups to a user
      *
-     * @param string $username
-     * @param array|null $groups
      */
-    public function setGroups(string $username, ?array $groups): void
+    public function setGroups(): void
     {
-        if (is_null($groups)) {
-            return;
-        }
-        $user = $this->master->api->users($username)->request();
+        $user = $this->master->user;
         if (!empty($user->id)) {
-            $group_names = [];
-            
-            // Check if user is admin
-            $user_groups = $user->relationships['groups'];
-            if (array_key_exists(1, $user_groups)) {
-                if (!$this->master->set_groups_admins) {
-                    return;
-                }
-                $group_names[] = [
-                    'type' => 'groups',
-                    'id' => 1
-                ];
-            }
-            
-            $flarum_groups = $this->master->api->groups()->request();
-            foreach ($flarum_groups as $group) {
-                if (in_array($group->attributes['nameSingular'], $groups, true)) {
-                    $group_names[] = [
-                        'type' => 'groups',
-                        'id' => $group->id
-                    ];
-                    unset($groups[array_search($group->attributes['nameSingular'], $groups, true)]);
-                }
-            }
+            $groups = $user->relationships->groups;
             
             // Create groups not found
             foreach ($groups as $group) {
                 if (empty($group) or !is_string($group)) {
                     continue;
                 }
-                $id = $this->createGroup($group);
+                $flarum_groups = $this->master->api->groups()->request();
+                foreach ($flarum_groups as $flarum_group) {
+                    if (Arr::get($flarum_group, 'attributes.nameSingular') === $group) {
+                        $id = Arr::get($flarum_group, 'id');
+                    }
+                }
+                if (empty($id)) {
+                    $id = $this->createGroup($group);
+                }
                 $group_names[] = [
                     'type' => 'groups',
                     'id' => $id
@@ -74,7 +46,7 @@ class Groups extends Core
             $this->master->api->users($user->id)->patch([
                 'relationships' => [
                     'groups' => [
-                        'data' => $group_names
+                        'data' => $groups
                     ],
                 ],
             ])->request();

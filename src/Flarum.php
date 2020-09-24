@@ -1,12 +1,15 @@
-<?php /** @noinspection PhpUndefinedMethodInspection */
+<?php /** @noinspection PhpPrivateFieldCanBeLocalVariableInspection */
+
+/** @noinspection PhpUndefinedMethodInspection */
 
 namespace Maicol07\SSO;
 
 use Delight\Cookie\Cookie;
 use Hooks\Hooks;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Maicol07\Flarum\Api\Client;
-use Maicol07\SSO\Traits\Basic;
+use Maicol07\Flarum\Api\Resource\Item;
 
 /**
  * Flarum SSO
@@ -17,8 +20,6 @@ use Maicol07\SSO\Traits\Basic;
  */
 class Flarum
 {
-    use Basic;
-    
     /* @var Client Api client */
     public $api;
     
@@ -39,6 +40,9 @@ class Flarum
     
     /* @var string Flarum URL */
     public $url;
+    
+    /** @var User */
+    public $user;
     
     /** @var Hooks */
     protected $hooks;
@@ -133,13 +137,39 @@ class Flarum
     }
     
     /**
-     * Get Token lifetime in seconds
+     * Gets the list of the users actually signed up on Flarum, with all the properties
      *
-     * @return float|int
+     * @param null|string $filter If set, returns the full users list (with other info) and not only the usernames
+     * Can be one of the following: type, id, attributes, attributes.username, attributes.displayName,
+     * attributes.avatarUrl, attributes.joinTime, attributes.discussionCount, attributes.commentCount,
+     * attributes.canEdit, attributes.canDelete, attributes.lastSeenAt, attributes.isEmailConfirmed, attributes.email,
+     * attributes.markedAllAsReadAt, attributes.unreadNotificationCount, attributes.newNotificationCount,
+     * attributes.preferences, attributes.canSuspend, attributes.bio, attributes.newFlagCount,
+     * attributes.canViewRankingPage, attributes.Points, attributes.canPermanentNicknameChange, attributes.canEditPolls,
+     * attributes.canStartPolls, attributes.canSelfEditPolls, attributes.canVotePolls, attributes.cover,
+     * attributes.cover_thumbnail, relationships, relationships.groups
+     *
+     * There could be more if you have other extensions that adds them to Flarum API
+     *
+     * @return array|Collection
      */
-    private function getLifetimeSeconds()
+    public function getUsersList($filter = null)
     {
-        return $this->lifetime * 60 * 60 * 24;
+        $offset = 0;
+        $list = collect();
+        
+        while ($offset !== null) {
+            $response = $this->api->users()->offset($offset)->request();
+            if ($response instanceof Item and empty($response->type)) {
+                $offset = null;
+                continue;
+            }
+            
+            $list = $list->merge($response->collect()->all());
+            $offset = array_key_last($list->all()) + 1;
+        }
+        
+        return empty($filter) ? $list : $list->pluck($filter)->all();
     }
     
     /**
