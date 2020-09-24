@@ -128,6 +128,27 @@ class Flarum
     }
     
     /**
+     * A simple proxy to Hook do_action function
+     *
+     * @param string $tag
+     */
+    public function action_hook(string $tag): void
+    {
+        $this->hooks->do_action($tag);
+    }
+    
+    /**
+     * A simple proxy to Hook apply_filters function
+     *
+     * @param string $tag
+     * @param $value
+     */
+    public function filter_hook(string $tag, $value): void
+    {
+        $this->hooks->apply_filters($tag, $value);
+    }
+    
+    /**
      * Redirects the user to your Flarum instance
      */
     public function redirect(): void

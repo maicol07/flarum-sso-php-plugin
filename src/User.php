@@ -49,17 +49,19 @@ class User
             foreach ($user->attributes as $attribute => $value) {
                 $this->attributes->$attribute = $value;
             }
-        
+    
             // Admin?
             if (array_key_exists(1, $user->relationships['groups'])) {
                 $this->isAdmin = true;
             }
-            
+    
             // Search for groups
             foreach ($user->relationships['groups'] as $id => $group) {
                 $this->relationships->groups[] = $group->attributes['nameSingular'];
             }
         }
+    
+        $this->flarum->filter_hook('after_user_init', $this);
     }
     
     public function getAttributes(): array
