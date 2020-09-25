@@ -3,6 +3,7 @@
 
 namespace Maicol07\SSO;
 
+use GuzzleHttp\Exception\ClientException;
 use Maicol07\SSO\Traits\Basic;
 use Maicol07\SSO\User\Attributes;
 use Maicol07\SSO\User\Relationships;
@@ -16,7 +17,7 @@ class User
 {
     use Basic;
     
-    /** @var int */
+    /** @var null|int */
     public $id;
     
     /** @var string */
@@ -38,29 +39,40 @@ class User
     {
         $this->flarum = $flarum;
         $this->flarum->user = &$this;
-    
+        
         $this->attributes = new Attributes();
         $this->relationships = new Relationships();
-    
-        $user = $this->flarum->api->users($username)->request();
-        if (!empty($user->id)) {
+        
+        $this->flarum->filter_hook('before_user_init', $this);
+        
+        try {
+            $user = $this->flarum->api->users($username)->request();
+            
+            // User exists in Flarum
             $this->id = $user->id;
-            // User exists in Flarum. Search attributes
+            
+            // Search attributes
             foreach ($user->attributes as $attribute => $value) {
                 $this->attributes->$attribute = $value;
             }
-    
+            
             // Admin?
             if (array_key_exists(1, $user->relationships['groups'])) {
                 $this->isAdmin = true;
             }
-    
+            
             // Search for groups
             foreach ($user->relationships['groups'] as $id => $group) {
                 $this->relationships->groups[] = $group->attributes['nameSingular'];
             }
+        } catch (ClientException $e) {
+            if ($e->getCode() === 404 and $e->getResponse()->getReasonPhrase() === "Not Found") {
+                $this->id = null;
+            } else {
+                throw $e;
+            }
         }
-    
+        
         $this->flarum->filter_hook('after_user_init', $this);
     }
     

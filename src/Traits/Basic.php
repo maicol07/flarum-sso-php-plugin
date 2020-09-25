@@ -102,15 +102,26 @@ trait Basic
      * Deletes a user from Flarum database. Generally, you should use this method when an user successfully deleted
      * his account from your SSO system (or main website)
      */
-    public function delete(): void
+    public function delete(): bool
     {
         $this->flarum->action_hook('before_delete');
+    
         // Logout the user
         $this->flarum->logout();
-        if (!empty($this->id)) {
-            $this->flarum->api->users($this->id)->delete()->request();
-            $this->flarum->action_hook('after_delete');
+        if (empty($this->id)) {
+            return false;
         }
+        try {
+            $result = $this->flarum->api->users($this->id)->delete()->request();
+        } catch (ClientException $e) {
+            if ($e->getCode() === 404 and $e->getResponse()->getReasonPhrase() === "Not Found") {
+                $result = false;
+            } else {
+                throw $e;
+            }
+        }
+        $this->flarum->action_hook('after_delete');
+        return $result;
     }
     
     /**
