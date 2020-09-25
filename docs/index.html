@@ -1,238 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8">
     <title>Documentation</title>
-    <meta content="" name="author"/>
-    <meta content="" name="description"/>
-
-    <link href="css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/prism.css" media="all" rel="stylesheet"/>
-    <link href="css/template.css" media="all" rel="stylesheet"/>
-
-    <!--[if lt IE 9]>
-    <script src="js/html5.js"></script>
-    <![endif]-->
-    <script src="js/jquery-1.11.0.min.js"></script>
-    <script src="js/ui/1.10.4/jquery-ui.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.smooth-scroll.js"></script>
-    <script src="js/prism.min.js"></script>
-    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
-
-    <link href="images/favicon.ico" rel="shortcut icon"/>
-    <link href="images/apple-touch-icon.png" rel="apple-touch-icon"/>
-    <link href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72"/>
-    <link href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114"/>
+    <meta content="" name="description">
+    <meta content="" name="author">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <link href="css/normalize.css" rel="stylesheet">
+    <link href="css/template.css" rel="stylesheet">
+    <link href="images/favicon.ico" rel="icon"/>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.4.6/fuse.min.js"></script>
+    <script src="js/search.js"></script>
+    <script defer src="js/searchIndex.js"></script>
 </head>
 <body>
+<header class="phpdocumentor-top-header"></header>
+<header class="phpdocumentor-header">
+    <section class="phpdocumentor-section">
+        <h1 class="phpdocumentor-title">Documentation</h1>
+    </section>
+</header>
+<main class="phpdocumentor">
+    <div class="phpdocumentor-section">
+        <aside class="three phpdocumentor-columns phpdocumentor-sidebar">
+            <section class="phpdocumentor-search" data-search-form>
+                <h1 class="phpdocumentor-sidebar__category-header">Search</h1>
+                <label class="phpdocumentor-label">
+                    <span class="visually-hidden">Search for</span>
+                    <input class="phpdocumentor-field phpdocumentor-search__field" disabled placeholder="Loading .."
+                           type="search"/>
+                </label>
+            </section>
 
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
-                <i class="icon-ellipsis-vertical"></i>
-            </a>
-            <a class="brand" href="index.html">Documentation</a>
 
-            <div class="nav-collapse">
-                <ul class="nav pull-right">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="index.html">
-                            API Documentation <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="namespaces/maicol07.html"><abbr title="\Maicol07">normal</abbr></a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" id="charts-menu">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            Charts <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="graphs/class.html">
-                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" id="reports-menu">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            Reports <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="reports/errors.html">
-                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">0</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="reports/markers.html">
-                                    <i class="icon-list-alt"></i>&#160;Markers <span
-                                        class="label label-info pull-right">0</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="reports/deprecated.html">
-                                    <i class="icon-list-alt"></i>&#160;Deprecated <span
-                                        class="label label-info pull-right">0</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+            <h1 class="phpdocumentor-sidebar__category-header">Namespaces</h1>
+            <h2 class="phpdocumentor-sidebar__root-namespace"><a href="namespaces/default.html"><abbr
+                    title="\">Global</abbr></a></h2>
+            <h3 class="phpdocumentor-sidebar__root-namespace"><a href="namespaces/maicol07.html"><abbr
+                    title="\Maicol07">Maicol07</abbr></a></h3>
+            <ul class="phpdocumentor-list">
+                <li><a href="namespaces/maicol07-sso.html"><abbr title="\Maicol07\SSO">SSO</abbr></a></li>
+            </ul>
+
+            <h1 class="phpdocumentor-sidebar__category-header">Packages</h1>
+            <h2 class="phpdocumentor-sidebar__root-package"><a href="packages/Default.html"><abbr title="\Default">Default</abbr></a>
+            </h2>
+            <ul class="phpdocumentor-list">
+            </ul>
+            <h2 class="phpdocumentor-sidebar__root-package"><a href="packages/src.html"><abbr
+                    title="\src">src</abbr></a></h2>
+            <ul class="phpdocumentor-list">
+            </ul>
+            <h2 class="phpdocumentor-sidebar__root-package"><a href="packages/Maicol07.html"><abbr title="\Maicol07">Maicol07</abbr></a>
+            </h2>
+            <ul class="phpdocumentor-list">
+                <li><a href="packages/Maicol07-SSO.html"><abbr title="\Maicol07\SSO">SSO</abbr></a></li>
+            </ul>
+
+            <h1 class="phpdocumentor-sidebar__category-header">Reports</h1>
+            <h2 class="phpdocumentor-sidebar__root-package"><a href="reports/deprecated.html">Deprecated</a></h2>
+            <h2 class="phpdocumentor-sidebar__root-package"><a href="reports/errors.html">Errors</a></h2>
+            <h2 class="phpdocumentor-sidebar__root-package"><a href="reports/markers.html">Markers</a></h2>
+        </aside>
+
+        <div class="nine phpdocumentor-columns phpdocumentor-content">
+            <h2>Documentation</h2>
+
+            <h3>Namespaces</h3>
+            <dl>
+                <dt><a href="namespaces/maicol07.html"><abbr title="\Maicol07">Maicol07</abbr></a></dt>
+            </dl>
+
+            <h3>Packages</h3>
+            <dl>
+                <dt><a href="packages/Default.html"><abbr title="\Default">Default</abbr></a></dt>
+                <dt><a href="packages/src.html"><abbr title="\src">src</abbr></a></dt>
+                <dt><a href="packages/Maicol07.html"><abbr title="\Maicol07">Maicol07</abbr></a></dt>
+            </dl>
+
+
+            <div class="phpdocumentor-search-results phpdocumentor-search-results--hidden" data-search-results>
+
+                <h2>Search results</h2>
+                <ul class="phpdocumentor-search-results__entries">
+
                 </ul>
             </div>
         </div>
     </div>
-    <!--<div class="go_to_top">-->
-    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
-    <!--</div>-->
-</div>
-
-<div class="container-fluid" id="___">
-    <section class="row-fluid">
-        <div class="span2 sidebar">
-            <div class="accordion" style="margin-bottom: 0">
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle " data-target="#namespace-1861429555" data-toggle="collapse"></a>
-                        <a href="namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
-                    </div>
-                    <div class="accordion-body collapse in" id="namespace-1861429555">
-                        <div class="accordion-inner">
-
-                            <div class="accordion" style="margin-bottom: 0">
-                                <div class="accordion-group">
-                                    <div class="accordion-heading">
-                                        <a class="accordion-toggle collapsed" data-target="#namespace-1493734983"
-                                           data-toggle="collapse"></a>
-                                        <a href="namespaces/maicol07.html" style="margin-left: 30px; padding-left: 0">Maicol07</a>
-                                    </div>
-                                    <div class="accordion-body collapse " id="namespace-1493734983">
-                                        <div class="accordion-inner">
-
-                                            <div class="accordion" style="margin-bottom: 0">
-                                                <div class="accordion-group">
-                                                    <div class="accordion-heading">
-                                                        <a class="accordion-toggle collapsed"
-                                                           data-target="#namespace-1301772823"
-                                                           data-toggle="collapse"></a>
-                                                        <a href="namespaces/maicol07-sso.html"
-                                                           style="margin-left: 30px; padding-left: 0">SSO</a>
-                                                    </div>
-                                                    <div class="accordion-body collapse " id="namespace-1301772823">
-                                                        <div class="accordion-inner">
-
-
-                                                            <ul>
-                                                                <li class="class"><a
-                                                                        href="classes/Maicol07-SSO-Flarum.html"><abbr
-                                                                        title="\Maicol07\SSO\Flarum">Flarum</abbr></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <ul>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-    <section class="row-fluid">
-        <div class="span10 offset2">
-            <div class="row-fluid">
-                <div class="span8 content namespace">
-                    <nav>
-                        <a href=""><abbr title="">normal</abbr></a>
-                    </nav>
-                    <h1><small></small>\</h1>
-
-                    <h2>Namespaces</h2>
-                    <table class="table table-hover">
-                        <tr>
-                            <td><a href="namespaces/maicol07.html"><abbr title="\Maicol07">Maicol07</abbr></a></td>
-                        </tr>
-                    </table>
-
-
-                </div>
-
-                <aside class="span4 detailsbar">
-                    <dl>
-                        <dt>Namespace hierarchy</dt>
-                        <dd class="hierarchy">
-                            <div class="namespace-wrapper">\</div>
-                        </dd>
-                    </dl>
-                </aside>
-            </div>
-
-
-        </div>
-    </section>
-
-    <footer class="row-fluid">
-        <section class="span10 offset2">
-            <section class="row-fluid">
-                <section class="span10 offset1">
-                    <section class="row-fluid footer-sections">
-                        <section class="span4">
-                            <h1><i class="icon-code"></i></h1>
-                            <div>
-                                <ul>
-                                    <li><a href="namespaces/maicol07.html"><abbr title="\Maicol07">normal</abbr></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </section>
-                        <section class="span4">
-                            <h1><i class="icon-bar-chart"></i></h1>
-                            <div>
-                                <ul>
-                                    <li><a href="graphs/class.html">Class Hierarchy Diagram</a></li>
-                                </ul>
-                            </div>
-                        </section>
-                        <section class="span4">
-                            <h1><i class="icon-pushpin"></i></h1>
-                            <div>
-                                <ul>
-                                    <li><a href="reports/errors.html">Errors</a></li>
-                                    <li><a href="reports/markers.html">Markers</a></li>
-                                </ul>
-                            </div>
-                        </section>
-                    </section>
-                </section>
-            </section>
-            <section class="row-fluid">
-                <section class="span10 offset1">
-                    <hr/>
-                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on April 22nd, 2020 at 15:37.
-                </section>
-            </section>
-        </section>
-    </footer>
-</div>
+</main>
 
 </body>
 </html>

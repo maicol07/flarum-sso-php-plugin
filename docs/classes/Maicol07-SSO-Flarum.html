@@ -1,1023 +1,817 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8">
     <title>Documentation</title>
-    <meta content="" name="author"/>
-    <meta content="" name="description"/>
-
-    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
-    <link href="../css/prism.css" media="all" rel="stylesheet"/>
-    <link href="../css/template.css" media="all" rel="stylesheet"/>
-
-    <!--[if lt IE 9]>
-    <script src="../js/html5.js"></script>
-    <![endif]-->
-    <script src="../js/jquery-1.11.0.min.js"></script>
-    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/jquery.smooth-scroll.js"></script>
-    <script src="../js/prism.min.js"></script>
-    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
-    <script type="text/javascript">
-        function loadExternalCodeSnippets() {
-            Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
-                var src = pre.getAttribute('data-src').replace(/\\/g, '/');
-                var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
-                var language = 'php';
-
-                var code = document.createElement('code');
-                code.className = 'language-' + language;
-
-                pre.textContent = '';
-
-                code.textContent = 'Loading…';
-
-                pre.appendChild(code);
-
-                var xhr = new XMLHttpRequest();
-
-                xhr.open('GET', src, true);
-
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4) {
-
-                        if (xhr.status < 400 && xhr.responseText) {
-                            code.textContent = xhr.responseText;
-
-                            Prism.highlightElement(code);
-                        } else if (xhr.status >= 400) {
-                            code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
-                        } else {
-                            code.textContent = '✖ Error: File does not exist, is empty or trying to view from localhost';
-                        }
-                    }
-                };
-
-                xhr.send(null);
-            });
-        }
-
-        $(document).ready(function () {
-            loadExternalCodeSnippets();
-        });
-        $('#source-view').on('shown', function () {
-            loadExternalCodeSnippets();
-        })
-    </script>
-
-    <link href="../images/favicon.ico" rel="shortcut icon"/>
-    <link href="../images/apple-touch-icon.png" rel="apple-touch-icon"/>
-    <link href="../images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72"/>
-    <link href="../images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114"/>
+    <meta content="" name="description">
+    <meta content="" name="author">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <link href="../css/normalize.css" rel="stylesheet">
+    <link href="../css/template.css" rel="stylesheet">
+    <link href="../images/favicon.ico" rel="icon"/>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.4.6/fuse.min.js"></script>
+    <script src="../js/search.js"></script>
+    <script defer src="../js/searchIndex.js"></script>
 </head>
 <body>
-
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
-                <i class="icon-ellipsis-vertical"></i>
-            </a>
-            <a class="brand" href="../index.html">Documentation</a>
-
-            <div class="nav-collapse">
-                <ul class="nav pull-right">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="../index.html">
-                            API Documentation <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="../namespaces/maicol07.html"><abbr title="\Maicol07">normal</abbr></a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" id="charts-menu">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            Charts <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="../graphs/class.html">
-                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" id="reports-menu">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            Reports <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="../reports/errors.html">
-                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">0</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="../reports/markers.html">
-                                    <i class="icon-list-alt"></i>&#160;Markers <span
-                                        class="label label-info pull-right">0</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="../reports/deprecated.html">
-                                    <i class="icon-list-alt"></i>&#160;Deprecated <span
-                                        class="label label-info pull-right">0</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!--<div class="go_to_top">-->
-    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
-    <!--</div>-->
-</div>
-
-<div class="container-fluid" id="___">
-    <section class="row-fluid">
-        <div class="span2 sidebar">
-            <div class="accordion" style="margin-bottom: 0">
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle " data-target="#namespace-911585071" data-toggle="collapse"></a>
-                        <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
-                    </div>
-                    <div class="accordion-body collapse in" id="namespace-911585071">
-                        <div class="accordion-inner">
-
-                            <div class="accordion" style="margin-bottom: 0">
-                                <div class="accordion-group">
-                                    <div class="accordion-heading">
-                                        <a class="accordion-toggle collapsed" data-target="#namespace-1388979693"
-                                           data-toggle="collapse"></a>
-                                        <a href="../namespaces/maicol07.html"
-                                           style="margin-left: 30px; padding-left: 0">Maicol07</a>
-                                    </div>
-                                    <div class="accordion-body collapse " id="namespace-1388979693">
-                                        <div class="accordion-inner">
-
-                                            <div class="accordion" style="margin-bottom: 0">
-                                                <div class="accordion-group">
-                                                    <div class="accordion-heading">
-                                                        <a class="accordion-toggle collapsed"
-                                                           data-target="#namespace-1208706328"
-                                                           data-toggle="collapse"></a>
-                                                        <a href="../namespaces/maicol07-sso.html"
-                                                           style="margin-left: 30px; padding-left: 0">SSO</a>
-                                                    </div>
-                                                    <div class="accordion-body collapse " id="namespace-1208706328">
-                                                        <div class="accordion-inner">
-
-
-                                                            <ul>
-                                                                <li class="class"><a
-                                                                        href="../classes/Maicol07-SSO-Flarum.html"><abbr
-                                                                        title="\Maicol07\SSO\Flarum">Flarum</abbr></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <ul>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+<header class="phpdocumentor-top-header"></header>
+<header class="phpdocumentor-header">
+    <section class="phpdocumentor-section">
+        <h1 class="phpdocumentor-title">Documentation</h1>
     </section>
-    <section class="row-fluid">
-        <div class="span10 offset2">
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <nav>
-                        <a href="../namespaces/maicol07-sso.html"><abbr title="\Maicol07\SSO">normal</abbr></a> <i
-                            class="icon-level-up"></i>
-                    </nav>
-
-                    <h1><small>\Maicol07\SSO</small>Flarum</h1>
-                    <p><em>Flarum SSO</em></p>
-
-
-                    <section id="summary">
-                        <h2>Summary</h2>
-                        <section class="row-fluid heading">
-                            <section class="span4">
-                                <a href="#methods">Methods</a>
-                            </section>
-                            <section class="span4">
-                                <a href="#properties">Properties</a>
-                            </section>
-                            <section class="span4">
-                                <a href="#constants">Constants</a>
-                            </section>
-                        </section>
-                        <section class="row-fluid public">
-                            <section class="span4">
-                                <a class=""
-                                   href="../classes/Maicol07-SSO-Flarum.html#method___construct">__construct()</a><br/>
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_delete">delete()</a><br/>
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_logout">logout()</a><br/>
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_getForumLink">getForumLink()</a><br/>
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_login">login()</a><br/>
-                                <a class=""
-                                   href="../classes/Maicol07-SSO-Flarum.html#method_setGroups">setGroups()</a><br/>
-                                <a class=""
-                                   href="../classes/Maicol07-SSO-Flarum.html#method_createGroup">createGroup()</a><br/>
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_redirectToForum">redirectToForum()</a><br/>
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_removeGroups">removeGroups()</a><br/>
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_update">update()</a><br/>
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_getUsersList">getUsersList()</a><br/>
-                            </section>
-                            <section class="span4">
-                                <em>No public properties found</em>
-                            </section>
-                            <section class="span4">
-                                <em>No constants found</em>
-                            </section>
-                        </section>
-                        <section class="row-fluid protected">
-                            <section class="span4">
-                                <em>No protected methods found</em>
-                            </section>
-                            <section class="span4">
-                                <em>No protected properties found</em>
-                            </section>
-                            <section class="span4">
-                                <em>N/A</em>
-                            </section>
-                        </section>
-                        <section class="row-fluid private">
-                            <section class="span4">
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_createPassword">createPassword()</a><br/>
-                                <a class=""
-                                   href="../classes/Maicol07-SSO-Flarum.html#method_getToken">getToken()</a><br/>
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_getLifetimeSeconds">getLifetimeSeconds()</a><br/>
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#method_signup">signup()</a><br/>
-                                <a class=""
-                                   href="../classes/Maicol07-SSO-Flarum.html#method_setCookie">setCookie()</a><br/>
-                            </section>
-                            <section class="span4">
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_api">$api</a><br/>
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_cookie">$cookie</a><br/>
-                                <a class=""
-                                   href="../classes/Maicol07-SSO-Flarum.html#property_lifetime">$lifetime</a><br/>
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_password_token">$password_token</a><br/>
-                                <a class=""
-                                   href="../classes/Maicol07-SSO-Flarum.html#property_root_domain">$root_domain</a><br/>
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_set_groups_admins">$set_groups_admins</a><br/>
-                                <a class="" href="../classes/Maicol07-SSO-Flarum.html#property_url">$url</a><br/>
-                            </section>
-                            <section class="span4">
-                                <em>N/A</em>
-                            </section>
-                        </section>
-                    </section>
-                </div>
-                <aside class="span4 detailsbar">
+</header>
+<main class="phpdocumentor">
+    <div class="phpdocumentor-section">
+        <aside class="three phpdocumentor-columns phpdocumentor-sidebar">
+            <section class="phpdocumentor-search" data-search-form>
+                <h1 class="phpdocumentor-sidebar__category-header">Search</h1>
+                <label class="phpdocumentor-label">
+                    <span class="visually-hidden">Search for</span>
+                    <input class="phpdocumentor-field phpdocumentor-search__field" disabled placeholder="Loading .."
+                           type="search"/>
+                </label>
+            </section>
 
 
-                    <dl>
-                        <dt>File</dt>
-                        <dd><a href="../files/src-flarum.html">
-                            <div class="path-wrapper">src/Flarum.php</div>
-                        </a></dd>
-                        <dt>Package</dt>
-                        <dd>
-                            <div class="namespace-wrapper">src</div>
-                        </dd>
-                        <dt>Class hierarchy</dt>
-                        <dd class="hierarchy">
-                            <div class="namespace-wrapper">\Maicol07\SSO\Flarum</div>
-                        </dd>
+            <h1 class="phpdocumentor-sidebar__category-header">Namespaces</h1>
+            <h2 class="phpdocumentor-sidebar__root-namespace"><a href="../namespaces/default.html"><abbr title="\">Global</abbr></a>
+            </h2>
+            <h3 class="phpdocumentor-sidebar__root-namespace"><a href="../namespaces/maicol07.html"><abbr
+                    title="\Maicol07">Maicol07</abbr></a></h3>
+            <ul class="phpdocumentor-list">
+                <li><a href="../namespaces/maicol07-sso.html"><abbr title="\Maicol07\SSO">SSO</abbr></a></li>
+            </ul>
 
+            <h1 class="phpdocumentor-sidebar__category-header">Packages</h1>
+            <h2 class="phpdocumentor-sidebar__root-package"><a href="../packages/Default.html"><abbr title="\Default">Default</abbr></a>
+            </h2>
+            <ul class="phpdocumentor-list">
+            </ul>
+            <h2 class="phpdocumentor-sidebar__root-package"><a href="../packages/src.html"><abbr title="\src">src</abbr></a>
+            </h2>
+            <ul class="phpdocumentor-list">
+            </ul>
+            <h2 class="phpdocumentor-sidebar__root-package"><a href="../packages/Maicol07.html"><abbr title="\Maicol07">Maicol07</abbr></a>
+            </h2>
+            <ul class="phpdocumentor-list">
+                <li><a href="../packages/Maicol07-SSO.html"><abbr title="\Maicol07\SSO">SSO</abbr></a></li>
+            </ul>
 
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <th>
-                                author
-                            </th>
-                            <td>
-                                <p>fabwu</p>
-                                <p>maicol07</p>
-                            </td>
-                        </tr>
-                    </table>
+            <h1 class="phpdocumentor-sidebar__category-header">Reports</h1>
+            <h2 class="phpdocumentor-sidebar__root-package"><a href="../reports/deprecated.html">Deprecated</a></h2>
+            <h2 class="phpdocumentor-sidebar__root-package"><a href="../reports/errors.html">Errors</a></h2>
+            <h2 class="phpdocumentor-sidebar__root-package"><a href="../reports/markers.html">Markers</a></h2>
+        </aside>
+
+        <div class="nine phpdocumentor-columns phpdocumentor-content">
+            <ul class="phpdocumentor-breadcrumbs">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../namespaces/maicol07.html">Maicol07</a></li>
+                <li><a href="../namespaces/maicol07-sso.html">SSO</a></li>
+            </ul>
+
+            <article class="phpdocumentor-element phpdocumentor-class">
+                <h2 class="phpdocumentor-content__title">
+                    Flarum
+                    <div class="phpdocumentor-element__package">
+                        in
+                        <ul class="phpdocumentor-breadcrumbs">
+                            <li><a href="../packages/src.html">src</a></li>
+                        </ul>
+                    </div>
+                </h2>
+                <aside class="phpdocumentor-element-found-in">
+                    <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                            href="../files/src-flarum.html"><abbr title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                    :
+                    <span class="phpdocumentor-element-found-in__line">21</span>
                 </aside>
-            </div>
+
+                <p class="phpdocumentor-class__summary">Flarum SSO</p>
+                <section class="phpdocumentor-class__description"></section>
+
+                <h3>Table of Contents</h3>
+                <table class="phpdocumentor-table_of_contents">
+                    <tr>
+                        <th class="phpdocumentor-heading"><a href="../classes/Maicol07-SSO-Flarum.html#property_api">$api</a>
+                        </th>
+                        <td class="phpdocumentor-cell"></td>
+                        <td class="phpdocumentor-cell"><a href=""><abbr title=""></abbr></a></td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a href="../classes/Maicol07-SSO-Flarum.html#property_cookie">$cookie</a>
+                        </th>
+                        <td class="phpdocumentor-cell"></td>
+                        <td class="phpdocumentor-cell"><a href=""><abbr title=""></abbr></a></td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a
+                                href="../classes/Maicol07-SSO-Flarum.html#property_lifetime">$lifetime</a></th>
+                        <td class="phpdocumentor-cell"></td>
+                        <td class="phpdocumentor-cell"><a href=""><abbr title=""></abbr></a></td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a
+                                href="../classes/Maicol07-SSO-Flarum.html#property_password_token">$password_token</a>
+                        </th>
+                        <td class="phpdocumentor-cell"></td>
+                        <td class="phpdocumentor-cell"><a href=""><abbr title=""></abbr></a></td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a
+                                href="../classes/Maicol07-SSO-Flarum.html#property_root_domain">$root_domain</a></th>
+                        <td class="phpdocumentor-cell"></td>
+                        <td class="phpdocumentor-cell"><a href=""><abbr title=""></abbr></a></td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a
+                                href="../classes/Maicol07-SSO-Flarum.html#property_set_groups_admins">$set_groups_admins</a>
+                        </th>
+                        <td class="phpdocumentor-cell"></td>
+                        <td class="phpdocumentor-cell"><a href=""><abbr title=""></abbr></a></td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a href="../classes/Maicol07-SSO-Flarum.html#property_url">$url</a>
+                        </th>
+                        <td class="phpdocumentor-cell"></td>
+                        <td class="phpdocumentor-cell"><a href=""><abbr title=""></abbr></a></td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a href="../classes/Maicol07-SSO-Flarum.html#property_user">$user</a>
+                        </th>
+                        <td class="phpdocumentor-cell"></td>
+                        <td class="phpdocumentor-cell"><a href="../classes/Maicol07-SSO-User.html"><abbr
+                                title="\Maicol07\SSO\User">User</abbr></a></td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a href="../classes/Maicol07-SSO-Flarum.html#property_hooks">$hooks</a>
+                        </th>
+                        <td class="phpdocumentor-cell"></td>
+                        <td class="phpdocumentor-cell"><abbr title="\Hooks\Hooks">Hooks</abbr></td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a href="../classes/Maicol07-SSO-Flarum.html#property_addons">$addons</a>
+                        </th>
+                        <td class="phpdocumentor-cell"></td>
+                        <td class="phpdocumentor-cell">array</td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a
+                                href="../classes/Maicol07-SSO-Flarum.html#method___construct">__construct()</a></th>
+                        <td class="phpdocumentor-cell">Flarum constructor</td>
+                        <td class="phpdocumentor-cell">mixed</td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a href="../classes/Maicol07-SSO-Flarum.html#method_logout">logout()</a>
+                        </th>
+                        <td class="phpdocumentor-cell">Logs out the current user from Flarum. Generally, you should use
+                            this method when an user successfully logged out from
+                            your SSO system (or main website)
+                        </td>
+                        <td class="phpdocumentor-cell">bool</td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a href="../classes/Maicol07-SSO-Flarum.html#method_addAddon">addAddon()</a>
+                        </th>
+                        <td class="phpdocumentor-cell">Adds an addon</td>
+                        <td class="phpdocumentor-cell">$this</td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a
+                                href="../classes/Maicol07-SSO-Flarum.html#method_removeAddon">removeAddon()</a></th>
+                        <td class="phpdocumentor-cell">Removes an addon</td>
+                        <td class="phpdocumentor-cell">$this</td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a
+                                href="../classes/Maicol07-SSO-Flarum.html#method_action_hook">action_hook()</a></th>
+                        <td class="phpdocumentor-cell">A simple proxy to Hook do_action function</td>
+                        <td class="phpdocumentor-cell">void</td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a
+                                href="../classes/Maicol07-SSO-Flarum.html#method_filter_hook">filter_hook()</a></th>
+                        <td class="phpdocumentor-cell">A simple proxy to Hook apply_filters function</td>
+                        <td class="phpdocumentor-cell">void</td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a href="../classes/Maicol07-SSO-Flarum.html#method_redirect">redirect()</a>
+                        </th>
+                        <td class="phpdocumentor-cell">Redirects the user to your Flarum instance</td>
+                        <td class="phpdocumentor-cell">void</td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a
+                                href="../classes/Maicol07-SSO-Flarum.html#method_getUsersList">getUsersList()</a></th>
+                        <td class="phpdocumentor-cell">Gets a collection of the users actually signed up on Flarum, with
+                            all the properties
+                        </td>
+                        <td class="phpdocumentor-cell"><abbr title="\Illuminate\Support\Collection">Collection</abbr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a
+                                href="../classes/Maicol07-SSO-Flarum.html#method_getForumLink">getForumLink()</a></th>
+                        <td class="phpdocumentor-cell">Returns Flarum link</td>
+                        <td class="phpdocumentor-cell">string</td>
+                    </tr>
+                </table>
 
 
-            <a id="properties" name="properties"></a>
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <h2>Properties</h2>
-                </div>
-                <aside class="span4 detailsbar"></aside>
-            </div>
+                <section>
+                    <h3 class="phpdocumentor-properties__header">Properties</h3>
+                    <a id="property_api"></a>
+                    <article
+                            class="
+            phpdocumentor-property
+            phpdocumentor-property--public
+                                "
+                    >
+                        <h4 class="phpdocumentor-property__name">$api</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">24</span>
+                        </aside>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__type">mixed</span>
+                            <span class="phpdocumentor-signature__name">$api</span>
+                        </code>
+                    </article>
+                    <a id="property_cookie"></a>
+                    <article
+                            class="
+            phpdocumentor-property
+            phpdocumentor-property--public
+                                "
+                    >
+                        <h4 class="phpdocumentor-property__name">$cookie</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">27</span>
+                        </aside>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__type">mixed</span>
+                            <span class="phpdocumentor-signature__name">$cookie</span>
+                        </code>
+                    </article>
+                    <a id="property_lifetime"></a>
+                    <article
+                            class="
+            phpdocumentor-property
+            phpdocumentor-property--public
+                                "
+                    >
+                        <h4 class="phpdocumentor-property__name">$lifetime</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">30</span>
+                        </aside>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__type">mixed</span>
+                            <span class="phpdocumentor-signature__name">$lifetime</span>
+                        </code>
+                    </article>
+                    <a id="property_password_token"></a>
+                    <article
+                            class="
+            phpdocumentor-property
+            phpdocumentor-property--public
+                                "
+                    >
+                        <h4 class="phpdocumentor-property__name">$password_token</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">33</span>
+                        </aside>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__type">mixed</span>
+                            <span class="phpdocumentor-signature__name">$password_token</span>
+                        </code>
+                    </article>
+                    <a id="property_root_domain"></a>
+                    <article
+                            class="
+            phpdocumentor-property
+            phpdocumentor-property--public
+                                "
+                    >
+                        <h4 class="phpdocumentor-property__name">$root_domain</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">36</span>
+                        </aside>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__type">mixed</span>
+                            <span class="phpdocumentor-signature__name">$root_domain</span>
+                        </code>
+                    </article>
+                    <a id="property_set_groups_admins"></a>
+                    <article
+                            class="
+            phpdocumentor-property
+            phpdocumentor-property--public
+                                "
+                    >
+                        <h4 class="phpdocumentor-property__name">$set_groups_admins</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">39</span>
+                        </aside>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__type">mixed</span>
+                            <span class="phpdocumentor-signature__name">$set_groups_admins</span>
+                        </code>
+                    </article>
+                    <a id="property_url"></a>
+                    <article
+                            class="
+            phpdocumentor-property
+            phpdocumentor-property--public
+                                "
+                    >
+                        <h4 class="phpdocumentor-property__name">$url</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">42</span>
+                        </aside>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__type">mixed</span>
+                            <span class="phpdocumentor-signature__name">$url</span>
+                        </code>
+                    </article>
+                    <a id="property_user"></a>
+                    <article
+                            class="
+            phpdocumentor-property
+            phpdocumentor-property--public
+                                "
+                    >
+                        <h4 class="phpdocumentor-property__name">$user</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">45</span>
+                        </aside>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__type"><a
+                                    href="../classes/Maicol07-SSO-User.html"><abbr
+                                    title="\Maicol07\SSO\User">User</abbr></a></span>
+                            <span class="phpdocumentor-signature__name">$user</span>
+                        </code>
+                    </article>
+                    <a id="property_hooks"></a>
+                    <article
+                            class="
+            phpdocumentor-property
+            phpdocumentor-property--protected
+                                "
+                    >
+                        <h4 class="phpdocumentor-property__name">$hooks</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">48</span>
+                        </aside>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">protected</span>
+                            <span class="phpdocumentor-signature__type"><abbr title="\Hooks\Hooks">Hooks</abbr></span>
+                            <span class="phpdocumentor-signature__name">$hooks</span>
+                        </code>
+                    </article>
+                    <a id="property_addons"></a>
+                    <article
+                            class="
+            phpdocumentor-property
+            phpdocumentor-property--private
+                                "
+                    >
+                        <h4 class="phpdocumentor-property__name">$addons</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">51</span>
+                        </aside>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">private</span>
+                            <span class="phpdocumentor-signature__type">array</span>
+                            <span class="phpdocumentor-signature__name">$addons</span>
+                            = <span class="phpdocumentor-signature__default-value">[]</span> </code>
+                    </article>
+                </section>
 
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="property_api" name="property_api"></a>
-                    <article class="property">
-                        <h3 class="private ">$api</h3>
-                        <pre class="signature">$api</pre>
-                        <p><em></em></p>
+                <section>
+                    <h3 class="phpdocumentor-methods__header">Methods</h3>
+                    <a id="method___construct"></a>
+                    <article
+                            class="
+            phpdocumentor-method
+            phpdocumentor-method--public
+                                                        "
+                    >
+                        <h4 class="phpdocumentor-method__name">__construct()</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">67</span>
+                        </aside>
+                        <p class="phpdocumentor-summary">Flarum constructor</p>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__name">__construct</span>(
+                            <span class="phpdocumentor-signature__argument">
+                            <span class="phpdocumentor-signature__argument__name">$config</span> :
+                <span class="phpdocumentor-signature__argument__return-type">array</span>
+                            </span>
+                            )
+                            : <span class="phpdocumentor-signature__response_type">mixed</span>
+                        </code>
+
+
+                        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+                        <dl class="phpdocumentor-argument-list">
+                            <dt class="phpdocumentor-argument-list__entry">
+                                <span class="phpdocumentor-signature__argument__name">$config</span>
+                                : <span class="phpdocumentor-signature__argument__return-type">array</span>
+                            </dt>
+                            <dd class="phpdocumentor-argument-list__definition">
+                                <section class="phpdocumentor-description"><p>{</p></section>
+                            </dd>
+                        </dl>
+
+                        <h5 class="phpdocumentor-tag-list__heading">Tags</h5>
+                        <dl class="phpdocumentor-tag-list">
+                            <dt class="phpdocumentor-tag-list__entry">
+                                <span class="phpdocumentor-tag__name">type</span>
+                            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                <section class="phpdocumentor-description"><p>string $url Flarum URL</p></section>
+                            </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                                <span class="phpdocumentor-tag__name">type</span>
+                            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                <section class="phpdocumentor-description"><p>string $root_domain Main site or SSO
+                                    system domain</p></section>
+                            </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                                <span class="phpdocumentor-tag__name">type</span>
+                            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                <section class="phpdocumentor-description"><p>string $api_key Random key from the
+                                    api_keys table of your Flarum forum</p></section>
+                            </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                                <span class="phpdocumentor-tag__name">type</span>
+                            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                <section class="phpdocumentor-description"><p>string $password_token Random token to
+                                    create passwords</p></section>
+                            </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                                <span class="phpdocumentor-tag__name">type</span>
+                            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                <section class="phpdocumentor-description"><p>int $lifetime How many days should the
+                                    login be valid. Default: 14</p></section>
+                            </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                                <span class="phpdocumentor-tag__name">type</span>
+                            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                <section class="phpdocumentor-description"><p>bool $insecure Insecure mode (use only if
+                                    you don't have an SSL certificate). Default: false</p></section>
+                            </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                                <span class="phpdocumentor-tag__name">type</span>
+                            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                <section class="phpdocumentor-description"><p>bool $set_groups_admins Set groups for
+                                    admins. Set to false if you don't want to set groups to admins. Default: true
+                                    }</p></section>
+                            </dd>
+                        </dl>
+
+                        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+                        <span class="phpdocumentor-signature__response_type">mixed</span>
+
+                    </article>
+                    <a id="method_logout"></a>
+                    <article
+                            class="
+            phpdocumentor-method
+            phpdocumentor-method--public
+                                                        "
+                    >
+                        <h4 class="phpdocumentor-method__name">logout()</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">107</span>
+                        </aside>
+                        <p class="phpdocumentor-summary">Logs out the current user from Flarum. Generally, you should
+                            use this method when an user successfully logged out from
+                            your SSO system (or main website)</p>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__name">logout</span>(
+                            )
+                            : <span class="phpdocumentor-signature__response_type">bool</span>
+                        </code>
+
+
+                        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+                        <span class="phpdocumentor-signature__response_type">bool</span>
+
+                    </article>
+                    <a id="method_addAddon"></a>
+                    <article
+                            class="
+            phpdocumentor-method
+            phpdocumentor-method--public
+                                                        "
+                    >
+                        <h4 class="phpdocumentor-method__name">addAddon()</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">134</span>
+                        </aside>
+                        <p class="phpdocumentor-summary">Adds an addon</p>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__name">addAddon</span>(
+                            <span class="phpdocumentor-signature__argument">
+                            <span class="phpdocumentor-signature__argument__name">$addon</span> :
+                <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </span>
+                            )
+                            : <span class="phpdocumentor-signature__response_type">$this</span>
+                        </code>
+
+
+                        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+                        <dl class="phpdocumentor-argument-list">
+                            <dt class="phpdocumentor-argument-list__entry">
+                                <span class="phpdocumentor-signature__argument__name">$addon</span>
+                                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+                            <dd class="phpdocumentor-argument-list__definition">
+                                <section class="phpdocumentor-description"><p>Class name to add as addon</p></section>
+                            </dd>
+                        </dl>
+
+
+                        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+                        <span class="phpdocumentor-signature__response_type">$this</span>
+
+                    </article>
+                    <a id="method_removeAddon"></a>
+                    <article
+                            class="
+            phpdocumentor-method
+            phpdocumentor-method--public
+                                                        "
+                    >
+                        <h4 class="phpdocumentor-method__name">removeAddon()</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">146</span>
+                        </aside>
+                        <p class="phpdocumentor-summary">Removes an addon</p>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__name">removeAddon</span>(
+                            <span class="phpdocumentor-signature__argument">
+                            <span class="phpdocumentor-signature__argument__name">$addon</span> :
+                <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </span>
+                            )
+                            : <span class="phpdocumentor-signature__response_type">$this</span>
+                        </code>
+
+
+                        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+                        <dl class="phpdocumentor-argument-list">
+                            <dt class="phpdocumentor-argument-list__entry">
+                                <span class="phpdocumentor-signature__argument__name">$addon</span>
+                                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+                            <dd class="phpdocumentor-argument-list__definition">
+                                <section class="phpdocumentor-description"><p>Addon class name to remove</p></section>
+                            </dd>
+                        </dl>
+
+
+                        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+                        <span class="phpdocumentor-signature__response_type">$this</span>
+
+                    </article>
+                    <a id="method_action_hook"></a>
+                    <article
+                            class="
+            phpdocumentor-method
+            phpdocumentor-method--public
+                                                        "
+                    >
+                        <h4 class="phpdocumentor-method__name">action_hook()</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">160</span>
+                        </aside>
+                        <p class="phpdocumentor-summary">A simple proxy to Hook do_action function</p>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__name">action_hook</span>(
+                            <span class="phpdocumentor-signature__argument">
+                            <span class="phpdocumentor-signature__argument__name">$tag</span> :
+                <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </span>
+                            )
+                            : <span class="phpdocumentor-signature__response_type">void</span>
+                        </code>
+
+
+                        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+                        <dl class="phpdocumentor-argument-list">
+                            <dt class="phpdocumentor-argument-list__entry">
+                                <span class="phpdocumentor-signature__argument__name">$tag</span>
+                                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+                            <dd class="phpdocumentor-argument-list__definition">
+                                <section class="phpdocumentor-description"></section>
+                            </dd>
+                        </dl>
 
 
                     </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="property_cookie" name="property_cookie"></a>
-                    <article class="property">
-                        <h3 class="private ">$cookie</h3>
-                        <pre class="signature">$cookie</pre>
-                        <p><em></em></p>
-
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="property_lifetime" name="property_lifetime"></a>
-                    <article class="property">
-                        <h3 class="private ">$lifetime</h3>
-                        <pre class="signature">$lifetime</pre>
-                        <p><em></em></p>
+                    <a id="method_filter_hook"></a>
+                    <article
+                            class="
+            phpdocumentor-method
+            phpdocumentor-method--public
+                                                        "
+                    >
+                        <h4 class="phpdocumentor-method__name">filter_hook()</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">171</span>
+                        </aside>
+                        <p class="phpdocumentor-summary">A simple proxy to Hook apply_filters function</p>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__name">filter_hook</span>(
+                            <span class="phpdocumentor-signature__argument">
+                            <span class="phpdocumentor-signature__argument__name">$tag</span> :
+                <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </span>
+                            <span class="phpdocumentor-signature__argument">
+            ,                 <span class="phpdocumentor-signature__argument__name">$value</span> :
+                <span class="phpdocumentor-signature__argument__return-type"><a href=""><abbr
+                        title=""></abbr></a></span>
+                            </span>
+                            )
+                            : <span class="phpdocumentor-signature__response_type">void</span>
+                        </code>
 
 
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="property_password_token" name="property_password_token"></a>
-                    <article class="property">
-                        <h3 class="private ">$password_token</h3>
-                        <pre class="signature">$password_token</pre>
-                        <p><em></em></p>
+                        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+                        <dl class="phpdocumentor-argument-list">
+                            <dt class="phpdocumentor-argument-list__entry">
+                                <span class="phpdocumentor-signature__argument__name">$tag</span>
+                                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+                            <dd class="phpdocumentor-argument-list__definition">
+                                <section class="phpdocumentor-description"></section>
+                            </dd>
+                            <dt class="phpdocumentor-argument-list__entry">
+                                <span class="phpdocumentor-signature__argument__name">$value</span>
+                                : <span class="phpdocumentor-signature__argument__return-type"><a href=""><abbr
+                                    title=""></abbr></a></span>
+                            </dt>
+                            <dd class="phpdocumentor-argument-list__definition">
+                                <section class="phpdocumentor-description"></section>
+                            </dd>
+                        </dl>
 
 
                     </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="property_root_domain" name="property_root_domain"></a>
-                    <article class="property">
-                        <h3 class="private ">$root_domain</h3>
-                        <pre class="signature">$root_domain</pre>
-                        <p><em></em></p>
-
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="property_set_groups_admins" name="property_set_groups_admins"></a>
-                    <article class="property">
-                        <h3 class="private ">$set_groups_admins</h3>
-                        <pre class="signature">$set_groups_admins</pre>
-                        <p><em></em></p>
+                    <a id="method_redirect"></a>
+                    <article
+                            class="
+            phpdocumentor-method
+            phpdocumentor-method--public
+                                                        "
+                    >
+                        <h4 class="phpdocumentor-method__name">redirect()</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">179</span>
+                        </aside>
+                        <p class="phpdocumentor-summary">Redirects the user to your Flarum instance</p>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__name">redirect</span>(
+                            )
+                            : <span class="phpdocumentor-signature__response_type">void</span>
+                        </code>
 
 
                     </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="property_url" name="property_url"></a>
-                    <article class="property">
-                        <h3 class="private ">$url</h3>
-                        <pre class="signature">$url</pre>
-                        <p><em></em></p>
-
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
+                    <a id="method_getUsersList"></a>
+                    <article
+                            class="
+            phpdocumentor-method
+            phpdocumentor-method--public
+                                                        "
+                    >
+                        <h4 class="phpdocumentor-method__name">getUsersList()</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">202</span>
+                        </aside>
+                        <p class="phpdocumentor-summary">Gets a collection of the users actually signed up on Flarum,
+                            with all the properties</p>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__name">getUsersList</span>(
+                            <span class="phpdocumentor-signature__argument">
+            [                <span class="phpdocumentor-signature__argument__name">$filters</span> :
+                <span class="phpdocumentor-signature__argument__return-type">null|string|array</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span> ]            </span>
+                            )
+                            : <span class="phpdocumentor-signature__response_type"><abbr
+                                title="\Illuminate\Support\Collection">Collection</abbr></span>
+                        </code>
 
 
-            <a id="methods" name="methods"></a>
-            <div class="row-fluid">
-                <div class="span8 content class"><h2>Methods</h2></div>
-                <aside class="span4 detailsbar"></aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method___construct" name="method___construct"></a>
-                    <article class="method">
-                        <h3 class="public ">__construct()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">__construct(string  <span class="argument">$url</span>, string  <span
-                                class="argument">$root_domain</span>, string  <span class="argument">$api_key</span>, string  <span
-                                class="argument">$password_token</span>, int  <span
-                                class="argument">$lifetime = 14</span>, bool  <span
-                                class="argument">$insecure = false</span>, bool  <span class="argument">$set_groups_admins = true</span>) : mixed</pre>
-                        <p><em>Flarum constructor</em></p>
-
-
-                        <h4>Parameters</h4>
-                        <table class="table table-condensed table-hover">
-                            <tr>
-                                <td>string</td>
-                                <td>$url</td>
-                                <td><p>Flarum URL</p></td>
-                            </tr>
-                            <tr>
-                                <td>string</td>
-                                <td>$root_domain</td>
-                                <td><p>Main site or SSO system domain</p></td>
-                            </tr>
-                            <tr>
-                                <td>string</td>
-                                <td>$api_key</td>
-                                <td><p>Random key from the api_keys table of your Flarum forum</p></td>
-                            </tr>
-                            <tr>
-                                <td>string</td>
-                                <td>$password_token</td>
-                                <td><p>Random token to create passwords</p></td>
-                            </tr>
-                            <tr>
-                                <td>int</td>
-                                <td>$lifetime</td>
-                                <td><p>How many days should the login be valid</p></td>
-                            </tr>
-                            <tr>
-                                <td>bool</td>
-                                <td>$insecure</td>
-                                <td><p>Insecure mode (use only if you don't have an SSL certificate)</p></td>
-                            </tr>
-                            <tr>
-                                <td>bool</td>
-                                <td>$set_groups_admins</td>
-                                <td><p>Set groups for admins. Set to false if you don't want to set groups to admins</p>
-                                </td>
-                            </tr>
-                        </table>
-
-
-                        <h4>Returns</h4>
-                        mixed
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_delete" name="method_delete"></a>
-                    <article class="method">
-                        <h3 class="public ">delete()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">delete(string  <span class="argument">$username</span>) : mixed</pre>
-                        <p><em>Deletes a user from Flarum database. Generally, you should use this method when an user
-                            successfully deleted
-                            his account from your SSO system (or main website)</em></p>
-
-
-                        <h4>Parameters</h4>
-                        <table class="table table-condensed table-hover">
-                            <tr>
-                                <td>string</td>
-                                <td>$username</td>
-                                <td></td>
-                            </tr>
-                        </table>
-
-
-                        <h4>Returns</h4>
-                        mixed
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_logout" name="method_logout"></a>
-                    <article class="method">
-                        <h3 class="public ">logout()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">logout() : mixed</pre>
-                        <p><em>Logs out the user from Flarum. Generally, you should use this method when an user
-                            successfully logged out from
-                            your SSO system (or main website)</em></p>
-
-
-                        <h4>Returns</h4>
-                        mixed
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_getForumLink" name="method_getForumLink"></a>
-                    <article class="method">
-                        <h3 class="public ">getForumLink()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">getForumLink() : string</pre>
-                        <p><em>Returns Flarum link</em></p>
-
-
-                        <h4>Returns</h4>
-                        string
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <th>
-                                author
-                            </th>
-                            <td>
-                                <p>maicol07</p>
-                            </td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_login" name="method_login"></a>
-                    <article class="method">
-                        <h3 class="public ">login()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">login(string  <span class="argument">$username</span>, string  <span
-                                class="argument">$email</span>, string|null  <span
-                                class="argument">$password = null</span>, array|null  <span class="argument">$groups = null</span>) : string</pre>
-                        <p><em>Logs the user in Flarum. Generally, you should use this method when an user successfully
-                            log into
-                            your SSO system (or main website). If user is already signed up in Flarum database (not
-                            signed up with this
-                            extension) you need to pass plain user password as third parameter (for example Flarum
-                            admin)
-                            You can also set groups to your users with an array</em></p>
-
-
-                        <h4>Parameters</h4>
-                        <table class="table table-condensed table-hover">
-                            <tr>
-                                <td>string</td>
-                                <td>$username</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>string</td>
-                                <td>$email</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>string|null</td>
-                                <td>$password</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>array|null</td>
-                                <td>$groups</td>
-                                <td></td>
-                            </tr>
-                        </table>
-
-
-                        <h4>Returns</h4>
-                        string
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_setGroups" name="method_setGroups"></a>
-                    <article class="method">
-                        <h3 class="public ">setGroups()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">setGroups(string  <span class="argument">$username</span>, array|null  <span
-                                class="argument">$groups</span>) : mixed</pre>
-                        <p><em>Sets groups to a user</em></p>
-
-
-                        <h4>Parameters</h4>
-                        <table class="table table-condensed table-hover">
-                            <tr>
-                                <td>string</td>
-                                <td>$username</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>array|null</td>
-                                <td>$groups</td>
-                                <td></td>
-                            </tr>
-                        </table>
-
-
-                        <h4>Returns</h4>
-                        mixed
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_createGroup" name="method_createGroup"></a>
-                    <article class="method">
-                        <h3 class="public ">createGroup()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">createGroup(string  <span class="argument">$group</span>) : mixed</pre>
-                        <p><em>Add a group to Flarum</em></p>
-
-
-                        <h4>Parameters</h4>
-                        <table class="table table-condensed table-hover">
-                            <tr>
-                                <td>string</td>
-                                <td>$group</td>
-                                <td></td>
-                            </tr>
-                        </table>
-
-
-                        <h4>Returns</h4>
-                        mixed
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_redirectToForum" name="method_redirectToForum"></a>
-                    <article class="method">
-                        <h3 class="public ">redirectToForum()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">redirectToForum() : mixed</pre>
-                        <p><em>Redirects the user to your Flarum instance</em></p>
-
-
-                        <h4>Returns</h4>
-                        mixed
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_removeGroups" name="method_removeGroups"></a>
-                    <article class="method">
-                        <h3 class="public ">removeGroups()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">removeGroups(string  <span class="argument">$username</span>) : mixed</pre>
-                        <p><em>Removes any group from a user.</em></p>
-
-
-                        <h4>Parameters</h4>
-                        <table class="table table-condensed table-hover">
-                            <tr>
-                                <td>string</td>
-                                <td>$username</td>
-                                <td></td>
-                            </tr>
-                        </table>
-
-
-                        <h4>Returns</h4>
-                        mixed
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_update" name="method_update"></a>
-                    <article class="method">
-                        <h3 class="public ">update()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">update(string  <span class="argument">$username</span>, string  <span
-                                class="argument">$email</span>, string|null  <span
-                                class="argument">$password = null</span>) : mixed</pre>
-                        <p><em>Updates a user. Warning! User needs to be find with username or email, so one of those
-                            two has to be the old one</em></p>
-
-
-                        <h4>Parameters</h4>
-                        <table class="table table-condensed table-hover">
-                            <tr>
-                                <td>string</td>
-                                <td>$username</td>
-                                <td><p>Old/new username. Username will be changed if email matches the one in Flarum
-                                    database,
-                                    else it will be used to find the user ID</p></td>
-                            </tr>
-                            <tr>
-                                <td>string</td>
-                                <td>$email</td>
-                                <td><p>Old/new email. Email will be changed if username matches the one in Flarum
-                                    database,
-                                    else it will be used to find the user ID</p></td>
-                            </tr>
-                            <tr>
-                                <td>string|null</td>
-                                <td>$password</td>
-                                <td><p>New password (changes old password to this one)</p></td>
-                            </tr>
-                        </table>
-
-
-                        <h4>Returns</h4>
-                        mixed
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_getUsersList" name="method_getUsersList"></a>
-                    <article class="method">
-                        <h3 class="public ">getUsersList()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">getUsersList(null|string  <span
-                                class="argument">$filter = null</span>) : array|\Illuminate\Support\Collection</pre>
-                        <p><em>Gets the list of the users actually signed up on Flarum, with all the properties</em></p>
-
-
-                        <h4>Parameters</h4>
-                        <table class="table table-condensed table-hover">
-                            <tr>
-                                <td>null|string</td>
-                                <td>$filter</td>
-                                <td><p>If set, returns the full users list (with other info) and not only the usernames
-                                    Can be one of the following: type, id, attributes, attributes.username,
+                        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+                        <dl class="phpdocumentor-argument-list">
+                            <dt class="phpdocumentor-argument-list__entry">
+                                <span class="phpdocumentor-signature__argument__name">$filters</span>
+                                : <span class="phpdocumentor-signature__argument__return-type">null|string|array</span>
+                                = <span class="phpdocumentor-signature__argument__default-value">null</span></dt>
+                            <dd class="phpdocumentor-argument-list__definition">
+                                <section class="phpdocumentor-description"><p>Include in the returned collection only
+                                    the values from filter(s)
+                                    Can be one or more of the following: type, id, attributes, attributes.username,
                                     attributes.displayName,
                                     attributes.avatarUrl, attributes.joinTime, attributes.discussionCount,
                                     attributes.commentCount,
@@ -1033,329 +827,78 @@
                                     attributes.cover,
                                     attributes.cover_thumbnail, relationships, relationships.groups</p>
                                     <p>There could be more if you have other extensions that adds them to Flarum API</p>
-                                </td>
-                            </tr>
-                        </table>
+                                </section>
+                            </dd>
+                        </dl>
 
 
-                        <h4>Returns</h4>
-                        array|\Illuminate\Support\Collection
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_createPassword" name="method_createPassword"></a>
-                    <article class="method">
-                        <h3 class="private ">createPassword()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">createPassword(string  <span
-                                class="argument">$username</span>) : string</pre>
-                        <p><em>Generates a password based on username and password token</em></p>
-
-
-                        <h4>Parameters</h4>
-                        <table class="table table-condensed table-hover">
-                            <tr>
-                                <td>string</td>
-                                <td>$username</td>
-                                <td></td>
-                            </tr>
-                        </table>
-
-
-                        <h4>Returns</h4>
-                        string
+                        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+                        <span class="phpdocumentor-signature__response_type"><abbr
+                                title="\Illuminate\Support\Collection">Collection</abbr></span>
 
                     </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_getToken" name="method_getToken"></a>
-                    <article class="method">
-                        <h3 class="private ">getToken()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">getToken(string  <span class="argument">$username</span>, string|null  <span
-                                class="argument">$password</span>) : string</pre>
-                        <p><em>Get user token from Flarum (if user exists)</em></p>
+                    <a id="method_getForumLink"></a>
+                    <article
+                            class="
+            phpdocumentor-method
+            phpdocumentor-method--public
+                                                        "
+                    >
+                        <h4 class="phpdocumentor-method__name">getForumLink()</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">248</span>
+                        </aside>
+                        <p class="phpdocumentor-summary">Returns Flarum link</p>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__name">getForumLink</span>(
+                            )
+                            : <span class="phpdocumentor-signature__response_type">string</span>
+                        </code>
 
 
-                        <h4>Parameters</h4>
-                        <table class="table table-condensed table-hover">
-                            <tr>
-                                <td>string</td>
-                                <td>$username</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>string|null</td>
-                                <td>$password</td>
-                                <td></td>
-                            </tr>
-                        </table>
+                        <h5 class="phpdocumentor-tag-list__heading">Tags</h5>
+                        <dl class="phpdocumentor-tag-list">
+                            <dt class="phpdocumentor-tag-list__entry">
+                                <span class="phpdocumentor-tag__name">author</span>
+                            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                <section class="phpdocumentor-description"><p>maicol07</p></section>
+                            </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                                <span class="phpdocumentor-tag__name">noinspection</span>
+                            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                <section class="phpdocumentor-description"><p>PhpUnused</p></section>
+                            </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                                <span class="phpdocumentor-tag__name">noinspection</span>
+                            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                <section class="phpdocumentor-description"><p>UnknownInspectionInspection</p></section>
+                            </dd>
+                        </dl>
 
-
-                        <h4>Returns</h4>
-                        string
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_getLifetimeSeconds" name="method_getLifetimeSeconds"></a>
-                    <article class="method">
-                        <h3 class="private ">getLifetimeSeconds()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">getLifetimeSeconds() : float|int</pre>
-                        <p><em>Get Token lifetime in seconds</em></p>
-
-
-                        <h4>Returns</h4>
-                        float|int
+                        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+                        <span class="phpdocumentor-signature__response_type">string</span>
 
                     </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
+                </section>
+            </article>
+            <div class="phpdocumentor-search-results phpdocumentor-search-results--hidden" data-search-results>
+
+                <h2>Search results</h2>
+                <ul class="phpdocumentor-search-results__entries">
+
+                </ul>
             </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_signup" name="method_signup"></a>
-                    <article class="method">
-                        <h3 class="private ">signup()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">signup(string  <span class="argument">$username</span>, string  <span
-                                class="argument">$password</span>, string  <span class="argument">$email</span>, array|null  <span
-                                class="argument">$groups = null</span>) : bool</pre>
-                        <p><em>Sign up user in Flarum. Generally, you should use this method when an user successfully
-                            log into
-                            your SSO system (or main website) and you found out that user don&#039;t have a token
-                            (because he hasn&#039;t an account on Flarum)</em></p>
-
-
-                        <h4>Parameters</h4>
-                        <table class="table table-condensed table-hover">
-                            <tr>
-                                <td>string</td>
-                                <td>$username</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>string</td>
-                                <td>$password</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>string</td>
-                                <td>$email</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>array|null</td>
-                                <td>$groups</td>
-                                <td></td>
-                            </tr>
-                        </table>
-
-
-                        <h4>Returns</h4>
-                        bool
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span8 content class">
-                    <a class="anchor" id="method_setCookie" name="method_setCookie"></a>
-                    <article class="method">
-                        <h3 class="private ">setCookie()</h3>
-                        <a class="pull-right btn" data-toggle="modal" href="#source-view" role="button"
-                           style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                        <pre class="signature" style="margin-right: 54px;">setCookie(string  <span class="argument">$token</span>, int  <span
-                                class="argument">$time</span>) : bool</pre>
-                        <p><em>Set Flarum auth cookie</em></p>
-
-
-                        <h4>Parameters</h4>
-                        <table class="table table-condensed table-hover">
-                            <tr>
-                                <td>string</td>
-                                <td>$token</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>int</td>
-                                <td>$time</td>
-                                <td></td>
-                            </tr>
-                        </table>
-
-
-                        <h4>Returns</h4>
-                        bool
-
-                    </article>
-                </div>
-                <aside class="span4 detailsbar">
-                    <h1><i class="icon-arrow-down"></i></h1>
-                    <dl>
-                        <dt>Inherited from</dt>
-                        <dd><a href="../classes/Maicol07-SSO-Flarum.html">
-                            <div class="path-wrapper">\Maicol07\SSO\Flarum</div>
-                        </a></dd>
-                    </dl>
-                    <h2>Tags</h2>
-                    <table class="table table-condensed">
-                        <tr>
-                            <td colspan="2"><em>None found</em></td>
-                        </tr>
-                    </table>
-                </aside>
-            </div>
-
-        </div>
-    </section>
-
-    <div aria-hidden="true" aria-labelledby="source-view-label" class="modal hide fade" id="source-view" role="dialog"
-         tabindex="-1">
-        <div class="modal-header">
-            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
-            <h3 id="source-view-label">Flarum.php</h3>
-        </div>
-        <div class="modal-body">
-            <pre class="language-php line-numbers" data-src="../files/src/Flarum.php.txt"></pre>
         </div>
     </div>
-
-    <footer class="row-fluid">
-        <section class="span10 offset2">
-            <section class="row-fluid">
-                <section class="span10 offset1">
-                    <section class="row-fluid footer-sections">
-                        <section class="span4">
-                            <h1><i class="icon-code"></i></h1>
-                            <div>
-                                <ul>
-                                    <li><a href="../namespaces/maicol07.html"><abbr title="\Maicol07">normal</abbr></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </section>
-                        <section class="span4">
-                            <h1><i class="icon-bar-chart"></i></h1>
-                            <div>
-                                <ul>
-                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
-                                </ul>
-                            </div>
-                        </section>
-                        <section class="span4">
-                            <h1><i class="icon-pushpin"></i></h1>
-                            <div>
-                                <ul>
-                                    <li><a href="../reports/errors.html">Errors</a></li>
-                                    <li><a href="../reports/markers.html">Markers</a></li>
-                                </ul>
-                            </div>
-                        </section>
-                    </section>
-                </section>
-            </section>
-            <section class="row-fluid">
-                <section class="span10 offset1">
-                    <hr/>
-                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on April 22nd, 2020 at 15:37.
-                </section>
-            </section>
-        </section>
-    </footer>
-</div>
+</main>
 
 </body>
 </html>
