@@ -183,9 +183,9 @@ class Flarum
     }
     
     /**
-     * Gets the list of the users actually signed up on Flarum, with all the properties
+     * Gets a collection of the users actually signed up on Flarum, with all the properties
      *
-     * @param null|string $filter If set, returns the full users list (with other info) and not only the usernames
+     * @param null|string $filter Include in the returned collection only the values from filter
      * Can be one of the following: type, id, attributes, attributes.username, attributes.displayName,
      * attributes.avatarUrl, attributes.joinTime, attributes.discussionCount, attributes.commentCount,
      * attributes.canEdit, attributes.canDelete, attributes.lastSeenAt, attributes.isEmailConfirmed, attributes.email,
@@ -197,7 +197,7 @@ class Flarum
      *
      * There could be more if you have other extensions that adds them to Flarum API
      *
-     * @return array|Collection
+     * @return Collection
      */
     public function getUsersList($filter = null)
     {
@@ -214,8 +214,8 @@ class Flarum
             $list = $list->merge($response->collect()->all());
             $offset = array_key_last($list->all()) + 1;
         }
-        
-        return empty($filter) ? $list : $list->pluck($filter)->all();
+    
+        return empty($filter) ? $list : $list->pluck($filter);
     }
     
     /**
