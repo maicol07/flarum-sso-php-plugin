@@ -64,21 +64,21 @@ trait Basic
      *
      * @return bool
      */
-    private function signup(): ?bool
+    private function signup(): bool
     {
         $this->flarum->action_hook('before_signup');
         $data = [
             "type" => "users",
             "attributes" => $this->getAttributes()
         ];
-        
+    
         try {
             $user = $this->flarum->api->users()->post($data)->request();
             $this->flarum->action_hook('after_signup');
             return isset($user->id);
         } catch (ClientException $e) {
             if ($e->getResponse()->getReasonPhrase() === "Unprocessable Entity") {
-                return null;
+                return false;
             }
             throw $e;
         }
