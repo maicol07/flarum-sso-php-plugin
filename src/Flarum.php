@@ -185,8 +185,8 @@ class Flarum
     /**
      * Gets a collection of the users actually signed up on Flarum, with all the properties
      *
-     * @param null|string $filter Include in the returned collection only the values from filter
-     * Can be one of the following: type, id, attributes, attributes.username, attributes.displayName,
+     * @param null|string|array $filters Include in the returned collection only the values from filter(s)
+     * Can be one or more of the following: type, id, attributes, attributes.username, attributes.displayName,
      * attributes.avatarUrl, attributes.joinTime, attributes.discussionCount, attributes.commentCount,
      * attributes.canEdit, attributes.canDelete, attributes.lastSeenAt, attributes.isEmailConfirmed, attributes.email,
      * attributes.markedAllAsReadAt, attributes.unreadNotificationCount, attributes.newNotificationCount,
@@ -199,10 +199,10 @@ class Flarum
      *
      * @return Collection
      */
-    public function getUsersList($filter = null)
+    public function getUsersList($filters = null): Collection
     {
         $offset = 0;
-        $list = collect();
+        $collection = collect();
         
         while ($offset !== null) {
             $response = $this->api->users()->offset($offset)->request();
@@ -211,11 +211,30 @@ class Flarum
                 continue;
             }
             
-            $list = $list->merge($response->collect()->all());
-            $offset = array_key_last($list->all()) + 1;
+            $collection = $collection->merge($response->collect()->all());
+            $offset = array_key_last($collection->all()) + 1;
         }
-    
-        return empty($filter) ? $list : $list->pluck($filter);
+        
+        // Filters
+        $filtered = collect();
+        if (!empty($filters)) {
+            $grouped = true;
+            if (is_string($filters)) {
+                $filters = [$filters];
+                $grouped = false;
+            }
+            
+            foreach ($filters as $filter) {
+                $plucked = $collection->pluck($filter);
+                if (!empty($grouped)) {
+                    $plucked = [$filter => $plucked];
+                }
+                $filtered = $filtered->mergeRecursive($plucked);
+            }
+            $collection = $filtered;
+        }
+        
+        return $collection;
     }
     
     /**
