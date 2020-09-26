@@ -1,11 +1,16 @@
 <?php
 
+use Dotenv\Dotenv;
 use Illuminate\Support\Arr;
 use Maicol07\SSO\Flarum;
 use Maicol07\SSO\User;
 
 // Note: Since this is called from the example folder, the vendor folder is located in the previous tree level
 require_once __DIR__ . '/../vendor/autoload.php';
+
+// Load .env
+$env = Dotenv::createImmutable(__DIR__);
+$env->load();
 
 // Dummy users
 $users = [

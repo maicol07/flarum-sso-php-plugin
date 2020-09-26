@@ -3,8 +3,11 @@ composer.phar
 /vendor/
 composer.lock
 
-# Ide files
+### Ide files
 .idea/commandlinetools/
 
-# PHP Documentor
+### PHP Documentor
 .phpdoc
+
+### Example
+/example/.env
