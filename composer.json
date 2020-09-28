@@ -1,6 +1,7 @@
 {
     "name": "maicol07/flarum_sso_php_plugin",
     "description": "PHP plugin for Flarum SSO Extension",
+    "minimum-stability": "stable",
     "license": "proprietary",
     "authors": [
         {
@@ -16,7 +17,7 @@
         "illuminate/support": "^6|^7|^8",
         "eastwest/json": "^3",
         "maicol07/flarum-api-client": "^1",
-        "mistic100/php-hooks": "dev-master"
+        "mistic100/php-hooks": "^0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
