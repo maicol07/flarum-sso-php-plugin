@@ -88,7 +88,7 @@ class Flarum
         }
         $this->api = new Client($this->url, ['token' => Arr::get($config, 'api_key')], $options);
         
-        $this->cookie = new Cookie('flarum_remember');
+        $this->cookie = (new Cookie('flarum_remember'))->setDomain($this->root_domain);
         $this->lifetime = Arr::get($config, 'lifetime', 14);
         $this->set_groups_admins = Arr::get($config, 'set_groups_admins', true);
     

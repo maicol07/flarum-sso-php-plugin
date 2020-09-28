@@ -54,7 +54,6 @@ trait Basic
         // Save cookie
         return $this->flarum->cookie->setValue($token)
             ->setExpiryTime(time() + $this->getLifetimeSeconds())
-            ->setDomain($this->flarum->root_domain)
             ->saveAndSet();
     }
     
