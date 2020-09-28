@@ -108,15 +108,6 @@ class Flarum
     {
         $this->action_hook('before_logout');
         
-        // Delete the flarum session cookie to logout from Flarum
-        $url = parse_url($this->url);
-        $flarum_cookie = new Cookie('flarum_session');
-        $flarum_cookie->setDomain($this->root_domain)
-            ->setPath(Arr::get($url, 'path'))
-            ->setHttpOnly(true)
-            ->setSecureOnly(true)
-            ->delete();
-        
         // Delete the plugin cookie
         $done = $this->cookie->delete();
         
