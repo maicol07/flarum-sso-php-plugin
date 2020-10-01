@@ -42,6 +42,7 @@ class User
         
         $this->attributes = new Attributes();
         $this->relationships = new Relationships();
+        $this->attributes->username = $username;
         
         $this->flarum->filter_hook('before_user_init', $this);
         
