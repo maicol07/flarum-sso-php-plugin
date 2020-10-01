@@ -16,7 +16,7 @@ trait Basic
      */
     public function login(): bool
     {
-        $r = $this->flarum->filter_hook('replace_login');
+        $r = $this->flarum->filter_hook('replace_login', null);
         if ($r !== -1) {
             return $r;
         }
@@ -70,7 +70,7 @@ trait Basic
      */
     private function signup(): bool
     {
-        $r = $this->flarum->filter_hook('replace_signup');
+        $r = $this->flarum->filter_hook('replace_signup', null);
         if ($r !== -1) {
             return $r;
         }
