@@ -16,6 +16,11 @@ trait Basic
      */
     public function login(): bool
     {
+        $r = $this->flarum->filter_hook('replace_login');
+        if ($r !== -1) {
+            return $r;
+        }
+    
         $this->flarum->action_hook('before_login');
         
         if (empty($this->attributes->password)) {
@@ -65,7 +70,13 @@ trait Basic
      */
     private function signup(): bool
     {
+        $r = $this->flarum->filter_hook('replace_signup');
+        if ($r !== -1) {
+            return $r;
+        }
+        
         $this->flarum->action_hook('before_signup');
+        
         $data = [
             "type" => "users",
             "attributes" => $this->getAttributes()

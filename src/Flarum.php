@@ -147,10 +147,15 @@ class Flarum
      * A simple proxy to Hook do_action function
      *
      * @param string $tag
+     * @return int|null
      */
-    public function action_hook(string $tag): void
+    public function action_hook(string $tag): ?int
     {
+        if (!$this->hooks->has_action($tag)) {
+            return -1;
+        }
         $this->hooks->do_action($tag);
+        return null;
     }
     
     /**
@@ -158,10 +163,15 @@ class Flarum
      *
      * @param string $tag
      * @param $value
+     *
+     * @return mixed
      */
-    public function filter_hook(string $tag, $value): void
+    public function filter_hook(string $tag, $value)
     {
-        $this->hooks->apply_filters($tag, $value);
+        if (!$this->hooks->has_filter($tag)) {
+            return -1;
+        }
+        return $this->hooks->apply_filters($tag, $value);
     }
     
     /**
