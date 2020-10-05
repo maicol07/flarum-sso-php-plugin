@@ -46,31 +46,33 @@ class User
         
         $this->flarum->filter_hook('before_user_init', $this);
         
-        try {
-            $user = $this->flarum->api->users($username)->request();
-            
-            // User exists in Flarum
-            $this->id = $user->id;
-            
-            // Search attributes
-            foreach ($user->attributes as $attribute => $value) {
-                $this->attributes->$attribute = $value;
-            }
-            
-            // Admin?
-            if (array_key_exists(1, $user->relationships['groups'])) {
-                $this->isAdmin = true;
-            }
-            
-            // Search for groups
-            foreach ($user->relationships['groups'] as $id => $group) {
-                $this->relationships->groups[] = $group->attributes['nameSingular'];
-            }
-        } catch (ClientException $e) {
-            if ($e->getCode() === 404 and $e->getResponse()->getReasonPhrase() === "Not Found") {
-                $this->id = null;
-            } else {
-                throw $e;
+        if (!empty($username)) {
+            try {
+                $user = $this->flarum->api->users($username)->request();
+        
+                // User exists in Flarum
+                $this->id = $user->id;
+        
+                // Search attributes
+                foreach ($user->attributes as $attribute => $value) {
+                    $this->attributes->$attribute = $value;
+                }
+        
+                // Admin?
+                if (array_key_exists(1, $user->relationships['groups'])) {
+                    $this->isAdmin = true;
+                }
+        
+                // Search for groups
+                foreach ($user->relationships['groups'] as $id => $group) {
+                    $this->relationships->groups[] = $group->attributes['nameSingular'];
+                }
+            } catch (ClientException $e) {
+                if ($e->getCode() === 404 and $e->getResponse()->getReasonPhrase() === "Not Found") {
+                    $this->id = null;
+                } else {
+                    throw $e;
+                }
             }
         }
         
