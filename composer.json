@@ -2,7 +2,7 @@
     "name": "maicol07/flarum_sso_php_plugin",
     "description": "PHP plugin for Flarum SSO Extension",
     "minimum-stability": "stable",
-    "license": "proprietary",
+    "license": "MIT",
     "authors": [
         {
             "name": "Maicol Battistini",
