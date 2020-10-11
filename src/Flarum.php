@@ -165,6 +165,7 @@ class Flarum
      * @param $value
      *
      * @return mixed
+     * @noinspection PhpMissingReturnTypeInspection
      */
     public function filter_hook(string $tag, $value)
     {
@@ -181,6 +182,19 @@ class Flarum
     {
         header('Location: ' . $this->getForumLink());
         die();
+    }
+    
+    /**
+     * Set the Flarum remember cookie
+     *
+     * @param string $token Token to set as the cookie value
+     * @return bool
+     */
+    public function setCookie(string $token): bool
+    {
+        return $this->cookie->setValue($token)
+            ->setExpiryTime(time() + $this->getLifetimeSeconds())
+            ->saveAndSet();
     }
     
     /**
@@ -249,5 +263,15 @@ class Flarum
     public function getForumLink(): string
     {
         return $this->url;
+    }
+    
+    /**
+     * Get Token lifetime in seconds
+     *
+     * @return float|int
+     */
+    public function getLifetimeSeconds()
+    {
+        return $this->lifetime * 60 * 60 * 24;
     }
 }

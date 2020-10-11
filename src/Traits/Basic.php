@@ -57,9 +57,7 @@ trait Basic
         $this->flarum->action_hook('after_login', $token);
         
         // Save cookie
-        return $this->flarum->cookie->setValue($token)
-            ->setExpiryTime(time() + $this->getLifetimeSeconds())
-            ->saveAndSet();
+        return $this->flarum->setCookie($token);
     }
     
     /**
@@ -154,7 +152,7 @@ trait Basic
         $data = [
             'identification' => $this->attributes->username,
             'password' => $this->attributes->password,
-            'lifetime' => $this->getLifetimeSeconds(),
+            'lifetime' => $this->flarum->getLifetimeSeconds(),
         ];
         
         try {
@@ -166,15 +164,5 @@ trait Basic
             }
             throw $e;
         }
-    }
-    
-    /**
-     * Get Token lifetime in seconds
-     *
-     * @return float|int
-     */
-    public function getLifetimeSeconds()
-    {
-        return $this->flarum->lifetime * 60 * 60 * 24;
     }
 }
