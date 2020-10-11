@@ -173,7 +173,7 @@ trait Basic
      *
      * @return float|int
      */
-    private function getLifetimeSeconds()
+    public function getLifetimeSeconds()
     {
         return $this->flarum->lifetime * 60 * 60 * 24;
     }
