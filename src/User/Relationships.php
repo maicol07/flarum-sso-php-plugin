@@ -1,11 +1,12 @@
 <?php
-
-
 namespace Maicol07\SSO\User;
-
 
 use Maicol07\SSO\Flarum;
 
+/**
+ * Class Relationships
+ * @package Maicol07\SSO\User
+ */
 class Relationships
 {
     /** @var array */

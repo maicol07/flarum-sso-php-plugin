@@ -3,7 +3,10 @@
 
 namespace Maicol07\SSO\User;
 
-
+/**
+ * Class Attributes
+ * @package Maicol07\SSO\User
+ */
 class Attributes
 {
     /** @var string */

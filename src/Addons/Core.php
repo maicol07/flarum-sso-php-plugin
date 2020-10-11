@@ -1,10 +1,13 @@
 <?php
-
 namespace Maicol07\SSO\Addons;
 
 use Hooks\Hooks;
 use Maicol07\SSO\Flarum;
 
+/**
+ * Class Core
+ * @package Maicol07\SSO\Addons
+ */
 class Core
 {
     /** @var Hooks */

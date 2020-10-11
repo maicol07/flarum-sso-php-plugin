@@ -1,10 +1,12 @@
 <?php
-
-
 namespace Maicol07\SSO\Addons;
 
 use Illuminate\Support\Arr;
 
+/**
+ * Class Groups
+ * @package Maicol07\SSO\Addons
+ */
 class Groups extends Core
 {
     protected $actions = [

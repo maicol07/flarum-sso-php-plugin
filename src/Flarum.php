@@ -14,9 +14,8 @@ use Maicol07\Flarum\Api\Resource\Item;
 /**
  * Flarum SSO
  *
- * @author fabwu
  * @author maicol07
- * @package src
+ * @package Maicol07\SSO
  */
 class Flarum
 {

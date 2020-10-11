@@ -6,6 +6,10 @@ namespace Maicol07\SSO\Traits;
 use GuzzleHttp\Exception\ClientException;
 use RuntimeException;
 
+/**
+ * Trait Basic
+ * @package Maicol07\SSO\Traits
+ */
 trait Basic
 {
     /**
