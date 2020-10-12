@@ -119,12 +119,12 @@ class Flarum
      * Adds an addon
      *
      * @param string $addon Class name to add as addon
-     * @return $this
+     * @return int
      */
-    public function addAddon(string $addon): Flarum
+    public function addAddon(string $addon): int
     {
         $this->addons[] = new $addon($this->hooks, $this);
-        return $this;
+        return array_key_last($this->addons);
     }
     
     /**
@@ -139,6 +139,15 @@ class Flarum
         $hook = $this->addons[$key];
         $hook->unload();
         unset($hook);
+        return $this;
+    }
+    
+    public function setAddonAttributes(string $addon, array $attributes): Flarum
+    {
+        $hook = $this->addons[array_search($addon, $this->addons, true)];
+        foreach ($attributes as $key => $value) {
+            $hook->$key = $value;
+        }
         return $this;
     }
     

@@ -26,6 +26,11 @@ Search.appendIndex(
       "summary": "Removes\u0020an\u0020addon",
       "url": "../classes/Maicol07-SSO-Flarum.html#method_removeAddon"
     }, {
+      "fqsen": "\\Maicol07\\SSO\\Flarum\u003A\u003AsetAddonAttributes\u0028\u0029",
+      "name": "setAddonAttributes",
+      "summary": "",
+      "url": "../classes/Maicol07-SSO-Flarum.html#method_setAddonAttributes"
+    }, {
       "fqsen": "\\Maicol07\\SSO\\Flarum\u003A\u003Aaction_hook\u0028\u0029",
       "name": "action_hook",
       "summary": "A\u0020simple\u0020proxy\u0020to\u0020Hook\u0020do_action\u0020function",

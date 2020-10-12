@@ -173,13 +173,21 @@
                         <th class="phpdocumentor-heading"><a href="../classes/Maicol07-SSO-Flarum.html#method_addAddon">addAddon()</a>
                         </th>
                         <td class="phpdocumentor-cell">Adds an addon</td>
-                        <td class="phpdocumentor-cell">$this</td>
+                        <td class="phpdocumentor-cell">int</td>
                     </tr>
                     <tr>
                         <th class="phpdocumentor-heading"><a
                                 href="../classes/Maicol07-SSO-Flarum.html#method_removeAddon">removeAddon()</a></th>
                         <td class="phpdocumentor-cell">Removes an addon</td>
                         <td class="phpdocumentor-cell">$this</td>
+                    </tr>
+                    <tr>
+                        <th class="phpdocumentor-heading"><a
+                                href="../classes/Maicol07-SSO-Flarum.html#method_setAddonAttributes">setAddonAttributes()</a>
+                        </th>
+                        <td class="phpdocumentor-cell"></td>
+                        <td class="phpdocumentor-cell"><a href="../classes/Maicol07-SSO-Flarum.html"><abbr
+                                title="\Maicol07\SSO\Flarum">Flarum</abbr></a></td>
                     </tr>
                     <tr>
                         <th class="phpdocumentor-heading"><a
@@ -598,7 +606,7 @@
                 <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </span>
                             )
-                            : <span class="phpdocumentor-signature__response_type">$this</span>
+                            : <span class="phpdocumentor-signature__response_type">int</span>
                         </code>
 
 
@@ -615,7 +623,7 @@
 
 
                         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-                        <span class="phpdocumentor-signature__response_type">$this</span>
+                        <span class="phpdocumentor-signature__response_type">int</span>
 
                     </article>
                     <a id="method_removeAddon"></a>
@@ -662,6 +670,64 @@
                         <span class="phpdocumentor-signature__response_type">$this</span>
 
                     </article>
+                    <a id="method_setAddonAttributes"></a>
+                    <article
+                            class="
+            phpdocumentor-method
+            phpdocumentor-method--public
+                                                        "
+                    >
+                        <h4 class="phpdocumentor-method__name">setAddonAttributes()</h4>
+                        <aside class="phpdocumentor-element-found-in">
+                            <abbr class="phpdocumentor-element-found-in__file" title="src/Flarum.php"><a
+                                    href="../files/src-flarum.html"><abbr
+                                    title="src/Flarum.php">Flarum.php</abbr></a></abbr>
+                            :
+                            <span class="phpdocumentor-element-found-in__line">145</span>
+                        </aside>
+                        <code class="phpdocumentor-signature phpdocumentor-code ">
+                            <span class="phpdocumentor-signature__visibility">public</span>
+                            <span class="phpdocumentor-signature__name">setAddonAttributes</span>(
+                            <span class="phpdocumentor-signature__argument">
+                            <span class="phpdocumentor-signature__argument__name">$addon</span> :
+                <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </span>
+                            <span class="phpdocumentor-signature__argument">
+            ,                 <span class="phpdocumentor-signature__argument__name">$attributes</span> :
+                <span class="phpdocumentor-signature__argument__return-type">array</span>
+                            </span>
+                            )
+                            : <span class="phpdocumentor-signature__response_type"><a
+                                href="../classes/Maicol07-SSO-Flarum.html"><abbr
+                                title="\Maicol07\SSO\Flarum">Flarum</abbr></a></span>
+                        </code>
+
+
+                        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+                        <dl class="phpdocumentor-argument-list">
+                            <dt class="phpdocumentor-argument-list__entry">
+                                <span class="phpdocumentor-signature__argument__name">$addon</span>
+                                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+                            <dd class="phpdocumentor-argument-list__definition">
+                                <section class="phpdocumentor-description"></section>
+                            </dd>
+                            <dt class="phpdocumentor-argument-list__entry">
+                                <span class="phpdocumentor-signature__argument__name">$attributes</span>
+                                : <span class="phpdocumentor-signature__argument__return-type">array</span>
+                            </dt>
+                            <dd class="phpdocumentor-argument-list__definition">
+                                <section class="phpdocumentor-description"></section>
+                            </dd>
+                        </dl>
+
+
+                        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+                        <span class="phpdocumentor-signature__response_type"><a
+                                href="../classes/Maicol07-SSO-Flarum.html"><abbr
+                                title="\Maicol07\SSO\Flarum">Flarum</abbr></a></span>
+
+                    </article>
                     <a id="method_action_hook"></a>
                     <article
                             class="
@@ -675,7 +741,7 @@
                                     href="../files/src-flarum.html"><abbr
                                     title="src/Flarum.php">Flarum.php</abbr></a></abbr>
                             :
-                            <span class="phpdocumentor-element-found-in__line">151</span>
+                            <span class="phpdocumentor-element-found-in__line">160</span>
                         </aside>
                         <p class="phpdocumentor-summary">A simple proxy to Hook do_action function</p>
                         <code class="phpdocumentor-signature phpdocumentor-code ">
@@ -719,7 +785,7 @@
                                     href="../files/src-flarum.html"><abbr
                                     title="src/Flarum.php">Flarum.php</abbr></a></abbr>
                             :
-                            <span class="phpdocumentor-element-found-in__line">169</span>
+                            <span class="phpdocumentor-element-found-in__line">178</span>
                         </aside>
                         <p class="phpdocumentor-summary">A simple proxy to Hook apply_filters function</p>
                         <code class="phpdocumentor-signature phpdocumentor-code ">
@@ -786,7 +852,7 @@
                                     href="../files/src-flarum.html"><abbr
                                     title="src/Flarum.php">Flarum.php</abbr></a></abbr>
                             :
-                            <span class="phpdocumentor-element-found-in__line">180</span>
+                            <span class="phpdocumentor-element-found-in__line">189</span>
                         </aside>
                         <p class="phpdocumentor-summary">Redirects the user to your Flarum instance</p>
                         <code class="phpdocumentor-signature phpdocumentor-code ">
@@ -811,7 +877,7 @@
                                     href="../files/src-flarum.html"><abbr
                                     title="src/Flarum.php">Flarum.php</abbr></a></abbr>
                             :
-                            <span class="phpdocumentor-element-found-in__line">192</span>
+                            <span class="phpdocumentor-element-found-in__line">201</span>
                         </aside>
                         <p class="phpdocumentor-summary">Set the Flarum remember cookie</p>
                         <code class="phpdocumentor-signature phpdocumentor-code ">
@@ -856,7 +922,7 @@
                                     href="../files/src-flarum.html"><abbr
                                     title="src/Flarum.php">Flarum.php</abbr></a></abbr>
                             :
-                            <span class="phpdocumentor-element-found-in__line">216</span>
+                            <span class="phpdocumentor-element-found-in__line">225</span>
                         </aside>
                         <p class="phpdocumentor-summary">Gets a collection of the users actually signed up on Flarum,
                             with all the properties</p>
@@ -921,7 +987,7 @@
                                     href="../files/src-flarum.html"><abbr
                                     title="src/Flarum.php">Flarum.php</abbr></a></abbr>
                             :
-                            <span class="phpdocumentor-element-found-in__line">262</span>
+                            <span class="phpdocumentor-element-found-in__line">271</span>
                         </aside>
                         <p class="phpdocumentor-summary">Returns Flarum link</p>
                         <code class="phpdocumentor-signature phpdocumentor-code ">
@@ -971,7 +1037,7 @@
                                     href="../files/src-flarum.html"><abbr
                                     title="src/Flarum.php">Flarum.php</abbr></a></abbr>
                             :
-                            <span class="phpdocumentor-element-found-in__line">272</span>
+                            <span class="phpdocumentor-element-found-in__line">281</span>
                         </aside>
                         <p class="phpdocumentor-summary">Get Token lifetime in seconds</p>
                         <code class="phpdocumentor-signature phpdocumentor-code ">
