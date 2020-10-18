@@ -56,7 +56,7 @@ class Flarum
      * @type string $api_key Random key from the api_keys table of your Flarum forum
      * @type string $password_token Random token to create passwords
      * @type int $lifetime How many days should the login be valid. Default: 14
-     * @type bool $insecure Insecure mode (use only if you don't have an SSL certificate). Default: false
+     * @type bool|string $verify_ssl Verify SSL cert. More details on https://docs.guzzlephp.org/en/stable/request-options.html#verify. Default: true
      * @type bool $set_groups_admins Set groups for admins. Set to false if you don't want to set groups to admins. Default: true
      * }
      *
@@ -65,26 +65,24 @@ class Flarum
     {
         // Urls
         $this->url = Arr::get($config, 'url');
+    
         // Fix URL scheme
         if (empty(Arr::get(parse_url($this->url), 'scheme'))) {
             $this->url = 'https://' . $this->url;
         }
-        
+    
         $this->root_domain = Arr::get($config, 'root_domain');
         $url = parse_url($this->root_domain);
         if (!empty(Arr::get($url, 'host'))) {
             $this->root_domain = Arr::get($url, 'host');
         }
-        
+    
         $this->password_token = Arr::get($config, 'password_token');
-        
-        // Api client
-        $options = [];
-        if (Arr::get($config, 'insecure', false)) {
-            $options['verify'] = false;
-        }
-        $this->api = new Client($this->url, ['token' => Arr::get($config, 'api_key')], $options);
-        
+    
+        $this->api = new Client($this->url, ['token' => Arr::get($config, 'api_key')], [
+            'verify' => Arr::get($config, 'verify_ssl')
+        ]);
+    
         $this->cookie = (new Cookie('flarum_remember'))->setDomain($this->root_domain);
         $this->lifetime = Arr::get($config, 'lifetime', 14);
         $this->set_groups_admins = Arr::get($config, 'set_groups_admins', true);
