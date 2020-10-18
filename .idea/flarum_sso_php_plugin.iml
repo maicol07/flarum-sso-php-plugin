@@ -5,6 +5,9 @@
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="Maicol07\SSO\" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Addons" isTestSource="false" packagePrefix="Maicol07\SSO\Addons\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Traits" isTestSource="false" packagePrefix="Maicol07\SSO\Traits\" />
+      <sourceFolder url="file://$MODULE_DIR$/src/User" isTestSource="false" packagePrefix="Maicol07\SSO\User\" />
       <excludeFolder url="file://$MODULE_DIR$/.phpdoc" />
       <excludeFolder url="file://$MODULE_DIR$/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />

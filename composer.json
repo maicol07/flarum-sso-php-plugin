@@ -25,7 +25,10 @@
     },
     "autoload": {
         "psr-4": {
-            "Maicol07\\SSO\\": "src/"
+            "Maicol07\\SSO\\": "src/",
+            "Maicol07\\SSO\\User\\": "src/User/",
+            "Maicol07\\SSO\\Traits\\": "src/Traits/",
+            "Maicol07\\SSO\\Addons\\": "src/Addons/"
         }
     }
 }
