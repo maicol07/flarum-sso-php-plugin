@@ -11,7 +11,6 @@ class Groups extends Core
 {
     protected $actions = [
         'after_login' => 'setGroups',
-        'after_signup' => 'setGroups',
         'after_update' => 'setGroups'
     ];
     
@@ -23,22 +22,30 @@ class Groups extends Core
     {
         $user = $this->master->user;
         if (!empty($user->id)) {
-            $groups = $user->relationships->groups;
-            
-            // Create groups not found
-            foreach ($groups as $group) {
+            $groups = [];
+    
+            /** Search flarum groups - @noinspection NullPointerExceptionInspection */
+            $flarum_groups = Arr::pluck(
+                $this->master->api->groups()->request()->collect()->all(),
+                'attributes.nameSingular',
+                'id'
+            );
+    
+            foreach ($user->relationships->groups as $group) {
                 if (empty($group) or !is_string($group)) {
                     continue;
                 }
-                $flarum_groups = $this->master->api->groups()->request();
-                foreach ($flarum_groups as $flarum_group) {
-                    if (Arr::get($flarum_group, 'attributes.nameSingular') === $group) {
-                        $id = Arr::get($flarum_group, 'id');
-                    }
-                }
+        
+                // Find ID of the group
+                $id = array_key_first(Arr::where($flarum_groups, function ($name) {
+                    global $group;
+                    return $name === $group;
+                }));
+                // If it doesn't exists, create it
                 if (empty($id)) {
                     $id = $this->createGroup($group);
                 }
+        
                 $group_names[] = [
                     'type' => 'groups',
                     'id' => $id
