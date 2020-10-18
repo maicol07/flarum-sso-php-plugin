@@ -1,6 +1,4 @@
-<?php /** @noinspection PhpPrivateFieldCanBeLocalVariableInspection */
-
-/** @noinspection PhpUndefinedMethodInspection */
+<?php /** @noinspection PhpPrivateFieldCanBeLocalVariableInspection @noinspection PhpUndefinedMethodInspection */
 
 namespace Maicol07\SSO;
 
@@ -159,10 +157,13 @@ class Flarum
      */
     public function action_hook(string $tag): ?int
     {
+        $args = func_get_args();
+        array_shift($args);
+    
         if (!$this->hooks->has_action($tag)) {
             return -1;
         }
-        $this->hooks->do_action($tag);
+        $this->hooks->do_action($tag, $args);
         return null;
     }
     

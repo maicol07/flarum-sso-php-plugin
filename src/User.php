@@ -1,6 +1,4 @@
 <?php
-
-
 namespace Maicol07\SSO;
 
 use GuzzleHttp\Exception\ClientException;
