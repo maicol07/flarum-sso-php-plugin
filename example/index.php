@@ -36,7 +36,7 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
         'api_key' => env('API_KEY') ?? 'NotSecureToken',
         'password_token' => env('PASSWORD_TOKEN') ?? 'NotSecureToken',
         'lifetime' => env('TOKEN_LIFETIME') ?? 14,
-        'insecure' => env('INSECURE') ?? false,
+        'verify_ssl' => env('VERIFY_SSL') ?? true,
         'set_groups_admins' => env('SET_GROUPS_ADMINS') ?? true
     ]);
     
