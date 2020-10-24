@@ -46,7 +46,7 @@ class Groups extends Core
                     $id = $this->createGroup($group);
                 }
         
-                $group_names[] = [
+                $groups[] = [
                     'type' => 'groups',
                     'id' => $id
                 ];
