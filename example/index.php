@@ -2,6 +2,7 @@
 
 use Dotenv\Dotenv;
 use Illuminate\Support\Arr;
+use Maicol07\SSO\Addons\Groups;
 use Maicol07\SSO\Flarum;
 use Maicol07\SSO\User;
 
@@ -52,6 +53,12 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
         $flarum_user->attributes->username = $username;
         $flarum_user->attributes->email = Arr::get($users, "$username.email");
     }
+    
+    // Let's add to it some groups (optional, only for demonstation)
+    // First, let's add the Groups addon (note that the Groups class is imported at the top with the use statement)
+    $flarum->addAddon(Groups::class);
+    // Then, add the groups (as an array) to the correct attribute in user relationships
+    $flarum_user->relationships->groups = ['Premium', 'Novice'];
     
     // Login the user with username. If user doesn't exists in Flarum, it will be created
     $success = $flarum_user->login();
