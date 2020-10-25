@@ -26,35 +26,38 @@ trait Basic
         }
     
         $this->flarum->action_hook('before_login');
-        
+    
         if (empty($this->attributes->password)) {
             throw new RuntimeException("User's password not set");
         }
         $token = $this->getToken();
-        
+    
         $this->flarum->action_hook('after_token_obtained', $token);
-        
-        // Backward compatibility: search for existing user
-        try {
-            $this->flarum->api->users($this->attributes->username)->request();
-            if (empty($token)) {
+    
+        // If no token has been returned...
+        if (empty($token)) {
+            // ...try to search the user...
+            try {
+                $this->flarum->api->users($this->attributes->username)->request();
+            
+                // Backward compatibility (create password based on username)
                 $this->attributes->password = $this->createPassword();
                 $token = $this->getToken();
                 if (empty($token)) {
                     return false;
                 }
-            }
-        } catch (ClientException $e) {
-            // If user is not signed up in Flarum
-            if ($e->getCode() === 404 and $e->getResponse()->getReasonPhrase() === "Not Found") {
-                $signed_up = $this->signup();
-                if (!$signed_up) {
-                    return false;
+            } catch (ClientException $e) {
+                // ...otherwise signup it
+                if ($e->getCode() === 404 and $e->getResponse()->getReasonPhrase() === "Not Found") {
+                    $signed_up = $this->signup();
+                    if (!$signed_up) {
+                        return false;
+                    }
+                    $this->flarum->action_hook('after_signup');
+                    $token = $this->getToken();
+                } else {
+                    throw $e;
                 }
-                $this->flarum->action_hook('after_signup');
-                $token = $this->getToken();
-            } else {
-                throw $e;
             }
         }
     
