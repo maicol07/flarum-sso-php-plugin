@@ -371,6 +371,11 @@ Search.appendIndex(
       "summary": "",
       "url": "../classes/Maicol07-SSO-User.html#method___construct"
     }, {
+      "fqsen": "\\Maicol07\\SSO\\User\u003A\u003AfetchUser\u0028\u0029",
+      "name": "fetchUser",
+      "summary": "Fetch\u0020user\u0020data\u0020from\u0020Flarum",
+      "url": "../classes/Maicol07-SSO-User.html#method_fetchUser"
+    }, {
       "fqsen": "\\Maicol07\\SSO\\User\u003A\u003AgetAttributes\u0028\u0029",
       "name": "getAttributes",
       "summary": "",

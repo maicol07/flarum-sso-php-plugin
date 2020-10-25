@@ -16,7 +16,7 @@ class User
     use Basic;
     
     /** @var null|int */
-    public $id;
+    public $id = null;
     
     /** @var string */
     public $type = 'users';
@@ -41,40 +41,52 @@ class User
         $this->attributes = new Attributes();
         $this->relationships = new Relationships();
         $this->attributes->username = $username;
-        
+    
         $this->flarum->filter_hook('before_user_init', $this);
-        
+    
         if (!empty($username)) {
-            try {
-                $user = $this->flarum->api->users($username)->request();
-        
-                // User exists in Flarum
-                $this->id = $user->id;
-        
-                // Search attributes
-                foreach ($user->attributes as $attribute => $value) {
-                    $this->attributes->$attribute = $value;
-                }
-        
-                // Admin?
-                if (array_key_exists(1, $user->relationships['groups'])) {
-                    $this->isAdmin = true;
-                }
-        
-                // Search for groups
-                foreach ($user->relationships['groups'] as $id => $group) {
-                    $this->relationships->groups[] = $group->attributes['nameSingular'];
-                }
-            } catch (ClientException $e) {
-                if ($e->getCode() === 404 and $e->getResponse()->getReasonPhrase() === "Not Found") {
-                    $this->id = null;
-                } else {
-                    throw $e;
-                }
+            $this->fetchUser();
+        }
+    
+        $this->flarum->filter_hook('after_user_init', $this);
+    }
+    
+    /**
+     * Fetch user data from Flarum
+     *
+     * @return bool Returns true if successful, false or exception (other than Not Found) otherwise
+     */
+    public function fetchUser(): bool
+    {
+        try {
+            $user = $this->flarum->api->users($this->attributes->username)->request();
+        } catch (ClientException $e) {
+            if ($e->getCode() === 404 and $e->getResponse()->getReasonPhrase() === "Not Found") {
+                // User doesn't exists in Flarum
+                $this->id = null;
+                return false;
             }
+            throw $e;
         }
         
-        $this->flarum->filter_hook('after_user_init', $this);
+        $this->id = $user->id;
+        
+        // Set attributes
+        foreach ($user->attributes as $attribute => $value) {
+            $this->attributes->$attribute = $value;
+        }
+        
+        // Admin?
+        if (array_key_exists(1, $user->relationships['groups'])) {
+            $this->isAdmin = true;
+        }
+        
+        // Set groups
+        foreach ($user->relationships['groups'] as $id => $group) {
+            $this->relationships->groups[] = $group->attributes['nameSingular'];
+        }
+        
+        return true;
     }
     
     public function getAttributes(): array
