@@ -91,11 +91,6 @@ Search.appendIndex(
       "summary": "",
       "url": "../classes/Maicol07-SSO-Flarum.html#property_root_domain"
     }, {
-      "fqsen": "\\Maicol07\\SSO\\Flarum\u003A\u003A\u0024set_groups_admins",
-      "name": "set_groups_admins",
-      "summary": "",
-      "url": "../classes/Maicol07-SSO-Flarum.html#property_set_groups_admins"
-    }, {
       "fqsen": "\\Maicol07\\SSO\\Flarum\u003A\u003A\u0024url",
       "name": "url",
       "summary": "",

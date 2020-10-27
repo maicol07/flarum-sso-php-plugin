@@ -32,9 +32,6 @@ class Flarum
     /* @var string Main site or SSO system domain */
     public $root_domain;
     
-    /* @var bool Set groups also for admins */
-    public $set_groups_admins;
-    
     /* @var string Flarum URL */
     public $url;
     
