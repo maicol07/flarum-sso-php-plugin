@@ -37,8 +37,7 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
         'api_key' => env('API_KEY') ?? 'NotSecureToken',
         'password_token' => env('PASSWORD_TOKEN') ?? 'NotSecureToken',
         'lifetime' => env('TOKEN_LIFETIME') ?? 14,
-        'verify_ssl' => env('VERIFY_SSL') ?? true,
-        'set_groups_admins' => env('SET_GROUPS_ADMINS') ?? true
+        'verify_ssl' => env('VERIFY_SSL') ?? true
     ]);
     
     // Create the user to work with
@@ -57,6 +56,7 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
     // Let's add to it some groups (optional, only for demonstation)
     // First, let's add the Groups addon (note that the Groups class is imported at the top with the use statement)
     $flarum->addAddon(Groups::class);
+    $flarum->setAddonAttributes(Groups::class, ['set_groups_admins' => env('SET_GROUPS_ADMINS') ?? true]);
     // Then, add the groups (as an array) to the correct attribute in user relationships
     $flarum_user->relationships->groups = ['Premium', 'Novice'];
     

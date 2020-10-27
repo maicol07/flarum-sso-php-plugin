@@ -181,6 +181,11 @@ Search.appendIndex(
       "summary": "",
       "url": "../classes/Maicol07-SSO-Addons-Groups.html#property_actions"
     }, {
+      "fqsen": "\\Maicol07\\SSO\\Addons\\Groups\u003A\u003A\u0024set_groups_admins",
+      "name": "set_groups_admins",
+      "summary": "",
+      "url": "../classes/Maicol07-SSO-Addons-Groups.html#property_set_groups_admins"
+    }, {
       "fqsen": "\\Maicol07\\SSO\\Traits\\Basic",
       "name": "Basic",
       "summary": "Trait\u0020Basic",
