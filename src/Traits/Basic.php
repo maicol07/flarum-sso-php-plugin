@@ -73,7 +73,7 @@ trait Basic
      *
      * @return bool
      */
-    private function signup(): bool
+    public function signup(): bool
     {
         $r = $this->flarum->filter_hook('replace_signup', null);
         if ($r !== -1) {
