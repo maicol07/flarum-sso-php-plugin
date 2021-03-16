@@ -168,7 +168,6 @@ class Flarum
      * @param $value
      *
      * @return mixed
-     * @noinspection PhpMissingReturnTypeInspection
      */
     public function filter_hook(string $tag, $value)
     {

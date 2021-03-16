@@ -14,43 +14,44 @@ use Maicol07\SSO\User\Relationships;
 class User
 {
     use Basic;
-    
+
     /** @var null|int */
-    public $id = null;
-    
+    public $id;
+
     /** @var string */
     public $type = 'users';
-    
+
     /** @var Attributes */
     public $attributes;
-    
+
     /** @var Relationships */
     public $relationships;
-    
+
     /** @var bool */
     public $isAdmin = false;
-    
+
     /** @var Flarum */
     private $flarum;
-    
+
     public function __construct(?string $username, Flarum $flarum)
     {
         $this->flarum = $flarum;
         $this->flarum->user = &$this;
-        
+
+        $this->id = null;
         $this->attributes = new Attributes();
         $this->relationships = new Relationships();
         $this->attributes->username = $username;
-    
+
         $this->flarum->filter_hook('before_user_init', $this);
-    
+
         if (!empty($username)) {
             $this->fetchUser();
         }
-    
+
         $this->flarum->filter_hook('after_user_init', $this);
     }
-    
+
     /**
      * Fetch user data from Flarum
      *
@@ -68,32 +69,32 @@ class User
             }
             throw $e;
         }
-        
+
         $this->id = $user->id;
-        
+
         // Set attributes
         foreach ($user->attributes as $attribute => $value) {
             $this->attributes->$attribute = $value;
         }
-        
+
         // Admin?
         if (array_key_exists(1, $user->relationships['groups'])) {
             $this->isAdmin = true;
         }
-        
+
         // Set groups
         foreach ($user->relationships['groups'] as $id => $group) {
             $this->relationships->groups[] = $group->attributes['nameSingular'];
         }
-        
+
         return true;
     }
-    
+
     public function getAttributes(): array
     {
         return $this->attributes->toArray();
     }
-    
+
     public function getRelationships(): array
     {
         return $this->relationships->toArray($this->flarum);

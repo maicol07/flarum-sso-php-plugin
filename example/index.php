@@ -47,7 +47,7 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
     $flarum_user->attributes->password = Arr::get($users, "$username.password");
     
     // If user is not signed up into Flarum...
-    if (empty($flarum_user->id)) {
+    if (empty($user->id)) {
         // ...add details to Flarum user
         $flarum_user->attributes->username = $username;
         $flarum_user->attributes->email = Arr::get($users, "$username.email");
@@ -95,9 +95,9 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
                 </thead>
                 <tbody>
                 <?php
-                foreach ($users as $flarum_user => $details) {
+                foreach ($users as $user => $details) {
                     echo "<tr>
-                                <td>$flarum_user</td>
+                                <td>$user</td>
                                 <td>" . Arr::get($details, 'password') . "</td>
                             </tr>";
                 }
@@ -123,6 +123,15 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
             <button class="delete"></button>
             Successfully logged in!
             Click the button below to go to Flarum!
+            <pre>
+            <?php
+            if ($flarum_user->fetchUser()) {
+                print_r($flarum_user);
+            } else {
+                echo "Can't fetch user from Flarum!";
+            }
+            ?>
+            </pre>
         </div>
         <a class="button is-rounded is-center mt-5" href="<?php echo $flarum->getForumLink() ?>">Go to Flarum</a>
     <?php } elseif (isset($success) and empty($success)) { ?>
