@@ -16,7 +16,7 @@ $flarum = new Flarum([
     'root_domain' => env('ROOT_DOMAIN') ?? 'example.com',
     'api_key' => env('API_KEY') ?? 'NotSecureToken',
     'password_token' => env('PASSWORD_TOKEN') ?? 'NotSecureToken',
-    'lifetime' => env('TOKEN_LIFETIME') ?? 14,
+    'remember' => env('TOKEN_REMEMBER') ?? false,
     'verify_ssl' => env('VERIFY_SSL') ?? true,
     'set_groups_admins' => env('SET_GROUPS_ADMINS') ?? true
 ]);
@@ -41,7 +41,7 @@ if (!empty($_GET['redirect'])) {
 <body class="container">
 <div class="box" style="margin-top: 25px;">
     <h1 class="title">Logout user</h1>
-    
+
     <?php if (isset($flarum) and !empty($success)) { ?>
         <div class="notification is-success">
             <button class="delete"></button>

@@ -24,22 +24,22 @@ trait Basic
         if ($r !== -1) {
             return $r;
         }
-    
+
         $this->flarum->action_hook('before_login');
-    
+
         if (empty($this->attributes->password)) {
             throw new RuntimeException("User's password not set");
         }
         $token = $this->getToken();
-    
+
         $this->flarum->action_hook('after_token_obtained', $token);
-    
+
         // If no token has been returned...
         if (empty($token)) {
             // ...try to search the user...
             try {
                 $this->flarum->api->users($this->attributes->username)->request();
-            
+
                 // Backward compatibility (create password based on username)
                 $this->attributes->password = $this->createPassword();
                 $token = $this->getToken();
@@ -60,13 +60,13 @@ trait Basic
                 }
             }
         }
-    
+
         $this->flarum->action_hook('after_login', $token);
-        
+
         // Save cookie
         return $this->flarum->setCookie($token);
     }
-    
+
     /**
      * Sign up user in Flarum. Generally, you should use this method when an user successfully log into
      * your SSO system (or main website) and you found out that user don't have a token (because he hasn't an account on Flarum)
@@ -79,14 +79,14 @@ trait Basic
         if ($r !== -1) {
             return $r;
         }
-        
+
         $this->flarum->action_hook('before_signup');
-        
+
         $data = [
             "type" => "users",
             "attributes" => $this->getAttributes()
         ];
-    
+
         try {
             $user = $this->flarum->api->users()->post($data)->request();
             $this->flarum->action_hook('after_signup');
@@ -98,21 +98,21 @@ trait Basic
             throw $e;
         }
     }
-    
+
     /**
      * Updates a user. Warning! User needs to be find with username or email, so one of those two has to be the old one
      */
     public function update(): void
     {
         $this->flarum->action_hook('before_update');
-        
+
         $this->flarum->api->users($this->id)->patch([
             'attributes' => $this->getAttributes()
         ])->request();
-    
+
         $this->flarum->action_hook('after_update');
     }
-    
+
     /**
      * Deletes a user from Flarum database. Generally, you should use this method when an user successfully deleted
      * his account from your SSO system (or main website)
@@ -120,7 +120,7 @@ trait Basic
     public function delete(): bool
     {
         $this->flarum->action_hook('before_delete');
-    
+
         // Logout the user
         $this->flarum->logout();
         if (empty($this->id)) {
@@ -138,7 +138,7 @@ trait Basic
         $this->flarum->action_hook('after_delete');
         return $result;
     }
-    
+
     /**
      * Generates a password based on username and password token
      *
@@ -148,7 +148,7 @@ trait Basic
     {
         return hash('sha256', $this->attributes->username . $this->flarum->password_token);
     }
-    
+
     /**
      * Get user token from Flarum (if user exists)
      *
@@ -159,9 +159,9 @@ trait Basic
         $data = [
             'identification' => $this->attributes->username,
             'password' => $this->attributes->password,
-            'lifetime' => $this->flarum->getLifetimeSeconds(),
+            'remember' => $this->flarum->remember,
         ];
-        
+
         try {
             $response = $this->flarum->api->token()->post($data)->request();
             return $response->token ?? '';

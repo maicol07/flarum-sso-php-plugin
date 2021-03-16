@@ -5,6 +5,7 @@ namespace Maicol07\SSO;
 use Delight\Cookie\Cookie;
 use Hooks\Hooks;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Maicol07\Flarum\Api\Client;
 use Maicol07\Flarum\Api\Resource\Item;
@@ -19,31 +20,31 @@ class Flarum
 {
     /* @var Client Api client */
     public $api;
-    
+
     /* @var Cookie */
     public $cookie;
-    
-    /* @var int How many days should the login be valid */
-    public $lifetime;
-    
+
+    /* @var bool Should the login be remembered (this equals to 5 years remember from last usage)? If false, token will be remembered only for 1 hour */
+    public $remember;
+
     /* @var string Random token to create passwords */
     public $password_token;
-    
+
     /* @var string Main site or SSO system domain */
     public $root_domain;
-    
+
     /* @var string Flarum URL */
     public $url;
-    
+
     /** @var User */
     public $user;
-    
+
     /** @var Hooks */
     protected $hooks;
-    
+
     /** @var array List of loaded addons */
     private $addons = [];
-    
+
     /**
      * Flarum constructor
      *
@@ -52,37 +53,38 @@ class Flarum
      * @type string $root_domain Main site or SSO system domain
      * @type string $api_key Random key from the api_keys table of your Flarum forum
      * @type string $password_token Random token to create passwords
-     * @type int $lifetime How many days should the login be valid. Default: 14
+     * @type bool $remember Should the login be remembered (this equals to 5 years remember from last usage)? If false, token will be remembered only for 1 hour. Default: false
      * @type bool|string $verify_ssl Verify SSL cert. More details on https://docs.guzzlephp.org/en/stable/request-options.html#verify. Default: true
      * @type bool $set_groups_admins Set groups for admins. Set to false if you don't want to set groups to admins. Default: true
      * }
      *
+     * @noinspection PhpDocIsNotCompleteInspection
      */
     public function __construct(array $config)
     {
         // Urls
         $this->url = Arr::get($config, 'url');
-    
+
         // Fix URL scheme
         if (empty(Arr::get(parse_url($this->url), 'scheme'))) {
             $this->url = 'https://' . $this->url;
         }
-    
+
         $this->root_domain = Arr::get($config, 'root_domain');
         $url = parse_url($this->root_domain);
         if (!empty(Arr::get($url, 'host'))) {
             $this->root_domain = Arr::get($url, 'host');
         }
-    
+
         $this->password_token = Arr::get($config, 'password_token');
-    
+
         $this->api = new Client($this->url, ['token' => Arr::get($config, 'api_key')], [
             'verify' => Arr::get($config, 'verify_ssl')
         ]);
-    
+
         $this->cookie = (new Cookie('flarum_remember'))->setDomain($this->root_domain);
-        $this->lifetime = Arr::get($config, 'lifetime', 14);
-    
+        $this->remember = Arr::get($config, 'remember', false);
+
         // Initialize addons
         $this->hooks = new Hooks();
         foreach ($this->addons as $key => $addon) {
@@ -90,7 +92,7 @@ class Flarum
             $this->addons[$key] = new $addon($this->hooks, $this);
         }
     }
-    
+
     /**
      * Logs out the current user from Flarum. Generally, you should use this method when an user successfully logged out from
      * your SSO system (or main website)
@@ -98,15 +100,15 @@ class Flarum
     public function logout(): bool
     {
         $this->action_hook('before_logout');
-        
+
         // Delete the plugin cookie
         $done = $this->cookie->delete();
-        
+
         $this->hooks->do_action('after_logout', $done);
-        
+
         return $done;
     }
-    
+
     /**
      * Adds an addon
      *
@@ -118,7 +120,7 @@ class Flarum
         $this->addons[] = new $addon($this->hooks, $this);
         return array_key_last($this->addons);
     }
-    
+
     /**
      * Removes an addon
      *
@@ -133,7 +135,7 @@ class Flarum
         unset($hook);
         return $this;
     }
-    
+
     public function setAddonAttributes(string $addon, array $attributes): Flarum
     {
         $hook = $this->addons[array_search($addon, $this->addons, true)];
@@ -142,7 +144,7 @@ class Flarum
         }
         return $this;
     }
-    
+
     /**
      * A simple proxy to Hook do_action function
      *
@@ -153,14 +155,14 @@ class Flarum
     {
         $args = func_get_args();
         array_shift($args);
-    
+
         if (!$this->hooks->has_action($tag)) {
             return -1;
         }
         $this->hooks->do_action($tag, $args);
         return null;
     }
-    
+
     /**
      * A simple proxy to Hook apply_filters function
      *
@@ -176,7 +178,7 @@ class Flarum
         }
         return $this->hooks->apply_filters($tag, $value);
     }
-    
+
     /**
      * Redirects the user to your Flarum instance
      */
@@ -185,7 +187,7 @@ class Flarum
         header('Location: ' . $this->getForumLink());
         die();
     }
-    
+
     /**
      * Set the Flarum remember cookie
      *
@@ -194,11 +196,15 @@ class Flarum
      */
     public function setCookie(string $token): bool
     {
-        return $this->cookie->setValue($token)
-            ->setExpiryTime(time() + $this->getLifetimeSeconds())
-            ->saveAndSet();
+        $time = Carbon::now();
+        if ($this->remember) {
+            $time->addYears(3);
+        } else {
+            $time->addHour();
+        }
+        return $this->cookie->setValue($token)->setExpiryTime($time->getTimestamp())->saveAndSet();
     }
-    
+
     /**
      * Gets a collection of the users actually signed up on Flarum, with all the properties
      *
@@ -220,18 +226,18 @@ class Flarum
     {
         $offset = 0;
         $collection = collect();
-        
+
         while ($offset !== null) {
             $response = $this->api->users()->offset($offset)->request();
             if ($response instanceof Item and empty($response->type)) {
                 $offset = null;
                 continue;
             }
-            
+
             $collection = $collection->merge($response->collect()->all());
             $offset = array_key_last($collection->all()) + 1;
         }
-        
+
         // Filters
         $filtered = collect();
         if (!empty($filters)) {
@@ -240,7 +246,7 @@ class Flarum
                 $filters = [$filters];
                 $grouped = false;
             }
-            
+
             foreach ($filters as $filter) {
                 $plucked = $collection->pluck($filter);
                 if (!empty($grouped)) {
@@ -250,10 +256,10 @@ class Flarum
             }
             $collection = $filtered;
         }
-        
+
         return $collection;
     }
-    
+
     /**
      * Returns Flarum link
      *
@@ -265,15 +271,5 @@ class Flarum
     public function getForumLink(): string
     {
         return $this->url;
-    }
-    
-    /**
-     * Get Token lifetime in seconds
-     *
-     * @return float|int
-     */
-    public function getLifetimeSeconds()
-    {
-        return $this->lifetime * 60 * 60 * 24;
     }
 }

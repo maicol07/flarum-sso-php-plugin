@@ -36,33 +36,33 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
         'root_domain' => env('ROOT_DOMAIN') ?? 'example.com',
         'api_key' => env('API_KEY') ?? 'NotSecureToken',
         'password_token' => env('PASSWORD_TOKEN') ?? 'NotSecureToken',
-        'lifetime' => env('TOKEN_LIFETIME') ?? 14,
+        'remember' => env('TOKEN_REMEMBER') ?? false,
         'verify_ssl' => env('VERIFY_SSL') ?? true
     ]);
-    
+
     // Create the user to work with
     $flarum_user = new User($username, $flarum);
-    
+
     // Set his password
     $flarum_user->attributes->password = Arr::get($users, "$username.password");
-    
+
     // If user is not signed up into Flarum...
     if (empty($user->id)) {
         // ...add details to Flarum user
         $flarum_user->attributes->username = $username;
         $flarum_user->attributes->email = Arr::get($users, "$username.email");
     }
-    
+
     // Let's add to it some groups (optional, only for demonstation)
     // First, let's add the Groups addon (note that the Groups class is imported at the top with the use statement)
     $flarum->addAddon(Groups::class);
     $flarum->setAddonAttributes(Groups::class, ['set_groups_admins' => env('SET_GROUPS_ADMINS') ?? true]);
     // Then, add the groups (as an array) to the correct attribute in user relationships
     $flarum_user->relationships->groups = ['Premium', 'Novice'];
-    
+
     // Login the user with username. If user doesn't exists in Flarum, it will be created
     $success = $flarum_user->login();
-    
+
     // Redirect to Flarum
     if (!empty($_GET['redirect'])) {
         $flarum->redirect();
@@ -117,7 +117,7 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
             </form>
         </div>
     </div>
-    
+
     <?php if (isset($flarum) and !empty($success)) { ?>
         <div class="notification is-success">
             <button class="delete"></button>

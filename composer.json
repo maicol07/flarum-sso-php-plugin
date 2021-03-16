@@ -25,10 +25,10 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "ext-json": "*",
         "delight-im/cookie": "^3",
-        "illuminate/support": "^6|^7|^8",
+        "illuminate/support": "^8",
         "maicol07/flarum-api-client": "^1",
         "mistic100/php-hooks": "^0"
     },
