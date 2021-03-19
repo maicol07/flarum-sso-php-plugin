@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ForgottenDebugOutputInspection */
 
 use Dotenv\Dotenv;
 use Illuminate\Support\Arr;
@@ -32,12 +32,12 @@ $password = $_POST['password'] ?? '';
 if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password") === $password) {
     // Create the Flarum object with the required configuration. The parameters are explained in the class file (src/Flarum.php)
     $flarum = new Flarum([
-        'url' => env('FLARUM_HOST') ?? 'http://flarum.example.com',
-        'root_domain' => env('ROOT_DOMAIN') ?? 'example.com',
-        'api_key' => env('API_KEY') ?? 'NotSecureToken',
-        'password_token' => env('PASSWORD_TOKEN') ?? 'NotSecureToken',
-        'remember' => env('TOKEN_REMEMBER') ?? false,
-        'verify_ssl' => env('VERIFY_SSL') ?? true
+        'url' => env('FLARUM_HOST', 'http://flarum.example.com'),
+        'root_domain' => env('ROOT_DOMAIN', 'example.com'),
+        'api_key' => env('API_KEY', 'NotSecureToken'),
+        'password_token' => env('PASSWORD_TOKEN', 'NotSecureToken'),
+        'remember' => $_POST['remember'] ?? false,
+        'verify_ssl' => env('VERIFY_SSL', true)
     ]);
 
     // Create the user to work with
@@ -113,7 +113,12 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
                 <label class="label mt-3" for="password">Password</label>
                 <input id="password" type="password" class="input" name="password" placeholder="Password">
 
-                <button class="button mt-3" type="submit">Login</button>
+                <label class="checkbox mt-2 mb-2">
+                    <input id="remember" name="remember" type="checkbox">
+                    Remember me
+                </label>
+
+                <button class="button" type="submit" style="display: block; margin: 0 auto;">Login</button>
             </form>
         </div>
     </div>
@@ -121,19 +126,26 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
     <?php if (isset($flarum) and !empty($success)) { ?>
         <div class="notification is-success">
             <button class="delete"></button>
-            Successfully logged in!
-            Click the button below to go to Flarum!
-            <pre>
+            Successfully logged in! Click the button below to go to Flarum!
+            <br>
+            <a class="button is-rounded mt-5" href="<?php echo $flarum->getForumLink() ?>"
+               style="display: block; margin: 0 auto; width: max-content;">
+                Go to Flarum
+            </a>
+            <pre style="margin: 16px 0;">
             <?php
             if ($flarum_user->fetchUser()) {
-                print_r($flarum_user);
+                $is_admin = $flarum_user->isAdmin ? 'Yes' : 'No';
+                echo "User ID: $flarum_user->id<br>Is user admin? <b>$is_admin</b><br>User attributes: <br>";
+                var_export($flarum_user->getAttributes());
+                echo "<br>User relationships: <br>";
+                var_export($flarum_user->getRelationships());
             } else {
                 echo "Can't fetch user from Flarum!";
             }
             ?>
             </pre>
         </div>
-        <a class="button is-rounded is-center mt-5" href="<?php echo $flarum->getForumLink() ?>">Go to Flarum</a>
     <?php } elseif (isset($success) and empty($success)) { ?>
         <div class="notification is-danger">
             <button class="delete"></button>
