@@ -25,7 +25,7 @@ class Flarum
     public $cookie;
 
     /* @var bool Should the login be remembered (this equals to 5 years remember from last usage)? If false, token will be remembered only for 1 hour */
-    public $remember;
+    private $remember;
 
     /* @var string Random token to create passwords */
     public $password_token;
@@ -82,8 +82,10 @@ class Flarum
             'verify' => Arr::get($config, 'verify_ssl')
         ]);
 
-        $this->cookie = (new Cookie('flarum_remember'))->setDomain($this->root_domain);
         $this->remember = Arr::get($config, 'remember', false);
+        $this->cookie = (new Cookie('flarum_' . ($this->remember ? 'remember' : 'session')))
+            ->setDomain($this->root_domain)
+            ->setSecureOnly(Arr::get($config, 'verify_ssl'));
 
         // Initialize addons
         $this->hooks = new Hooks();
@@ -191,10 +193,10 @@ class Flarum
     /**
      * Set the Flarum remember cookie
      *
-     * @param string $token Token to set as the cookie value
+     * @param string $value Remember token or session ID to set as the cookie value
      * @return bool
      */
-    public function setCookie(string $token): bool
+    public function setCookie(string $value): bool
     {
         $time = Carbon::now();
         if ($this->remember) {
@@ -202,7 +204,7 @@ class Flarum
         } else {
             $time->addHour();
         }
-        return $this->cookie->setValue($token)->setExpiryTime($time->getTimestamp())->saveAndSet();
+        return $this->cookie->setValue($value)->setExpiryTime($time->getTimestamp())->saveAndSet();
     }
 
     /**
@@ -271,5 +273,17 @@ class Flarum
     public function getForumLink(): string
     {
         return $this->url;
+    }
+
+    /**
+     * Returns the value of $remember (indicates if login should be remembered)
+     *
+     * @return bool
+     *
+     * @see $remember
+     */
+    final public function isSessionRemembered(): bool
+    {
+        return $this->remember;
     }
 }

@@ -61,10 +61,18 @@ trait Basic
             }
         }
 
-        $this->flarum->action_hook('after_login', $token);
+        $session = null;
+        if (!$this->flarum->isSessionRemembered()) {
+            $session = $this->flarum->api->setPath('sso/session')
+                ->addQueryParameter('token', $token)
+                ->request()
+                ->sessionId;
+        }
+
+        $this->flarum->action_hook('after_login', $token, $session);
 
         // Save cookie
-        return $this->flarum->setCookie($token);
+        return $this->flarum->setCookie($session ?? $token);
     }
 
     /**
@@ -159,7 +167,7 @@ trait Basic
         $data = [
             'identification' => $this->attributes->username,
             'password' => $this->attributes->password,
-            'remember' => $this->flarum->remember,
+            'remember' => $this->flarum->isSessionRemembered(),
         ];
 
         try {
