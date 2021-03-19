@@ -13,10 +13,10 @@ class Groups extends Core
         'after_login' => 'setGroups',
         'after_update' => 'setGroups'
     ];
-    
+
     /** @var bool Set groups for admins */
     public $set_groups_admins = true;
-    
+
     /**
      * Sets groups to a user
      *
@@ -26,19 +26,19 @@ class Groups extends Core
         $user = $this->master->user;
         if (!empty($user->id)) {
             $groups = [];
-    
+
             /** Search flarum groups - @noinspection NullPointerExceptionInspection */
             $flarum_groups = Arr::pluck(
                 $this->master->api->groups()->request()->collect()->all(),
                 'attributes.nameSingular',
                 'id'
             );
-    
+
             foreach ($user->relationships->groups as $group) {
                 if (empty($group) or !is_string($group)) {
                     continue;
                 }
-        
+
                 // Find ID of the group
                 $id = array_key_first(Arr::where($flarum_groups, function ($name) {
                     global $group;
@@ -48,13 +48,13 @@ class Groups extends Core
                 if (empty($id)) {
                     $id = $this->createGroup($group);
                 }
-        
+
                 $groups[] = [
                     'type' => 'groups',
                     'id' => $id
                 ];
             }
-            
+
             $this->master->api->users($user->id)->patch([
                 'relationships' => [
                     'groups' => [
@@ -64,13 +64,15 @@ class Groups extends Core
             ])->request();
         }
     }
-    
+
     /**
      * Add a group to Flarum
      *
      * @param string $group
      *
      * @return mixed
+     *
+     * @noinspection MissingReturnTypeInspection
      */
     public function createGroup(string $group)
     {

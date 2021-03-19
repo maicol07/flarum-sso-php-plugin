@@ -124,6 +124,8 @@ trait Basic
     /**
      * Deletes a user from Flarum database. Generally, you should use this method when an user successfully deleted
      * his account from your SSO system (or main website)
+     *
+     * @return bool
      */
     public function delete(): bool
     {

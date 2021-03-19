@@ -32,12 +32,13 @@ $password = $_POST['password'] ?? '';
 if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password") === $password) {
     // Create the Flarum object with the required configuration. The parameters are explained in the class file (src/Flarum.php)
     $flarum = new Flarum([
-        'url' => env('FLARUM_HOST', 'http://flarum.example.com'),
-        'root_domain' => env('ROOT_DOMAIN', 'example.com'),
+        'url' => env('FLARUM_HOST', 'https://discuss.flarum.org'),
+        'root_domain' => env('ROOT_DOMAIN', 'flarum.org'),
         'api_key' => env('API_KEY', 'NotSecureToken'),
         'password_token' => env('PASSWORD_TOKEN', 'NotSecureToken'),
         'remember' => $_POST['remember'] ?? false,
-        'verify_ssl' => env('VERIFY_SSL', true)
+        'verify_ssl' => env('VERIFY_SSL', true),
+        'set_groups_admins' => env('SET_GROUPS_ADMINS', true)
     ]);
 
     // Create the user to work with

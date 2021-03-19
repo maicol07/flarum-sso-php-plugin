@@ -83,7 +83,7 @@ class User
         }
 
         // Set groups
-        foreach ($user->relationships['groups'] as $id => $group) {
+        foreach ($user->relationships['groups'] as $group) {
             $this->relationships->groups[] = $group->attributes['nameSingular'];
         }
 

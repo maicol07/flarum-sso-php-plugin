@@ -12,25 +12,23 @@ class Core
 {
     /** @var Hooks */
     protected $hooks;
+
     /** @var array Actions list */
     protected $actions = [];
+
     /** @var array Filters list */
     protected $filters = [];
+
     /** @var Flarum */
     protected $master;
-    
-    /**
-     * Core constructor.
-     * @param Hooks $hooks
-     * @param Flarum $master
-     */
+
     public function __construct(Hooks $hooks, Flarum $master)
     {
         $this->master = $master;
         $this->hooks = $hooks;
         $this->load();
     }
-    
+
     /**
      * Load Addons hooks
      *
@@ -41,7 +39,7 @@ class Core
         $this->manageHooks('add');
         return $this;
     }
-    
+
     /**
      * Manages hooks addition/removal
      *
@@ -52,13 +50,13 @@ class Core
         foreach (array_merge($this->actions, $this->filters) as $name => $method) {
             $type = in_array($method, $this->actions, true) ? 'action' : 'filter';
             $methods = is_array($method) ? $method : [$method];
-            
+
             foreach ($methods as $m) {
-                $this->hooks->{"{$op}_{$type}"}($name, [$this, $m]);
+                $this->hooks->{"{$op}_$type"}($name, [$this, $m]);
             }
         }
     }
-    
+
     /**
      * Unload Addons hooks
      *

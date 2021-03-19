@@ -12,13 +12,13 @@ $env->load();
 
 // Create the Flarum object with the required configuration. The parameters are explained in the class file (src/Flarum.php)
 $flarum = new Flarum([
-    'url' => env('FLARUM_HOST') ?? 'http://flarum.example.com',
-    'root_domain' => env('ROOT_DOMAIN') ?? 'example.com',
-    'api_key' => env('API_KEY') ?? 'NotSecureToken',
-    'password_token' => env('PASSWORD_TOKEN') ?? 'NotSecureToken',
-    'remember' => env('TOKEN_REMEMBER') ?? false,
-    'verify_ssl' => env('VERIFY_SSL') ?? true,
-    'set_groups_admins' => env('SET_GROUPS_ADMINS') ?? true
+    'url' => env('FLARUM_HOST', 'https://discuss.flarum.org'),
+    'root_domain' => env('ROOT_DOMAIN', 'flarum.org'),
+    'api_key' => env('API_KEY', 'NotSecureToken'),
+    'password_token' => env('PASSWORD_TOKEN', 'NotSecureToken'),
+    'remember' => $_POST['remember'] ?? false,
+    'verify_ssl' => env('VERIFY_SSL', true),
+    'set_groups_admins' => env('SET_GROUPS_ADMINS', true)
 ]);
 
 // Logout current user

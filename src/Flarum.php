@@ -40,7 +40,7 @@ class Flarum
     public $user;
 
     /** @var Hooks */
-    protected $hooks;
+    private $hooks;
 
     /** @var array List of loaded addons */
     private $addons = [];
@@ -98,13 +98,21 @@ class Flarum
     /**
      * Logs out the current user from Flarum. Generally, you should use this method when an user successfully logged out from
      * your SSO system (or main website)
+     *
+     * @return bool
      */
     public function logout(): bool
     {
         $this->action_hook('before_logout');
 
-        // Delete the plugin cookie
-        $done = $this->cookie->delete();
+        // Delete the remember/session cookie
+        (new Cookie('flarum_' . ($this->remember ? 'session' : 'remember')))
+            ->setDomain($this->root_domain)
+            ->setSecureOnly($this->cookie->isSecureOnly())
+            ->deleteAndUnset();
+
+        // Delete the first cookie (session/remember)
+        $done = $this->cookie->deleteAndUnset();
 
         $this->hooks->do_action('after_logout', $done);
 
@@ -172,6 +180,9 @@ class Flarum
      * @param $value
      *
      * @return mixed
+     *
+     * @noinspection MissingReturnTypeInspection
+     * @noinspection MissingParameterTypeDeclarationInspection
      */
     public function filter_hook(string $tag, $value)
     {
@@ -223,6 +234,8 @@ class Flarum
      * There could be more if you have other extensions that adds them to Flarum API
      *
      * @return Collection
+     *
+     * @noinspection MissingParameterTypeDeclarationInspection
      */
     public function getUsersList($filters = null): Collection
     {
