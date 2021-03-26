@@ -133,19 +133,22 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
                style="display: block; margin: 0 auto; width: max-content;">
                 Go to Flarum
             </a>
-            <pre style="margin: 16px 0;">
-            <?php
-            if ($flarum_user->fetchUser()) {
-                $is_admin = $flarum_user->isAdmin ? 'Yes' : 'No';
-                echo "User ID: $flarum_user->id<br>Is user admin? <b>$is_admin</b><br>User attributes: <br>";
-                var_export($flarum_user->getAttributes());
-                echo "<br>User relationships: <br>";
-                var_export($flarum_user->getRelationships());
-            } else {
-                echo "Can't fetch user from Flarum!";
-            }
-            ?>
-            </pre>
+            <details>
+                <summary>User</summary>
+                <pre style="margin: 16px 0;">
+                    <?php
+                    if ($flarum_user->fetchUser()) {
+                        $is_admin = $flarum_user->isAdmin ? 'Yes' : 'No';
+                        echo "User ID: $flarum_user->id<br>Is user admin? <b>$is_admin</b><br>User attributes: <br>";
+                        var_export($flarum_user->getAttributes());
+                        echo "<br>User relationships: <br>";
+                        var_export($flarum_user->getRelationships());
+                    } else {
+                        echo "Can't fetch user from Flarum!";
+                    }
+                    ?>
+                </pre>
+            </details>
         </div>
     <?php } elseif (isset($success) and empty($success)) { ?>
         <div class="notification is-danger">
