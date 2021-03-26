@@ -48,12 +48,13 @@ if (!empty($_GET['redirect'])) {
                 <li>User does not exists in Flarum</li>
             </ul>
         </div>
-        Users list:<br>
-        <ul>
-            <li><?php echo implode('</li><li>', $flarum->getUsersList('attributes.username')->all()); ?></
-            >
-        </ul>
     <?php } ?>
+    <details>
+        <summary>Users list</summary>
+        <ul>
+            <li><?php echo implode('</li><li>', $flarum->getUsersList('attributes.username')->all()); ?></li>
+        </ul>
+    </details>
 </div>
 <footer class="footer">
     <div class="content has-text-centered">

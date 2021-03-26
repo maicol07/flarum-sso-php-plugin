@@ -124,7 +124,7 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
                 Go to Flarum
             </a>
             <details>
-                <summary>User</summary>
+                <summary>User details</summary>
                 <pre style="margin: 16px 0;">
                     <?php
                     if (isset($flarum_user) and $flarum_user->fetch()) {
