@@ -20,11 +20,11 @@ class Core
     protected $filters = [];
 
     /** @var Flarum */
-    protected $master;
+    protected $flarum;
 
-    public function __construct(Hooks $hooks, Flarum $master)
+    public function __construct(Hooks $hooks, Flarum $flarum)
     {
-        $this->master = $master;
+        $this->flarum = $flarum;
         $this->hooks = $hooks;
         $this->load();
     }

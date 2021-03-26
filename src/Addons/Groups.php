@@ -23,13 +23,13 @@ class Groups extends Core
      */
     public function setGroups(): void
     {
-        $user = $this->master->user();
+        $user = $this->flarum->user();
         if (!empty($user->id)) {
             $groups = [];
 
             /** Search flarum groups - @noinspection NullPointerExceptionInspection */
             $flarum_groups = Arr::pluck(
-                $this->master->api->groups()->request()->collect()->all(),
+                $this->flarum->api->groups()->request()->collect()->all(),
                 'attributes.nameSingular',
                 'id'
             );
@@ -55,7 +55,7 @@ class Groups extends Core
                 ];
             }
 
-            $this->master->api->users($user->id)->patch([
+            $this->flarum->api->users($user->id)->patch([
                 'relationships' => [
                     'groups' => [
                         'data' => $groups
@@ -76,7 +76,7 @@ class Groups extends Core
      */
     public function createGroup(string $group)
     {
-        $response = $this->master->api->groups()->post([
+        $response = $this->flarum->api->groups()->post([
             'type' => 'groups',
             'attributes' => [
                 'namePlural' => $group,
