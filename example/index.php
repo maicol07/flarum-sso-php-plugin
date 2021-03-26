@@ -137,7 +137,7 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
                 <summary>User</summary>
                 <pre style="margin: 16px 0;">
                     <?php
-                    if ($flarum_user->fetchUser()) {
+                    if ($flarum_user->fetch()) {
                         $is_admin = $flarum_user->isAdmin ? 'Yes' : 'No';
                         echo "User ID: $flarum_user->id<br>Is user admin? <b>$is_admin</b><br>User attributes: <br>";
                         var_export($flarum_user->getAttributes());

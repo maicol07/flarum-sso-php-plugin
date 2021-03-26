@@ -46,7 +46,7 @@ class User
         $this->flarum->filter_hook('before_user_init', $this);
 
         if (!empty($username)) {
-            $this->fetchUser();
+            $this->fetch();
         }
 
         $this->flarum->filter_hook('after_user_init', $this);
@@ -57,7 +57,7 @@ class User
      *
      * @return bool Returns true if successful, false or exception (other than Not Found) otherwise
      */
-    public function fetchUser(): bool
+    public function fetch(): bool
     {
         try {
             $user = $this->flarum->api->users($this->attributes->username)->request();
