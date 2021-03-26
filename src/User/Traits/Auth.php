@@ -1,16 +1,16 @@
 <?php
 
 
-namespace Maicol07\SSO\Traits;
+namespace Maicol07\SSO\User\Traits;
 
 use GuzzleHttp\Exception\ClientException;
 use RuntimeException;
 
 /**
- * Trait Basic
+ * Trait Auth
  * @package Maicol07\SSO\Traits
  */
-trait Basic
+trait Auth
 {
     /**
      * Logs the user in Flarum. Generally, you should use this method when an user successfully log into

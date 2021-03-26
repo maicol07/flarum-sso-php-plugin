@@ -2,9 +2,9 @@
 namespace Maicol07\SSO;
 
 use GuzzleHttp\Exception\ClientException;
-use Maicol07\SSO\Traits\Basic;
 use Maicol07\SSO\User\Attributes;
 use Maicol07\SSO\User\Relationships;
+use Maicol07\SSO\User\Traits\Auth;
 
 /**
  * Class User
@@ -13,7 +13,7 @@ use Maicol07\SSO\User\Relationships;
  */
 class User
 {
-    use Basic;
+    use Auth;
 
     /** @var null|int */
     public $id;
