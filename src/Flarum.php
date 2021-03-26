@@ -158,19 +158,6 @@ class Flarum
     }
 
     /**
-     * Returns Flarum link
-     *
-     * @return string
-     * @author maicol07
-     * @noinspection PhpUnused
-     * @noinspection UnknownInspectionInspection
-     */
-    public function getForumLink(): string
-    {
-        return $this->url;
-    }
-
-    /**
      * Returns the value of $remember (indicates if login should be remembered)
      *
      * @return bool

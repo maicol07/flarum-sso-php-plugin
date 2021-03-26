@@ -129,7 +129,7 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
             <button class="delete"></button>
             Successfully logged in! Click the button below to go to Flarum!
             <br>
-            <a class="button is-rounded mt-5" href="<?php echo $flarum->getForumLink() ?>"
+            <a class="button is-rounded mt-5" href="<?php echo $flarum->url ?>"
                style="display: block; margin: 0 auto; width: max-content;">
                 Go to Flarum
             </a>
