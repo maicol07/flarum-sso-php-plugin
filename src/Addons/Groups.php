@@ -23,7 +23,7 @@ class Groups extends Core
      */
     public function setGroups(): void
     {
-        $user = $this->master->user;
+        $user = $this->master->user();
         if (!empty($user->id)) {
             $groups = [];
 

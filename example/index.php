@@ -3,8 +3,6 @@
 use Dotenv\Dotenv;
 use Illuminate\Support\Arr;
 use Maicol07\SSO\Addons\Groups;
-use Maicol07\SSO\Flarum;
-use Maicol07\SSO\User;
 
 // Note: Since this is called from the example folder, the vendor folder is located in the previous tree level
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -30,25 +28,17 @@ $username = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
 
 if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password") === $password) {
-    // Create the Flarum object with the required configuration. The parameters are explained in the class file (src/Flarum.php)
-    $flarum = new Flarum([
-        'url' => env('FLARUM_HOST', 'https://discuss.flarum.org'),
-        'root_domain' => env('ROOT_DOMAIN', 'flarum.org'),
-        'api_key' => env('API_KEY', 'NotSecureToken'),
-        'password_token' => env('PASSWORD_TOKEN', 'NotSecureToken'),
-        'remember' => $_POST['remember'] ?? false,
-        'verify_ssl' => env('VERIFY_SSL', true),
-        'set_groups_admins' => env('SET_GROUPS_ADMINS', true)
-    ]);
+    require_once __DIR__ . '/flarum.php';
+    /** @var $flarum <-- Fix PHPStorm hints */
 
     // Create the user to work with
-    $flarum_user = new User($username, $flarum);
+    $flarum_user = $flarum->user($username);
 
     // Set his password
     $flarum_user->attributes->password = Arr::get($users, "$username.password");
 
     // If user is not signed up into Flarum...
-    if (empty($user->id)) {
+    if (empty($flarum_user->id)) {
         // ...add details to Flarum user
         $flarum_user->attributes->username = $username;
         $flarum_user->attributes->email = Arr::get($users, "$username.email");
@@ -96,9 +86,9 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
                 </thead>
                 <tbody>
                 <?php
-                foreach ($users as $user => $details) {
+                foreach ($users as $username => $details) {
                     echo "<tr>
-                                <td>$user</td>
+                                <td>$username</td>
                                 <td>" . Arr::get($details, 'password') . "</td>
                             </tr>";
                 }
@@ -137,7 +127,7 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
                 <summary>User</summary>
                 <pre style="margin: 16px 0;">
                     <?php
-                    if ($flarum_user->fetch()) {
+                    if (isset($flarum_user) and $flarum_user->fetch()) {
                         $is_admin = $flarum_user->isAdmin ? 'Yes' : 'No';
                         echo "User ID: $flarum_user->id<br>Is user admin? <b>$is_admin</b><br>User attributes: <br>";
                         var_export($flarum_user->getAttributes());

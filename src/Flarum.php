@@ -38,7 +38,7 @@ class Flarum
     public $verify;
 
     /** @var User */
-    public $user;
+    private $user;
 
     /**
      * Flarum constructor
@@ -97,6 +97,15 @@ class Flarum
         $this->hooks->do_action('after_logout', $deleted, $created);
 
         return ($deleted and $created);
+    }
+
+    public function user(string $username = null): User
+    {
+        if ($this->user === null) {
+            $this->user = new User($username, $this);
+        }
+
+        return $this->user;
     }
 
 

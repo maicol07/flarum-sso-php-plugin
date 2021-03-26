@@ -36,7 +36,6 @@ class User
     public function __construct(?string $username, Flarum $flarum)
     {
         $this->flarum = $flarum;
-        $this->flarum->user = &$this;
 
         $this->id = null;
         $this->attributes = new Attributes();
