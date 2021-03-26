@@ -2,13 +2,12 @@
 
 namespace Maicol07\SSO;
 
-use Delight\Cookie\Cookie;
-use Hooks\Hooks;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Maicol07\Flarum\Api\Client;
 use Maicol07\Flarum\Api\Resource\Item;
+use Maicol07\SSO\Traits\Addons;
+use Maicol07\SSO\Traits\Cookies;
 
 /**
  * Flarum SSO
@@ -18,11 +17,10 @@ use Maicol07\Flarum\Api\Resource\Item;
  */
 class Flarum
 {
+    use Cookies, Addons;
+
     /* @var Client Api client */
     public $api;
-
-    /* @var Cookie */
-    public $cookie;
 
     /* @var bool Should the login be remembered (this equals to 5 years remember from last usage)? If false, token will be remembered only for 1 hour */
     private $remember;
@@ -36,14 +34,11 @@ class Flarum
     /* @var string Flarum URL */
     public $url;
 
+    /** @var bool Verify SSL cert. More details on https://docs.guzzlephp.org/en/stable/request-options.html#verify */
+    public $verify;
+
     /** @var User */
     public $user;
-
-    /** @var Hooks */
-    private $hooks;
-
-    /** @var array List of loaded addons */
-    private $addons = [];
 
     /**
      * Flarum constructor
@@ -57,8 +52,6 @@ class Flarum
      * @type bool|string $verify_ssl Verify SSL cert. More details on https://docs.guzzlephp.org/en/stable/request-options.html#verify. Default: true
      * @type bool $set_groups_admins Set groups for admins. Set to false if you don't want to set groups to admins. Default: true
      * }
-     *
-     * @noinspection PhpDocIsNotCompleteInspection
      */
     public function __construct(array $config)
     {
@@ -78,21 +71,14 @@ class Flarum
 
         $this->password_token = Arr::get($config, 'password_token');
 
+        $this->verify = Arr::get($config, 'verify_ssl', true);
         $this->api = new Client($this->url, ['token' => Arr::get($config, 'api_key')], [
-            'verify' => Arr::get($config, 'verify_ssl')
+            'verify' => $this->verify
         ]);
 
         $this->remember = Arr::get($config, 'remember', false);
-        $this->cookie = (new Cookie('flarum_' . ($this->remember ? 'remember' : 'session')))
-            ->setDomain($this->root_domain)
-            ->setSecureOnly(Arr::get($config, 'verify_ssl'));
 
-        // Initialize addons
-        $this->hooks = new Hooks();
-        foreach ($this->addons as $key => $addon) {
-            unset($this->addons[$key]);
-            $this->addons[$key] = new $addon($this->hooks, $this);
-        }
+        $this->initAddons();
     }
 
     /**
@@ -105,118 +91,14 @@ class Flarum
     {
         $this->action_hook('before_logout');
 
-        // Delete the remember/session cookie
-        (new Cookie('flarum_' . ($this->remember ? 'session' : 'remember')))
-            ->setDomain($this->root_domain)
-            ->setSecureOnly($this->cookie->isSecureOnly())
-            ->deleteAndUnset();
+        $deleted = $this->deleteSessionTokenCookie() and $this->deleteRememberTokenCookie();
+        $created = $this->setLogoutCookie();
 
-        // Delete the first cookie (session/remember)
-        $done = $this->cookie->deleteAndUnset();
+        $this->hooks->do_action('after_logout', $deleted, $created);
 
-        $this->hooks->do_action('after_logout', $done);
-
-        return $done;
+        return ($deleted and $created);
     }
 
-    /**
-     * Adds an addon
-     *
-     * @param string $addon Class name to add as addon
-     * @return int
-     */
-    public function addAddon(string $addon): int
-    {
-        $this->addons[] = new $addon($this->hooks, $this);
-        return array_key_last($this->addons);
-    }
-
-    /**
-     * Removes an addon
-     *
-     * @param string $addon Addon class name to remove
-     * @return $this
-     */
-    public function removeAddon(string $addon): Flarum
-    {
-        $key = array_search($addon, $this->addons, true);
-        $hook = $this->addons[$key];
-        $hook->unload();
-        unset($hook);
-        return $this;
-    }
-
-    public function setAddonAttributes(string $addon, array $attributes): Flarum
-    {
-        $hook = $this->addons[array_search($addon, $this->addons, true)];
-        foreach ($attributes as $key => $value) {
-            $hook->$key = $value;
-        }
-        return $this;
-    }
-
-    /**
-     * A simple proxy to Hook do_action function
-     *
-     * @param string $tag
-     * @return int|null
-     */
-    public function action_hook(string $tag): ?int
-    {
-        $args = func_get_args();
-        array_shift($args);
-
-        if (!$this->hooks->has_action($tag)) {
-            return -1;
-        }
-        $this->hooks->do_action($tag, $args);
-        return null;
-    }
-
-    /**
-     * A simple proxy to Hook apply_filters function
-     *
-     * @param string $tag
-     * @param $value
-     *
-     * @return mixed
-     *
-     * @noinspection MissingReturnTypeInspection
-     * @noinspection MissingParameterTypeDeclarationInspection
-     */
-    public function filter_hook(string $tag, $value)
-    {
-        if (!$this->hooks->has_filter($tag)) {
-            return -1;
-        }
-        return $this->hooks->apply_filters($tag, $value);
-    }
-
-    /**
-     * Redirects the user to your Flarum instance
-     */
-    public function redirect(): void
-    {
-        header('Location: ' . $this->getForumLink());
-        die();
-    }
-
-    /**
-     * Set the Flarum remember cookie
-     *
-     * @param string $value Remember token or session ID to set as the cookie value
-     * @return bool
-     */
-    public function setCookie(string $value): bool
-    {
-        $time = Carbon::now();
-        if ($this->remember) {
-            $time->addYears(3);
-        } else {
-            $time->addHour();
-        }
-        return $this->cookie->setValue($value)->setExpiryTime($time->getTimestamp())->saveAndSet();
-    }
 
     /**
      * Gets a collection of the users actually signed up on Flarum, with all the properties
@@ -295,8 +177,17 @@ class Flarum
      *
      * @see $remember
      */
-    final public function isSessionRemembered(): bool
+    public function isSessionRemembered(): bool
     {
         return $this->remember;
+    }
+
+    /**
+     * Redirects the user to your Flarum instance
+     */
+    public function redirect(): void
+    {
+        header('Location: ' . $this->url);
+        die();
     }
 }

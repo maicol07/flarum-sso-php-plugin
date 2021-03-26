@@ -61,18 +61,12 @@ trait Basic
             }
         }
 
-        $session = null;
-        if (!$this->flarum->isSessionRemembered()) {
-            $session = $this->flarum->api->setPath('sso/session')
-                ->addQueryParameter('token', $token)
-                ->request()
-                ->sessionId;
-        }
+        $this->flarum->action_hook('after_login', $token);
 
-        $this->flarum->action_hook('after_login', $token, $session);
+        $deleted = $this->flarum->deleteLogoutCookie();
+        $created = $this->flarum->isSessionRemembered() ? $this->flarum->setRememberTokenCookie($token) : $this->flarum->setSessionTokenCookie($token);
 
-        // Save cookie
-        return $this->flarum->setCookie($session ?? $token);
+        return ($deleted and $created);
     }
 
     /**
