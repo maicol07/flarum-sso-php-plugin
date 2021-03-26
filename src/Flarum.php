@@ -37,7 +37,7 @@ class Flarum
     /** @var bool Verify SSL cert. More details on https://docs.guzzlephp.org/en/stable/request-options.html#verify */
     public $verify;
 
-    /** @var User */
+    /** @var User|null */
     private $user;
 
     /**
