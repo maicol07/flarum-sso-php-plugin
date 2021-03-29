@@ -40,7 +40,7 @@ trait Addons
         return $this;
     }
 
-    public function setAddonAttributes(string $addon, array $attributes): self
+    public function setAddonProperties(string $addon, array $attributes): self
     {
         $hook = $this->addons[array_search($addon, $this->addons, true)];
         foreach ($attributes as $key => $value) {
