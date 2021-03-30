@@ -102,56 +102,6 @@ trait Auth
     }
 
     /**
-     * Updates a user. If user id is not set, user will be fetched. Warning! User needs to be found with username or email, so one of those two has to be the old one
-     */
-    public function update(): bool
-    {
-        if (empty($this->id)) {
-            $fetched = $this->fetch();
-            if (!$fetched) {
-                return false;
-            }
-        }
-        $this->flarum->action_hook('before_update');
-
-        $response = $this->flarum->api->users($this->id)->patch([
-            'attributes' => $this->getAttributes()
-        ])->request();
-
-        $this->flarum->action_hook('after_update', $response);
-
-        return ($response->id === $this->id);
-    }
-
-    /**
-     * Deletes a user from Flarum database. Generally, you should use this method when an user successfully deleted
-     * his account from your SSO system (or main website)
-     *
-     * @return bool
-     */
-    public function delete(): bool
-    {
-        $this->flarum->action_hook('before_delete');
-
-        // Logout the user
-        $this->flarum->logout();
-        if (empty($this->id)) {
-            return false;
-        }
-        try {
-            $result = $this->flarum->api->users($this->id)->delete()->request();
-        } catch (ClientException $e) {
-            if ($e->getCode() === 404 and $e->getResponse()->getReasonPhrase() === "Not Found") {
-                $result = false;
-            } else {
-                throw $e;
-            }
-        }
-        $this->flarum->action_hook('after_delete');
-        return $result;
-    }
-
-    /**
      * Generates a password based on username and password token
      *
      * @return string
