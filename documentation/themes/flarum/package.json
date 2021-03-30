@@ -19,7 +19,7 @@
         "mini-css-extract-plugin": "^0.11.0",
         "optimize-css-assets-webpack-plugin": "^5.0.4",
         "optimize-js-plugin": "0.0.4",
-        "postcss-loader": "^3.0.0",
+        "postcss-loader": "^5.0.0",
         "uglifyjs-webpack-plugin": "^2.2.0",
         "url-loader": "^1.1.1",
         "webpack": "^4.44.1",
