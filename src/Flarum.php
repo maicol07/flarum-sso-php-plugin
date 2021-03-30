@@ -169,12 +169,18 @@ class Flarum
     /**
      * Returns the value of $remember (indicates if login should be remembered)
      *
-     * @return bool
+     * @return bool|void
      *
      * @see $remember
+     *
+     * @noinspection MissingReturnTypeInspection
      */
-    public function isSessionRemembered(): bool
+    public function isSessionRemembered(bool $remember = null)
     {
+        if ($remember !== null) {
+            $this->remember = $remember;
+            return;
+        }
         return $this->remember;
     }
 
