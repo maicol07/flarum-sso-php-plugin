@@ -21,7 +21,7 @@
         "optimize-js-plugin": "0.0.4",
         "postcss-loader": "^3.0.0",
         "uglifyjs-webpack-plugin": "^2.2.0",
-        "url-loader": "^1.1.1",
+        "url-loader": "^4.0.0",
         "webpack": "^4.44.1",
         "webpack-cli": "^3.3.12"
     },
