@@ -16,7 +16,7 @@
         "image-webpack-loader": "^4.3.1",
         "less": "^3.12.2",
         "less-loader": "^4.1.0",
-        "mini-css-extract-plugin": "^0.11.0",
+        "mini-css-extract-plugin": "^1.0.0",
         "optimize-css-assets-webpack-plugin": "^5.0.4",
         "optimize-js-plugin": "0.0.4",
         "postcss-loader": "^3.0.0",
