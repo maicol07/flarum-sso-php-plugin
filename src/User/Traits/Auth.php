@@ -102,17 +102,25 @@ trait Auth
     }
 
     /**
-     * Updates a user. Warning! User needs to be find with username or email, so one of those two has to be the old one
+     * Updates a user. If user id is not set, user will be fetched. Warning! User needs to be found with username or email, so one of those two has to be the old one
      */
-    public function update(): void
+    public function update(): bool
     {
+        if (empty($this->id)) {
+            $fetched = $this->fetch();
+            if (!$fetched) {
+                return false;
+            }
+        }
         $this->flarum->action_hook('before_update');
 
-        $this->flarum->api->users($this->id)->patch([
+        $response = $this->flarum->api->users($this->id)->patch([
             'attributes' => $this->getAttributes()
         ])->request();
 
-        $this->flarum->action_hook('after_update');
+        $this->flarum->action_hook('after_update', $response);
+
+        return ($response->id === $this->id);
     }
 
     /**
