@@ -1,10 +1,11 @@
+
 window.projectVersion = 'main';
 
 (function (root) {
 
     var bhIndex = null;
     var rootPath = '';
-    var treeHtml = '        <ul>                <li data-name="namespace:Maicol07" class="opened">                    <div style="padding-left:0px" class="hd">                        <span class="icon icon-play"></span><a href="Maicol07.html">Maicol07</a>                    </div>                    <div class="bd">                                <ul>                <li data-name="namespace:Maicol07_SSO" class="opened">                    <div style="padding-left:18px" class="hd">                        <span class="icon icon-play"></span><a href="Maicol07/SSO.html">SSO</a>                    </div>                    <div class="bd">                                <ul>                <li data-name="namespace:Maicol07_SSO_Addons" >                    <div style="padding-left:36px" class="hd">                        <span class="icon icon-play"></span><a href="Maicol07/SSO/Addons.html">Addons</a>                    </div>                    <div class="bd">                                <ul>                <li data-name="class:Maicol07_SSO_Addons_Core" >                    <div style="padding-left:62px" class="hd leaf">                        <a href="Maicol07/SSO/Addons/Core.html">Core</a>                    </div>                </li>                            <li data-name="class:Maicol07_SSO_Addons_Groups" >                    <div style="padding-left:62px" class="hd leaf">                        <a href="Maicol07/SSO/Addons/Groups.html">Groups</a>                    </div>                </li>                </ul></div>                </li>                            <li data-name="namespace:Maicol07_SSO_Traits" >                    <div style="padding-left:36px" class="hd">                        <span class="icon icon-play"></span><a href="Maicol07/SSO/Traits.html">Traits</a>                    </div>                    <div class="bd">                                <ul>                <li data-name="class:Maicol07_SSO_Traits_Addons" >                    <div style="padding-left:62px" class="hd leaf">                        <a href="Maicol07/SSO/Traits/Addons.html">Addons</a>                    </div>                </li>                            <li data-name="class:Maicol07_SSO_Traits_Cookies" >                    <div style="padding-left:62px" class="hd leaf">                        <a href="Maicol07/SSO/Traits/Cookies.html">Cookies</a>                    </div>                </li>                </ul></div>                </li>                            <li data-name="namespace:Maicol07_SSO_User" >                    <div style="padding-left:36px" class="hd">                        <span class="icon icon-play"></span><a href="Maicol07/SSO/User.html">User</a>                    </div>                    <div class="bd">                                <ul>                <li data-name="namespace:Maicol07_SSO_User_Traits" >                    <div style="padding-left:54px" class="hd">                        <span class="icon icon-play"></span><a href="Maicol07/SSO/User/Traits.html">Traits</a>                    </div>                    <div class="bd">                                <ul>                <li data-name="class:Maicol07_SSO_User_Traits_Auth" >                    <div style="padding-left:80px" class="hd leaf">                        <a href="Maicol07/SSO/User/Traits/Auth.html">Auth</a>                    </div>                </li>                </ul></div>                </li>                            <li data-name="class:Maicol07_SSO_User_Attributes" >                    <div style="padding-left:62px" class="hd leaf">                        <a href="Maicol07/SSO/User/Attributes.html">Attributes</a>                    </div>                </li>                            <li data-name="class:Maicol07_SSO_User_Relationships" >                    <div style="padding-left:62px" class="hd leaf">                        <a href="Maicol07/SSO/User/Relationships.html">Relationships</a>                    </div>                </li>                </ul></div>                </li>                            <li data-name="class:Maicol07_SSO_Flarum" >                    <div style="padding-left:44px" class="hd leaf">                        <a href="Maicol07/SSO/Flarum.html">Flarum</a>                    </div>                </li>                            <li data-name="class:Maicol07_SSO_User" >                    <div style="padding-left:44px" class="hd leaf">                        <a href="Maicol07/SSO/User.html">User</a>                    </div>                </li>                </ul></div>                </li>                </ul></div>                </li>                </ul>';
+    var treeHtml = '<ul>    <li data-name="namespace:Maicol07"        class="opened">        <div style="padding-left:0px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07.html">Maicol07</a>                    </div>        <div class="bd">            <ul>    <li data-name="namespace:Maicol07_SSO"        class="opened">        <div style="padding-left:18px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO.html">SSO</a>                    </div>        <div class="bd">            <ul>    <li data-name="namespace:Maicol07_SSO_Addons"        >        <div style="padding-left:36px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO/Addons.html">Addons</a>                    </div>        <div class="bd">            <ul>    <li data-name="class:Maicol07_SSO_Addons_Core" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/Addons/Core.html">Core</a>        </div>    </li>        <li data-name="class:Maicol07_SSO_Addons_Groups" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/Addons/Groups.html">Groups</a>        </div>    </li>    </ul></div>    </li>        <li data-name="namespace:Maicol07_SSO_Traits"        >        <div style="padding-left:36px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO/Traits.html">Traits</a>                    </div>        <div class="bd">            <ul>    <li data-name="class:Maicol07_SSO_Traits_Addons" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/Traits/Addons.html">Addons</a>        </div>    </li>        <li data-name="class:Maicol07_SSO_Traits_Cookies" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/Traits/Cookies.html">Cookies</a>        </div>    </li>    </ul></div>    </li>        <li data-name="namespace:Maicol07_SSO_User"        >        <div style="padding-left:36px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO/User.html">User</a>                    </div>        <div class="bd">            <ul>    <li data-name="namespace:Maicol07_SSO_User_Traits"        >        <div style="padding-left:54px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO/User/Traits.html">Traits</a>                    </div>        <div class="bd">            <ul>    <li data-name="class:Maicol07_SSO_User_Traits_Auth" >        <div style="padding-left:80px" class="hd leaf">            <a href="Maicol07/SSO/User/Traits/Auth.html">Auth</a>        </div>    </li>    </ul></div>    </li>        <li data-name="class:Maicol07_SSO_User_Attributes" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/User/Attributes.html">Attributes</a>        </div>    </li>        <li data-name="class:Maicol07_SSO_User_Relationships" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/User/Relationships.html">Relationships</a>        </div>    </li>    </ul></div>    </li>        <li data-name="class:Maicol07_SSO_Flarum" >        <div style="padding-left:44px" class="hd leaf">            <a href="Maicol07/SSO/Flarum.html">Flarum</a>        </div>    </li>        <li data-name="class:Maicol07_SSO_User" >        <div style="padding-left:44px" class="hd leaf">            <a href="Maicol07/SSO/User.html">User</a>        </div>    </li>    </ul></div>    </li>    </ul></div>    </li>    </ul>';
 
     var searchTypeClasses = {
         'Namespace': 'label-default',
@@ -52,346 +53,373 @@ window.projectVersion = 'main';
         {
             "type": "Class",
             "fromName": "Maicol07\\SSO\\Addons",
-            "fromLink": "Maicol07/SSO/Addons.html",
-            "link": "Maicol07/SSO/Addons/Core.html",
+            "fromLink": "Maicol07/SSO/Addons.html", "link": "Maicol07/SSO/Addons/Core.html",
             "name": "Maicol07\\SSO\\Addons\\Core",
             "doc": "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Addons\\Core",
-            "fromLink": "Maicol07/SSO/Addons/Core.html",
-            "link": "Maicol07/SSO/Addons/Core.html#method___construct",
-            "name": "Maicol07\\SSO\\Addons\\Core::__construct",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Addons\\Core", "fromLink":
+                "Maicol07/SSO/Addons/Core.html", "link":
+                "Maicol07/SSO/Addons/Core.html#method___construct", "name":
+                "Maicol07\\SSO\\Addons\\Core::__construct", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Addons\\Core",
-            "fromLink": "Maicol07/SSO/Addons/Core.html",
-            "link": "Maicol07/SSO/Addons/Core.html#method_load",
-            "name": "Maicol07\\SSO\\Addons\\Core::load",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Addons\\Core", "fromLink":
+                "Maicol07/SSO/Addons/Core.html", "link":
+                "Maicol07/SSO/Addons/Core.html#method_load", "name":
+                "Maicol07\\SSO\\Addons\\Core::load", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Addons\\Core",
-            "fromLink": "Maicol07/SSO/Addons/Core.html",
-            "link": "Maicol07/SSO/Addons/Core.html#method_unload",
-            "name": "Maicol07\\SSO\\Addons\\Core::unload",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Addons\\Core", "fromLink":
+                "Maicol07/SSO/Addons/Core.html", "link":
+                "Maicol07/SSO/Addons/Core.html#method_unload", "name":
+                "Maicol07\\SSO\\Addons\\Core::unload", "doc":
+                "null"
         },
 
         {
             "type": "Class",
             "fromName": "Maicol07\\SSO\\Addons",
-            "fromLink": "Maicol07/SSO/Addons.html",
-            "link": "Maicol07/SSO/Addons/Groups.html",
+            "fromLink": "Maicol07/SSO/Addons.html", "link": "Maicol07/SSO/Addons/Groups.html",
             "name": "Maicol07\\SSO\\Addons\\Groups",
             "doc": "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Addons\\Groups",
-            "fromLink": "Maicol07/SSO/Addons/Groups.html",
-            "link": "Maicol07/SSO/Addons/Groups.html#method_setGroups",
-            "name": "Maicol07\\SSO\\Addons\\Groups::setGroups",
-            "doc": "&quot;Sets groups to a user&quot;"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Addons\\Groups", "fromLink":
+                "Maicol07/SSO/Addons/Groups.html", "link":
+                "Maicol07/SSO/Addons/Groups.html#method_setGroups", "name":
+                "Maicol07\\SSO\\Addons\\Groups::setGroups", "doc":
+                "&quot;Sets groups to a user&quot;"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Addons\\Groups",
-            "fromLink": "Maicol07/SSO/Addons/Groups.html",
-            "link": "Maicol07/SSO/Addons/Groups.html#method_createGroup",
-            "name": "Maicol07\\SSO\\Addons\\Groups::createGroup",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Addons\\Groups", "fromLink":
+                "Maicol07/SSO/Addons/Groups.html", "link":
+                "Maicol07/SSO/Addons/Groups.html#method_createGroup", "name":
+                "Maicol07\\SSO\\Addons\\Groups::createGroup", "doc":
+                "null"
         },
 
         {
             "type": "Class",
             "fromName": "Maicol07\\SSO",
-            "fromLink": "Maicol07/SSO.html",
-            "link": "Maicol07/SSO/Flarum.html",
+            "fromLink": "Maicol07/SSO.html", "link": "Maicol07/SSO/Flarum.html",
             "name": "Maicol07\\SSO\\Flarum",
             "doc": "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Flarum",
-            "fromLink": "Maicol07/SSO/Flarum.html",
-            "link": "Maicol07/SSO/Flarum.html#method___construct",
-            "name": "Maicol07\\SSO\\Flarum::__construct",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Flarum", "fromLink":
+                "Maicol07/SSO/Flarum.html", "link":
+                "Maicol07/SSO/Flarum.html#method___construct", "name":
+                "Maicol07\\SSO\\Flarum::__construct", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Flarum",
-            "fromLink": "Maicol07/SSO/Flarum.html",
-            "link": "Maicol07/SSO/Flarum.html#method_logout",
-            "name": "Maicol07\\SSO\\Flarum::logout",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Flarum", "fromLink":
+                "Maicol07/SSO/Flarum.html", "link":
+                "Maicol07/SSO/Flarum.html#method_logout", "name":
+                "Maicol07\\SSO\\Flarum::logout", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Flarum",
-            "fromLink": "Maicol07/SSO/Flarum.html",
-            "link": "Maicol07/SSO/Flarum.html#method_user",
-            "name": "Maicol07\\SSO\\Flarum::user",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Flarum", "fromLink":
+                "Maicol07/SSO/Flarum.html", "link":
+                "Maicol07/SSO/Flarum.html#method_user", "name":
+                "Maicol07\\SSO\\Flarum::user", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Flarum",
-            "fromLink": "Maicol07/SSO/Flarum.html",
-            "link": "Maicol07/SSO/Flarum.html#method_getUsersList",
-            "name": "Maicol07\\SSO\\Flarum::getUsersList",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Flarum", "fromLink":
+                "Maicol07/SSO/Flarum.html", "link":
+                "Maicol07/SSO/Flarum.html#method_getUsersList", "name":
+                "Maicol07\\SSO\\Flarum::getUsersList", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Flarum",
-            "fromLink": "Maicol07/SSO/Flarum.html",
-            "link": "Maicol07/SSO/Flarum.html#method_isSessionRemembered",
-            "name": "Maicol07\\SSO\\Flarum::isSessionRemembered",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Flarum", "fromLink":
+                "Maicol07/SSO/Flarum.html", "link":
+                "Maicol07/SSO/Flarum.html#method_isSessionRemembered", "name":
+                "Maicol07\\SSO\\Flarum::isSessionRemembered", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Flarum",
-            "fromLink": "Maicol07/SSO/Flarum.html",
-            "link": "Maicol07/SSO/Flarum.html#method_redirect",
-            "name": "Maicol07\\SSO\\Flarum::redirect",
-            "doc": "&quot;Redirects the user to your Flarum instance&quot;"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Flarum", "fromLink":
+                "Maicol07/SSO/Flarum.html", "link":
+                "Maicol07/SSO/Flarum.html#method_redirect", "name":
+                "Maicol07\\SSO\\Flarum::redirect", "doc":
+                "&quot;Redirects the user to your Flarum instance&quot;"
         },
 
         {
-            "type": "Trait",
+            "type": "Trait"
+            ,
             "fromName": "Maicol07\\SSO\\Traits",
-            "fromLink": "Maicol07/SSO/Traits.html",
-            "link": "Maicol07/SSO/Traits/Addons.html",
+            "fromLink": "Maicol07/SSO/Traits.html", "link": "Maicol07/SSO/Traits/Addons.html",
             "name": "Maicol07\\SSO\\Traits\\Addons",
             "doc": "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Traits\\Addons",
-            "fromLink": "Maicol07/SSO/Traits/Addons.html",
-            "link": "Maicol07/SSO/Traits/Addons.html#method_loadAddon",
-            "name": "Maicol07\\SSO\\Traits\\Addons::loadAddon",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Traits\\Addons", "fromLink":
+                "Maicol07/SSO/Traits/Addons.html", "link":
+                "Maicol07/SSO/Traits/Addons.html#method_loadAddon", "name":
+                "Maicol07\\SSO\\Traits\\Addons::loadAddon", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Traits\\Addons",
-            "fromLink": "Maicol07/SSO/Traits/Addons.html",
-            "link": "Maicol07/SSO/Traits/Addons.html#method_unloadAddon",
-            "name": "Maicol07\\SSO\\Traits\\Addons::unloadAddon",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Traits\\Addons", "fromLink":
+                "Maicol07/SSO/Traits/Addons.html", "link":
+                "Maicol07/SSO/Traits/Addons.html#method_unloadAddon", "name":
+                "Maicol07\\SSO\\Traits\\Addons::unloadAddon", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Traits\\Addons",
-            "fromLink": "Maicol07/SSO/Traits/Addons.html",
-            "link": "Maicol07/SSO/Traits/Addons.html#method_setAddonProperties",
-            "name": "Maicol07\\SSO\\Traits\\Addons::setAddonProperties",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Traits\\Addons", "fromLink":
+                "Maicol07/SSO/Traits/Addons.html", "link":
+                "Maicol07/SSO/Traits/Addons.html#method_setAddonProperties", "name":
+                "Maicol07\\SSO\\Traits\\Addons::setAddonProperties", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Traits\\Addons",
-            "fromLink": "Maicol07/SSO/Traits/Addons.html",
-            "link": "Maicol07/SSO/Traits/Addons.html#method_action_hook",
-            "name": "Maicol07\\SSO\\Traits\\Addons::action_hook",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Traits\\Addons", "fromLink":
+                "Maicol07/SSO/Traits/Addons.html", "link":
+                "Maicol07/SSO/Traits/Addons.html#method_action_hook", "name":
+                "Maicol07\\SSO\\Traits\\Addons::action_hook", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Traits\\Addons",
-            "fromLink": "Maicol07/SSO/Traits/Addons.html",
-            "link": "Maicol07/SSO/Traits/Addons.html#method_filter_hook",
-            "name": "Maicol07\\SSO\\Traits\\Addons::filter_hook",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Traits\\Addons", "fromLink":
+                "Maicol07/SSO/Traits/Addons.html", "link":
+                "Maicol07/SSO/Traits/Addons.html#method_filter_hook", "name":
+                "Maicol07\\SSO\\Traits\\Addons::filter_hook", "doc":
+                "null"
         },
 
         {
-            "type": "Trait",
+            "type": "Trait"
+            ,
             "fromName": "Maicol07\\SSO\\Traits",
-            "fromLink": "Maicol07/SSO/Traits.html",
-            "link": "Maicol07/SSO/Traits/Cookies.html",
+            "fromLink": "Maicol07/SSO/Traits.html", "link": "Maicol07/SSO/Traits/Cookies.html",
             "name": "Maicol07\\SSO\\Traits\\Cookies",
             "doc": "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Traits\\Cookies",
-            "fromLink": "Maicol07/SSO/Traits/Cookies.html",
-            "link": "Maicol07/SSO/Traits/Cookies.html#method_setRememberTokenCookie",
-            "name": "Maicol07\\SSO\\Traits\\Cookies::setRememberTokenCookie",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Traits\\Cookies", "fromLink":
+                "Maicol07/SSO/Traits/Cookies.html", "link":
+                "Maicol07/SSO/Traits/Cookies.html#method_setRememberTokenCookie", "name":
+                "Maicol07\\SSO\\Traits\\Cookies::setRememberTokenCookie", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Traits\\Cookies",
-            "fromLink": "Maicol07/SSO/Traits/Cookies.html",
-            "link": "Maicol07/SSO/Traits/Cookies.html#method_generateCookie",
-            "name": "Maicol07\\SSO\\Traits\\Cookies::generateCookie",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Traits\\Cookies", "fromLink":
+                "Maicol07/SSO/Traits/Cookies.html", "link":
+                "Maicol07/SSO/Traits/Cookies.html#method_generateCookie", "name":
+                "Maicol07\\SSO\\Traits\\Cookies::generateCookie", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Traits\\Cookies",
-            "fromLink": "Maicol07/SSO/Traits/Cookies.html",
-            "link": "Maicol07/SSO/Traits/Cookies.html#method_deleteRememberTokenCookie",
-            "name": "Maicol07\\SSO\\Traits\\Cookies::deleteRememberTokenCookie",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Traits\\Cookies", "fromLink":
+                "Maicol07/SSO/Traits/Cookies.html", "link":
+                "Maicol07/SSO/Traits/Cookies.html#method_deleteRememberTokenCookie", "name":
+                "Maicol07\\SSO\\Traits\\Cookies::deleteRememberTokenCookie", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Traits\\Cookies",
-            "fromLink": "Maicol07/SSO/Traits/Cookies.html",
-            "link": "Maicol07/SSO/Traits/Cookies.html#method_setSessionTokenCookie",
-            "name": "Maicol07\\SSO\\Traits\\Cookies::setSessionTokenCookie",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Traits\\Cookies", "fromLink":
+                "Maicol07/SSO/Traits/Cookies.html", "link":
+                "Maicol07/SSO/Traits/Cookies.html#method_setSessionTokenCookie", "name":
+                "Maicol07\\SSO\\Traits\\Cookies::setSessionTokenCookie", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Traits\\Cookies",
-            "fromLink": "Maicol07/SSO/Traits/Cookies.html",
-            "link": "Maicol07/SSO/Traits/Cookies.html#method_deleteSessionTokenCookie",
-            "name": "Maicol07\\SSO\\Traits\\Cookies::deleteSessionTokenCookie",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Traits\\Cookies", "fromLink":
+                "Maicol07/SSO/Traits/Cookies.html", "link":
+                "Maicol07/SSO/Traits/Cookies.html#method_deleteSessionTokenCookie", "name":
+                "Maicol07\\SSO\\Traits\\Cookies::deleteSessionTokenCookie", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Traits\\Cookies",
-            "fromLink": "Maicol07/SSO/Traits/Cookies.html",
-            "link": "Maicol07/SSO/Traits/Cookies.html#method_setLogoutCookie",
-            "name": "Maicol07\\SSO\\Traits\\Cookies::setLogoutCookie",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Traits\\Cookies", "fromLink":
+                "Maicol07/SSO/Traits/Cookies.html", "link":
+                "Maicol07/SSO/Traits/Cookies.html#method_setLogoutCookie", "name":
+                "Maicol07\\SSO\\Traits\\Cookies::setLogoutCookie", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\Traits\\Cookies",
-            "fromLink": "Maicol07/SSO/Traits/Cookies.html",
-            "link": "Maicol07/SSO/Traits/Cookies.html#method_deleteLogoutCookie",
-            "name": "Maicol07\\SSO\\Traits\\Cookies::deleteLogoutCookie",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Traits\\Cookies", "fromLink":
+                "Maicol07/SSO/Traits/Cookies.html", "link":
+                "Maicol07/SSO/Traits/Cookies.html#method_deleteLogoutCookie", "name":
+                "Maicol07\\SSO\\Traits\\Cookies::deleteLogoutCookie", "doc":
+                "null"
         },
 
         {
             "type": "Class",
             "fromName": "Maicol07\\SSO",
-            "fromLink": "Maicol07/SSO.html",
-            "link": "Maicol07/SSO/User.html",
+            "fromLink": "Maicol07/SSO.html", "link": "Maicol07/SSO/User.html",
             "name": "Maicol07\\SSO\\User",
             "doc": "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\User",
-            "fromLink": "Maicol07/SSO/User.html",
-            "link": "Maicol07/SSO/User.html#method___construct",
-            "name": "Maicol07\\SSO\\User::__construct",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\User", "fromLink":
+                "Maicol07/SSO/User.html", "link":
+                "Maicol07/SSO/User.html#method___construct", "name":
+                "Maicol07\\SSO\\User::__construct", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\User",
-            "fromLink": "Maicol07/SSO/User.html",
-            "link": "Maicol07/SSO/User.html#method_fetch",
-            "name": "Maicol07\\SSO\\User::fetch",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\User", "fromLink":
+                "Maicol07/SSO/User.html", "link":
+                "Maicol07/SSO/User.html#method_update", "name":
+                "Maicol07\\SSO\\User::update", "doc":
+                "&quot;Updates a user. If user id is not set, user will be fetched. Warning! User needs to be found with username or email, so one of those two has to be the old one&quot;"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\User",
-            "fromLink": "Maicol07/SSO/User.html",
-            "link": "Maicol07/SSO/User.html#method_getAttributes",
-            "name": "Maicol07\\SSO\\User::getAttributes",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\User", "fromLink":
+                "Maicol07/SSO/User.html", "link":
+                "Maicol07/SSO/User.html#method_delete", "name":
+                "Maicol07\\SSO\\User::delete", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\User",
-            "fromLink": "Maicol07/SSO/User.html",
-            "link": "Maicol07/SSO/User.html#method_getRelationships",
-            "name": "Maicol07\\SSO\\User::getRelationships",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\User", "fromLink":
+                "Maicol07/SSO/User.html", "link":
+                "Maicol07/SSO/User.html#method_fetch", "name":
+                "Maicol07\\SSO\\User::fetch", "doc":
+                "null"
+        },
+        {
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\User", "fromLink":
+                "Maicol07/SSO/User.html", "link":
+                "Maicol07/SSO/User.html#method_getAttributes", "name":
+                "Maicol07\\SSO\\User::getAttributes", "doc":
+                "null"
+        },
+        {
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\User", "fromLink":
+                "Maicol07/SSO/User.html", "link":
+                "Maicol07/SSO/User.html#method_getRelationships", "name":
+                "Maicol07\\SSO\\User::getRelationships", "doc":
+                "null"
         },
 
         {
             "type": "Class",
             "fromName": "Maicol07\\SSO\\User",
-            "fromLink": "Maicol07/SSO/User.html",
-            "link": "Maicol07/SSO/User/Attributes.html",
+            "fromLink": "Maicol07/SSO/User.html", "link": "Maicol07/SSO/User/Attributes.html",
             "name": "Maicol07\\SSO\\User\\Attributes",
             "doc": "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\User\\Attributes",
-            "fromLink": "Maicol07/SSO/User/Attributes.html",
-            "link": "Maicol07/SSO/User/Attributes.html#method_toArray",
-            "name": "Maicol07\\SSO\\User\\Attributes::toArray",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\User\\Attributes", "fromLink":
+                "Maicol07/SSO/User/Attributes.html", "link":
+                "Maicol07/SSO/User/Attributes.html#method_toArray", "name":
+                "Maicol07\\SSO\\User\\Attributes::toArray", "doc":
+                "null"
         },
 
         {
             "type": "Class",
             "fromName": "Maicol07\\SSO\\User",
-            "fromLink": "Maicol07/SSO/User.html",
-            "link": "Maicol07/SSO/User/Relationships.html",
+            "fromLink": "Maicol07/SSO/User.html", "link": "Maicol07/SSO/User/Relationships.html",
             "name": "Maicol07\\SSO\\User\\Relationships",
             "doc": "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\User\\Relationships",
-            "fromLink": "Maicol07/SSO/User/Relationships.html",
-            "link": "Maicol07/SSO/User/Relationships.html#method_toArray",
-            "name": "Maicol07\\SSO\\User\\Relationships::toArray",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\User\\Relationships", "fromLink":
+                "Maicol07/SSO/User/Relationships.html", "link":
+                "Maicol07/SSO/User/Relationships.html#method_toArray", "name":
+                "Maicol07\\SSO\\User\\Relationships::toArray", "doc":
+                "null"
         },
 
         {
-            "type": "Trait",
+            "type": "Trait"
+            ,
             "fromName": "Maicol07\\SSO\\User\\Traits",
-            "fromLink": "Maicol07/SSO/User/Traits.html",
-            "link": "Maicol07/SSO/User/Traits/Auth.html",
+            "fromLink": "Maicol07/SSO/User/Traits.html", "link": "Maicol07/SSO/User/Traits/Auth.html",
             "name": "Maicol07\\SSO\\User\\Traits\\Auth",
             "doc": "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\User\\Traits\\Auth",
-            "fromLink": "Maicol07/SSO/User/Traits/Auth.html",
-            "link": "Maicol07/SSO/User/Traits/Auth.html#method_login",
-            "name": "Maicol07\\SSO\\User\\Traits\\Auth::login",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\User\\Traits\\Auth", "fromLink":
+                "Maicol07/SSO/User/Traits/Auth.html", "link":
+                "Maicol07/SSO/User/Traits/Auth.html#method_login", "name":
+                "Maicol07\\SSO\\User\\Traits\\Auth::login", "doc":
+                "null"
         },
         {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\User\\Traits\\Auth",
-            "fromLink": "Maicol07/SSO/User/Traits/Auth.html",
-            "link": "Maicol07/SSO/User/Traits/Auth.html#method_signup",
-            "name": "Maicol07\\SSO\\User\\Traits\\Auth::signup",
-            "doc": "null"
-        },
-        {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\User\\Traits\\Auth",
-            "fromLink": "Maicol07/SSO/User/Traits/Auth.html",
-            "link": "Maicol07/SSO/User/Traits/Auth.html#method_update",
-            "name": "Maicol07\\SSO\\User\\Traits\\Auth::update",
-            "doc": "&quot;Updates a user. Warning! User needs to be find with username or email, so one of those two has to be the old one&quot;"
-        },
-        {
-            "type": "Method",
-            "fromName": "Maicol07\\SSO\\User\\Traits\\Auth",
-            "fromLink": "Maicol07/SSO/User/Traits/Auth.html",
-            "link": "Maicol07/SSO/User/Traits/Auth.html#method_delete",
-            "name": "Maicol07\\SSO\\User\\Traits\\Auth::delete",
-            "doc": "null"
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\User\\Traits\\Auth", "fromLink":
+                "Maicol07/SSO/User/Traits/Auth.html", "link":
+                "Maicol07/SSO/User/Traits/Auth.html#method_signup", "name":
+                "Maicol07\\SSO\\User\\Traits\\Auth::signup", "doc":
+                "null"
         },
 
 
