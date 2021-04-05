@@ -40,6 +40,13 @@ trait Addons
         return $this;
     }
 
+    /**
+     * Set addon properties
+     *
+     * @param string $addon
+     * @param array $attributes
+     * @return $this
+     */
     public function setAddonProperties(string $addon, array $attributes): self
     {
         $hook = $this->addons[array_search($addon, $this->addons, true)];
@@ -47,6 +54,17 @@ trait Addons
             $hook->$key = $value;
         }
         return $this;
+    }
+
+    /**
+     * Check if addon is loaded
+     *
+     * @param string $addon
+     * @return bool
+     */
+    public function isAddonLoaded(string $addon): bool
+    {
+        return in_array($addon, $this->addons, true);
     }
 
     /**

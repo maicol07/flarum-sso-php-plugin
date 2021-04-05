@@ -2,6 +2,7 @@
 namespace Maicol07\SSO\Addons;
 
 use Hooks\Hooks;
+use Maicol07\SSO\Exceptions\MissingRequiredAddonException;
 use Maicol07\SSO\Flarum;
 
 /**
@@ -19,6 +20,9 @@ class Core
     /** @var array Filters list */
     protected $filters = [];
 
+    /** @var array Required addons that needs to be loaded before this one */
+    protected $required = [];
+
     /** @var Flarum */
     protected $flarum;
 
@@ -30,12 +34,23 @@ class Core
     }
 
     /**
-     * Load Addons hooks
+     * Load Addons hooks. If the addons require other addons loaded before it, then it will raise an exception
      *
      * @return $this
      */
     public function load(): Core
     {
+        // Check required addons
+        $required = [];
+        foreach ($this->required as $addon) {
+            if (!$this->flarum->isAddonLoaded($addon)) {
+                $required[] = $addon;
+            }
+        }
+        if (!empty($required)) {
+            throw new MissingRequiredAddonException('Following required addons not loaded: ' . implode(', ', $required) . '. You need to load it/them to use this addon');
+        }
+
         $this->manageHooks('add');
         return $this;
     }
