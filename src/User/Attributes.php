@@ -17,8 +17,22 @@ class Attributes
     /** @var string|null */
     public $password;
 
-    /** @var string */
+    /**
+     * WARNING! This is read only! Overwriting this when updating the user won't do anything!
+     * To change the display name use the $nickname variable (beta16+. Nickname extension required).
+     *
+     * @var string
+     * @see $nickname
+     */
     public $displayName;
+
+    /**
+     * WARNING! This is write only! To read this attribute use the $displayName property.
+     * To change the nickname you must have the nickname extension installed on your Flarum.
+     *
+     * @var string
+     */
+    public $nickname;
 
     /** @var string */
     public $avatarUrl;
