@@ -5,7 +5,7 @@ window.projectVersion = 'main';
 
     var bhIndex = null;
     var rootPath = '';
-    var treeHtml = '<ul>    <li data-name="namespace:Maicol07"        class="opened">        <div style="padding-left:0px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07.html">Maicol07</a>                    </div>        <div class="bd">            <ul>    <li data-name="namespace:Maicol07_SSO"        class="opened">        <div style="padding-left:18px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO.html">SSO</a>                    </div>        <div class="bd">            <ul>    <li data-name="namespace:Maicol07_SSO_Addons"        >        <div style="padding-left:36px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO/Addons.html">Addons</a>                    </div>        <div class="bd">            <ul>    <li data-name="class:Maicol07_SSO_Addons_Core" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/Addons/Core.html">Core</a>        </div>    </li>        <li data-name="class:Maicol07_SSO_Addons_Groups" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/Addons/Groups.html">Groups</a>        </div>    </li>    </ul></div>    </li>        <li data-name="namespace:Maicol07_SSO_Traits"        >        <div style="padding-left:36px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO/Traits.html">Traits</a>                    </div>        <div class="bd">            <ul>    <li data-name="class:Maicol07_SSO_Traits_Addons" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/Traits/Addons.html">Addons</a>        </div>    </li>        <li data-name="class:Maicol07_SSO_Traits_Cookies" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/Traits/Cookies.html">Cookies</a>        </div>    </li>    </ul></div>    </li>        <li data-name="namespace:Maicol07_SSO_User"        >        <div style="padding-left:36px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO/User.html">User</a>                    </div>        <div class="bd">            <ul>    <li data-name="namespace:Maicol07_SSO_User_Traits"        >        <div style="padding-left:54px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO/User/Traits.html">Traits</a>                    </div>        <div class="bd">            <ul>    <li data-name="class:Maicol07_SSO_User_Traits_Auth" >        <div style="padding-left:80px" class="hd leaf">            <a href="Maicol07/SSO/User/Traits/Auth.html">Auth</a>        </div>    </li>    </ul></div>    </li>        <li data-name="class:Maicol07_SSO_User_Attributes" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/User/Attributes.html">Attributes</a>        </div>    </li>        <li data-name="class:Maicol07_SSO_User_Relationships" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/User/Relationships.html">Relationships</a>        </div>    </li>    </ul></div>    </li>        <li data-name="class:Maicol07_SSO_Flarum" >        <div style="padding-left:44px" class="hd leaf">            <a href="Maicol07/SSO/Flarum.html">Flarum</a>        </div>    </li>        <li data-name="class:Maicol07_SSO_User" >        <div style="padding-left:44px" class="hd leaf">            <a href="Maicol07/SSO/User.html">User</a>        </div>    </li>    </ul></div>    </li>    </ul></div>    </li>    </ul>';
+    var treeHtml = '<ul>    <li data-name="namespace:Maicol07"        class="opened">        <div style="padding-left:0px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07.html">Maicol07</a>                    </div>        <div class="bd">            <ul>    <li data-name="namespace:Maicol07_SSO"        class="opened">        <div style="padding-left:18px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO.html">SSO</a>                    </div>        <div class="bd">            <ul>    <li data-name="namespace:Maicol07_SSO_Addons"        >        <div style="padding-left:36px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO/Addons.html">Addons</a>                    </div>        <div class="bd">            <ul>    <li data-name="class:Maicol07_SSO_Addons_Core" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/Addons/Core.html">Core</a>        </div>    </li>        <li data-name="class:Maicol07_SSO_Addons_Groups" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/Addons/Groups.html">Groups</a>        </div>    </li>    </ul></div>    </li>        <li data-name="namespace:Maicol07_SSO_Exceptions"        >        <div style="padding-left:36px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO/Exceptions.html">Exceptions</a>                    </div>        <div class="bd">            <ul>    <li data-name="class:Maicol07_SSO_Exceptions_MissingRequiredAddonException" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/Exceptions/MissingRequiredAddonException.html">MissingRequiredAddonException</a>        </div>    </li>    </ul></div>    </li>        <li data-name="namespace:Maicol07_SSO_Traits"        >        <div style="padding-left:36px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO/Traits.html">Traits</a>                    </div>        <div class="bd">            <ul>    <li data-name="class:Maicol07_SSO_Traits_Addons" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/Traits/Addons.html">Addons</a>        </div>    </li>        <li data-name="class:Maicol07_SSO_Traits_Cookies" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/Traits/Cookies.html">Cookies</a>        </div>    </li>    </ul></div>    </li>        <li data-name="namespace:Maicol07_SSO_User"        >        <div style="padding-left:36px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO/User.html">User</a>                    </div>        <div class="bd">            <ul>    <li data-name="namespace:Maicol07_SSO_User_Traits"        >        <div style="padding-left:54px" class="hd">            <span class="icon icon-play"></span>                            <a href="Maicol07/SSO/User/Traits.html">Traits</a>                    </div>        <div class="bd">            <ul>    <li data-name="class:Maicol07_SSO_User_Traits_Auth" >        <div style="padding-left:80px" class="hd leaf">            <a href="Maicol07/SSO/User/Traits/Auth.html">Auth</a>        </div>    </li>    </ul></div>    </li>        <li data-name="class:Maicol07_SSO_User_Attributes" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/User/Attributes.html">Attributes</a>        </div>    </li>        <li data-name="class:Maicol07_SSO_User_Relationships" >        <div style="padding-left:62px" class="hd leaf">            <a href="Maicol07/SSO/User/Relationships.html">Relationships</a>        </div>    </li>    </ul></div>    </li>        <li data-name="class:Maicol07_SSO_Flarum" >        <div style="padding-left:44px" class="hd leaf">            <a href="Maicol07/SSO/Flarum.html">Flarum</a>        </div>    </li>        <li data-name="class:Maicol07_SSO_User" >        <div style="padding-left:44px" class="hd leaf">            <a href="Maicol07/SSO/User.html">User</a>        </div>    </li>    </ul></div>    </li>    </ul></div>    </li>    </ul>';
 
     var searchTypeClasses = {
         'Namespace': 'label-default',
@@ -33,6 +33,11 @@ window.projectVersion = 'main';
             "link": "Maicol07/SSO/Addons.html",
             "name": "Maicol07\\SSO\\Addons",
             "doc": "Namespace Maicol07\\SSO\\Addons"
+        }, {
+            "type": "Namespace",
+            "link": "Maicol07/SSO/Exceptions.html",
+            "name": "Maicol07\\SSO\\Exceptions",
+            "doc": "Namespace Maicol07\\SSO\\Exceptions"
         }, {
             "type": "Namespace",
             "link": "Maicol07/SSO/Traits.html",
@@ -109,6 +114,15 @@ window.projectVersion = 'main';
                 "Maicol07/SSO/Addons/Groups.html#method_createGroup", "name":
                 "Maicol07\\SSO\\Addons\\Groups::createGroup", "doc":
                 "null"
+        },
+
+        {
+            "type": "Class",
+            "fromName": "Maicol07\\SSO\\Exceptions",
+            "fromLink": "Maicol07/SSO/Exceptions.html",
+            "link": "Maicol07/SSO/Exceptions/MissingRequiredAddonException.html",
+            "name": "Maicol07\\SSO\\Exceptions\\MissingRequiredAddonException",
+            "doc": "null"
         },
 
         {
@@ -206,6 +220,15 @@ window.projectVersion = 'main';
                 "Maicol07/SSO/Traits/Addons.html", "link":
                 "Maicol07/SSO/Traits/Addons.html#method_setAddonProperties", "name":
                 "Maicol07\\SSO\\Traits\\Addons::setAddonProperties", "doc":
+                "null"
+        },
+        {
+            "type":
+                "Method", "fromName":
+                "Maicol07\\SSO\\Traits\\Addons", "fromLink":
+                "Maicol07/SSO/Traits/Addons.html", "link":
+                "Maicol07/SSO/Traits/Addons.html#method_isAddonLoaded", "name":
+                "Maicol07\\SSO\\Traits\\Addons::isAddonLoaded", "doc":
                 "null"
         },
         {
