@@ -50,7 +50,6 @@ class Flarum
      * @type string $password_token Random token to create passwords
      * @type bool $remember Should the login be remembered (this equals to 5 years remember from last usage)? If false, token will be remembered only for 1 hour. Default: false
      * @type bool|string $verify_ssl Verify SSL cert. More details on https://docs.guzzlephp.org/en/stable/request-options.html#verify. Default: true
-     * @type bool $set_groups_admins Set groups for admins. Set to false if you don't want to set groups to admins. Default: true
      * }
      */
     public function __construct(array $config)

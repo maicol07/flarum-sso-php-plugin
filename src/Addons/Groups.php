@@ -14,9 +14,6 @@ class Groups extends Core
         'after_update' => 'setGroups'
     ];
 
-    /** @var bool Set groups for admins */
-    public $set_groups_admins = true;
-
     /**
      * Sets groups to a user
      *
