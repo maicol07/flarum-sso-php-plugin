@@ -40,8 +40,7 @@ class Groups extends Core
                 }
 
                 // Find ID of the group
-                $id = array_key_first(Arr::where($flarum_groups, function ($name) {
-                    global $group;
+                $id = array_key_first(Arr::where($flarum_groups, function ($name) use ($group) {
                     return $name === $group;
                 }));
                 // If it doesn't exists, create it
