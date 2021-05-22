@@ -2,9 +2,9 @@ style: github
 template: CHANGELOG.tpl.md
 info:
   title: CHANGELOG
-  repository_url: https://github.com/maicol07/flarum_sso_php_plugin
+  repository_url: https://github.com/maicol07/flarum-ext-sso
 options:
-  #commits:
+  commits:
   # filters:
   #   Type:
   #     - feat
@@ -18,22 +18,29 @@ options:
       - update
       - perf
       - fix
+      - fixed
+      - revert
+      - rename
       - refactor
       - style
+      - docs
       - build
+      - ci
       - chore
     title_maps:
       feat: ✨ Features
       fix: 🐛 Bug Fixes
       fixed: 🐛 Bug Fixes
       perf: ⚡ Performance Improvements
+      docs: 📝 Docs changes
       refactor: ♻ Code Refactoring
+      rename: 🚚 Renamed
       revert: ⏪ Reverted
       update: 🔄 Updates
       build: 👷 Building scripts changes
       chore: Other changes
       style: 🎨 Code styling
-      docs: 📝 Documentation changes
+      ci: 👷 CI changes
   header:
     pattern: "^(\\w*)(?:\\(([\\w\\$\\.\\-\\*\\s]*)\\))?\\:\\s(.*)$"
     pattern_maps:
@@ -43,3 +50,4 @@ options:
   notes:
     keywords:
       - BREAKING CHANGE
+      - 💥
