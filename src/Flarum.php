@@ -23,7 +23,7 @@ class Flarum
     public $api;
 
     /* @var bool Should the login be remembered (this equals to 5 years remember from last usage)? If false, token will be remembered only for 1 hour */
-    private $remember;
+    public $remember;
 
     /* @var string Random token to create passwords */
     public $password_token;
