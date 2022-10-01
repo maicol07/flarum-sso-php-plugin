@@ -30,7 +30,7 @@ trait Cookies
             $expiry = Carbon::now();
         }
 
-        return (new Cookie("flarum_$name"))
+        return (new Cookie("{$this->cookies_prefix}_$name"))
             ->setDomain($this->root_domain)
             ->setSecureOnly($this->verify)
             ->setValue($value)

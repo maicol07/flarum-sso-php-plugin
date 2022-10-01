@@ -37,20 +37,31 @@ class Flarum
     /** @var bool Verify SSL cert. More details on https://docs.guzzlephp.org/en/stable/request-options.html#verify */
     public $verify;
 
+    /** @var string */
+    public $cookies_prefix;
+
     /** @var User|null */
     private $user;
 
     /**
      * Flarum constructor
      *
-     * @param array $config {
-     * @type string $url Flarum URL
-     * @type string $root_domain Main site or SSO system domain
-     * @type string $api_key Random key from the api_keys table of your Flarum forum
-     * @type string $password_token Random token to create passwords
-     * @type bool $remember Should the login be remembered (this equals to 5 years remember from last usage)? If false, token will be remembered only for 1 hour. Default: false
-     * @type bool|string $verify_ssl Verify SSL cert. More details on https://docs.guzzlephp.org/en/stable/request-options.html#verify. Default: true
-     * }
+     * @param array{
+     *     url: string,
+     *     root_domain: string,
+     *     api_key: string,
+     *     password_token: string,
+     *     remember: bool,
+     *     verify_ssl: bool|string,
+     *     cookies_prefix: string
+     * } $config Options array. It accepts the following elements:
+     *  - url: string - Flarum URL
+     *  - root_domain: string - Main site or SSO system domain
+     *  - pai_key: string - Random key from the api_keys table of your Flarum forum
+     *  - password_token: string - Random token to create passwords
+     *  - remember: bool - Should the login be remembered (this equals to 5 years remember from last usage)? If false, token will be remembered only for 1 hour. Default: false
+     *  - verify_ssl: bool|string - Verify SSL cert. More details on https://docs.guzzlephp.org/en/stable/request-options.html#verify. Default: true
+     *  - cookies_prefix: string - String to prefix the cookie name when creating remember/auth tokens. Default: "flarum"
      */
     public function __construct(array $config)
     {
@@ -76,6 +87,8 @@ class Flarum
         ]);
 
         $this->remember = Arr::get($config, 'remember', false);
+
+        $this->cookies_prefix = Arr::get($config, 'cookies_prefix', 'flarum');
 
         $this->initAddons();
     }
