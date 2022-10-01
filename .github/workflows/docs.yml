@@ -21,7 +21,7 @@ jobs:
       - name: build doctum docs
         uses: sudo-bot/action-doctum@v5
         with:
-          config-file: doctum.php
+          config-file: "documentation/doctum.config.php"
           # parse, render or update
           method: "update"
           # (optional) defaults to '--output-format=github --no-ansi --no-progress -v'
