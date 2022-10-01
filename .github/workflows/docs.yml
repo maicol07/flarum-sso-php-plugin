@@ -1,4 +1,4 @@
-name: Build changelog
+name: Build API docs
 on:
   repository_dispatch:
     types: [ trigger-changelog-workflow ]
