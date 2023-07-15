@@ -98,6 +98,10 @@ class User
             }
         }
         $this->flarum->action_hook('after_delete');
+        $this->flarum->deleteSessionTokenCookie();
+        $this->flarum->deleteRememberTokenCookie();
+        $this->flarum->deleteLogoutCookie();
+        $this->flarum->action_hook('after_delete_cookies');
         return $result;
     }
 
