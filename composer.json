@@ -35,7 +35,8 @@
     "require-dev": {
         "roave/security-advisories": "dev-latest",
         "vlucas/phpdotenv": "^5",
-        "laravel/pint": "^1"
+        "laravel/pint": "^1",
+        "rector/rector": "^0.17.6"
     },
     "autoload": {
         "psr-4": {
