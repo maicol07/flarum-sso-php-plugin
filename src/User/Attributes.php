@@ -6,6 +6,7 @@ namespace Maicol07\SSO\User;
  * Class Attributes
  * @package Maicol07\SSO\User
  */
+#[\AllowDynamicProperties]
 class Attributes
 {
     /** @var string */
