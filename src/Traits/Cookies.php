@@ -16,17 +16,15 @@ trait Cookies
     /**
      * Generate a cookie
      *
-     * @param string $name
      * @param string|null $value
      * @param Carbon|null $expiry
      *
-     * @return Cookie
      *
      * @noinspection CallableParameterUseCaseInTypeContextInspection
      */
     public function generateCookie(string $name, string $value = null, Carbon $expiry = null): Cookie
     {
-        if ($expiry === null) {
+        if (!$expiry instanceof \Illuminate\Support\Carbon) {
             $expiry = Carbon::now();
         }
 

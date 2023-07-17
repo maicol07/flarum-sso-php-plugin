@@ -17,9 +17,12 @@ use Maicol07\SSO\Traits\Cookies;
  */
 class Flarum
 {
-    use Cookies, Addons;
-
+    use Cookies;
+    use Addons;
     /* @var Client Api client */
+    /**
+     * @var \Maicol07\Flarum\Api\Client
+     */
     public $api;
 
     /* @var bool Should the login be remembered (this equals to 5 years remember from last usage)? If false, token will be remembered only for 1 hour */
@@ -40,8 +43,7 @@ class Flarum
     /** @var string */
     public $cookies_prefix;
 
-    /** @var User|null */
-    private $user;
+    private ?\Maicol07\SSO\User $user = null;
 
     /**
      * Flarum constructor
@@ -96,24 +98,24 @@ class Flarum
     /**
      * Logs out the current user from Flarum. Generally, you should use this method when an user successfully logged out from
      * your SSO system (or main website)
-     *
-     * @return bool
      */
     public function logout(): bool
     {
         $this->action_hook('before_logout');
 
-        $deleted = $this->deleteSessionTokenCookie() and $this->deleteRememberTokenCookie();
+        if ($deleted = $this->deleteSessionTokenCookie()) {
+            $this->deleteRememberTokenCookie();
+        }
         $created = $this->setLogoutCookie();
 
         $this->hooks->do_action('after_logout', $deleted, $created);
 
-        return ($deleted and $created);
+        return ($deleted && $created);
     }
 
     public function user(string $username = null): User
     {
-        if ($this->user === null) {
+        if (!$this->user instanceof \Maicol07\SSO\User) {
             $this->user = new User($username, $this);
         }
 
@@ -136,7 +138,6 @@ class Flarum
      *
      * There could be more if you have other extensions that adds them to Flarum API
      *
-     * @return Collection
      *
      * @noinspection MissingParameterTypeDeclarationInspection
      */
@@ -147,7 +148,7 @@ class Flarum
 
         while ($offset !== null) {
             $response = $this->api->users()->offset($offset)->request();
-            if ($response instanceof Item and empty($response->type)) {
+            if ($response instanceof Item && $response->type === '') {
                 $offset = null;
                 continue;
             }
@@ -158,7 +159,7 @@ class Flarum
 
         // Filters
         $filtered = collect();
-        if (!empty($filters)) {
+        if ($filters !== '' && $filters !== []) {
             $grouped = true;
             if (is_string($filters)) {
                 $filters = [$filters];
@@ -167,11 +168,13 @@ class Flarum
 
             foreach ($filters as $filter) {
                 $plucked = $collection->pluck($filter);
-                if (!empty($grouped)) {
+                if ($grouped) {
                     $plucked = [$filter => $plucked];
                 }
+                
                 $filtered = $filtered->mergeRecursive($plucked);
             }
+            
             $collection = $filtered;
         }
 
@@ -193,6 +196,7 @@ class Flarum
             $this->remember = $remember;
             return;
         }
+        
         return $this->remember;
     }
 

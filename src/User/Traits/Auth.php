@@ -15,8 +15,6 @@ trait Auth
     /**
      * Logs the user in Flarum. Generally, you should use this method when an user successfully log into
      * your SSO system (or main website).
-     *
-     * @return bool
      */
     public function login(): bool
     {
@@ -30,6 +28,7 @@ trait Auth
         if (empty($this->attributes->password)) {
             throw new RuntimeException("User's password not set");
         }
+        
         $token = $this->getToken();
 
         $this->flarum->action_hook('after_token_obtained', $token);
@@ -48,11 +47,12 @@ trait Auth
                 }
             } catch (ClientException $e) {
                 // ...otherwise signup it
-                if ($e->getCode() === 404 and $e->getResponse()->getReasonPhrase() === "Not Found") {
+                if ($e->getCode() === 404 && $e->getResponse()->getReasonPhrase() === "Not Found") {
                     $signed_up = $this->signup();
                     if (!$signed_up) {
                         return false;
                     }
+                    
                     $this->flarum->action_hook('after_signup');
                     $token = $this->getToken();
                 } else {
@@ -66,14 +66,12 @@ trait Auth
         $deleted = $this->flarum->deleteLogoutCookie();
         $created = $this->flarum->isSessionRemembered() ? $this->flarum->setRememberTokenCookie($token) : $this->flarum->setSessionTokenCookie($token);
 
-        return ($deleted and $created);
+        return ($deleted && $created);
     }
 
     /**
      * Sign up user in Flarum. Generally, you should use this method when an user successfully log into
      * your SSO system (or main website) and you found out that user don't have a token (because he hasn't an account on Flarum)
-     *
-     * @return bool
      */
     public function signup(): bool
     {
@@ -97,14 +95,13 @@ trait Auth
             if ($e->getResponse()->getReasonPhrase() === "Unprocessable Entity") {
                 return false;
             }
+            
             throw $e;
         }
     }
 
     /**
      * Generates a password based on username and password token
-     *
-     * @return string
      */
     private function createPassword(): string
     {
@@ -113,8 +110,6 @@ trait Auth
 
     /**
      * Get user token from Flarum (if user exists)
-     *
-     * @return string
      */
     private function getToken(): ?string
     {
@@ -131,6 +126,7 @@ trait Auth
             if ($e->getResponse()->getReasonPhrase() === "Unauthorized") {
                 return null;
             }
+            
             throw $e;
         }
     }

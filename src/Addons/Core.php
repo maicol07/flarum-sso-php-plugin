@@ -11,9 +11,6 @@ use Maicol07\SSO\Flarum;
  */
 class Core
 {
-    /** @var Hooks */
-    protected $hooks;
-
     /** @var array Actions list */
     protected $actions = [];
 
@@ -23,20 +20,13 @@ class Core
     /** @var array Required addons that needs to be loaded before this one */
     protected $required = [];
 
-    /** @var Flarum */
-    protected $flarum;
-
-    public function __construct(Hooks $hooks, Flarum $flarum)
+    public function __construct(protected \Hooks\Hooks $hooks, protected \Maicol07\SSO\Flarum $flarum)
     {
-        $this->flarum = $flarum;
-        $this->hooks = $hooks;
         $this->load();
     }
 
     /**
      * Load Addons hooks. If the addons require other addons loaded before it, then it will raise an exception
-     *
-     * @return $this
      */
     public function load(): Core
     {
@@ -47,7 +37,8 @@ class Core
                 $required[] = $addon;
             }
         }
-        if (!empty($required)) {
+        
+        if ($required !== []) {
             throw new MissingRequiredAddonException('Following required addons not loaded: ' . implode(', ', $required) . '. You need to load it/them to use this addon');
         }
 
@@ -66,16 +57,14 @@ class Core
             $type = in_array($method, $this->actions, true) ? 'action' : 'filter';
             $methods = is_array($method) ? $method : [$method];
 
-            foreach ($methods as $m) {
-                $this->hooks->{"{$op}_$type"}($name, [$this, $m]);
+            foreach ($methods as $method) {
+                $this->hooks->{"{$op}_$type"}($name, [$this, $method]);
             }
         }
     }
 
     /**
      * Unload Addons hooks
-     *
-     * @return $this
      */
     public function unload(): Core
     {

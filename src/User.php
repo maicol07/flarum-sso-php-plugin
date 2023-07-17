@@ -36,15 +36,13 @@ class User
     public function __construct(?string $username, Flarum $flarum)
     {
         $this->flarum = $flarum;
-
-        $this->id = null;
         $this->attributes = new Attributes();
         $this->relationships = new Relationships();
         $this->attributes->username = $username;
 
         $this->flarum->filter_hook('before_user_init', $this);
 
-        if (!empty($username)) {
+        if ($username !== null && $username !== '') {
             $this->fetch();
         }
 
@@ -56,12 +54,13 @@ class User
      */
     public function update(): bool
     {
-        if (empty($this->id)) {
+        if ($this->id === null || $this->id === 0) {
             $fetched = $this->fetch();
             if (!$fetched) {
                 return false;
             }
         }
+        
         $this->flarum->action_hook('before_update');
 
         $response = $this->flarum->api->users($this->id)->patch([
@@ -76,8 +75,6 @@ class User
     /**
      * Deletes a user from Flarum database. Generally, you should use this method when an user successfully deleted
      * his account from your SSO system (or main website)
-     *
-     * @return bool
      */
     public function delete(): bool
     {
@@ -85,18 +82,20 @@ class User
 
         // Logout the user
         $this->flarum->logout();
-        if (empty($this->id)) {
+        if ($this->id === null || $this->id === 0) {
             return false;
         }
+        
         try {
             $result = $this->flarum->api->users($this->id)->delete()->request();
         } catch (ClientException $e) {
-            if ($e->getCode() === 404 and $e->getResponse()->getReasonPhrase() === "Not Found") {
+            if ($e->getCode() === 404 && $e->getResponse()->getReasonPhrase() === "Not Found") {
                 $result = false;
             } else {
                 throw $e;
             }
         }
+        
         $this->flarum->action_hook('after_delete');
         $this->flarum->deleteSessionTokenCookie();
         $this->flarum->deleteRememberTokenCookie();
@@ -115,11 +114,12 @@ class User
         try {
             $user = $this->flarum->api->users($this->attributes->username)->request();
         } catch (ClientException $e) {
-            if ($e->getCode() === 404 and $e->getResponse()->getReasonPhrase() === "Not Found") {
+            if ($e->getCode() === 404 && $e->getResponse()->getReasonPhrase() === "Not Found") {
                 // User doesn't exists in Flarum
                 $this->id = null;
                 return false;
             }
+            
             throw $e;
         }
 

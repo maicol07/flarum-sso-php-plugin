@@ -21,7 +21,7 @@ class Groups extends Core
     public function setGroups(): void
     {
         $user = $this->flarum->user();
-        if (!empty($user->id)) {
+        if ($user->id !== null && $user->id !== 0) {
             $groups = [];
 
             /** Search flarum groups - @noinspection NullPointerExceptionInspection */
@@ -32,16 +32,14 @@ class Groups extends Core
             );
 
             foreach ($user->relationships->groups as $group) {
-                if (empty($group) or !is_string($group)) {
+                if (empty($group) || !is_string($group)) {
                     continue;
                 }
 
                 // Find ID of the group
-                $id = array_key_first(Arr::where($flarum_groups, function ($name) use ($group) {
-                    return $name === $group;
-                }));
+                $id = array_key_first(Arr::where($flarum_groups, static fn($name): bool => $name === $group));
                 // If it doesn't exists, create it
-                if (empty($id)) {
+                if ($id === 0 || $id === '' || $id === null) {
                     $id = $this->createGroup($group);
                 }
 
@@ -64,10 +62,8 @@ class Groups extends Core
     /**
      * Add a group to Flarum
      *
-     * @param string $group
      *
      * @return mixed
-     *
      * @noinspection MissingReturnTypeInspection
      */
     public function createGroup(string $group)

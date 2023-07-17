@@ -28,7 +28,7 @@
         "php": ">=8.0",
         "ext-json": "*",
         "delight-im/cookie": "^3",
-        "illuminate/support": "^8|^9|^10",
+        "illuminate/support": ">=8",
         "maicol07/flarum-api-client": "^1",
         "mistic100/php-hooks": "^0"
     },

@@ -81,7 +81,7 @@ class Attributes
     public $canBandIP;
 
     /** @var array */
-    public $usernameHistory;
+    public $usernameHistory = [];
 
     /** @var bool */
     public $canViewWarnings;

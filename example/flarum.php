@@ -2,6 +2,11 @@
 // Create the Flarum object with the required configuration. The parameters are explained in the class file (src/Flarum.php)
 use Maicol07\SSO\Flarum;
 
+/** @noinspection DevelopmentDependenciesUsageInspection */
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+/** @noinspection LaravelFunctionsInspection */
 $flarum = new Flarum([
     'url' => env('FLARUM_HOST', 'https://discuss.flarum.org'),
     'root_domain' => env('ROOT_DOMAIN', 'flarum.org'),

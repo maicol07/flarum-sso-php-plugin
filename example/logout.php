@@ -1,14 +1,7 @@
 <?php /** @noinspection DuplicatedCode */
 
-use Dotenv\Dotenv;
-
 // Note: Since this is called from the example folder, the vendor folder is located in the previous tree level
 require_once __DIR__ . '/../vendor/autoload.php';
-
-// Load .env
-$env = Dotenv::createImmutable(__DIR__);
-$env->load();
-
 require_once __DIR__ . '/flarum.php';
 /** @var $flarum <-- Fix PHPStorm hints */
 
