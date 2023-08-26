@@ -1,6 +1,28 @@
 # Changelog
 
 
+<a name="3.2"></a>
+## [3.2](https://github.com/maicol07/flarum-sso-php-plugin/compare/3.1...3.2)
+
+> Released on July 17, 2023
+
+### 🐛 Bug Fixes
+- [`8875750`](https://github.com/maicol07/flarum-sso-php-plugin/commit/887575059e4b38ca51896f45d73a8803330810bc) Allow dynamic properties on PHP 8.2
+  - [`23e4847`](https://github.com/maicol07/flarum-sso-php-plugin/commit/23e4847b331b0e7337929a7abe05e563028ad972) Delete cookies when deleting a user
+  
+  ### ♻ Code Refactoring
+- [`3d4bb3c`](https://github.com/maicol07/flarum-sso-php-plugin/commit/3d4bb3c848f1289f6f161f463cd0890b4e896524) ♻️ General refactor
+  
+  ### Other changes
+- [`09ab582`](https://github.com/maicol07/flarum-sso-php-plugin/commit/09ab58270cda5cff0eaba82dfe6ec4de79c482ac) Added rector
+  - [`0cce9e8`](https://github.com/maicol07/flarum-sso-php-plugin/commit/0cce9e83ed6ca0b9eb16d678c879f963e71cd6ac) **deps:** Added Laravel Pint
+  - [`5ca1bdd`](https://github.com/maicol07/flarum-sso-php-plugin/commit/5ca1bdd9b6bd7e71ee3185239ed43780564126cc) **deps:** Support Laravel 10
+  
+  ### 🔀 Pull Requests
+
+- [`8018848`](https://github.com/maicol07/flarum-sso-php-plugin/commit/801884837d460bc217f2093d3e377385b3cba946) Merge pull request [#32](https://github.com/maicol07/flarum-sso-php-plugin/issues/32) from ipikles/master
+  
+  
 <a name="3.1"></a>
 ## [3.1](https://github.com/maicol07/flarum-sso-php-plugin/compare/3.0.1...3.1)
 
@@ -108,16 +130,16 @@
     - WARNING! illuminate/support pinned to ^8 (removed support for Laravel 6 & 7)
   
   ### 🔄 Updates
-- [`443658d`](https://github.com/maicol07/flarum-sso-php-plugin/commit/443658d6ca64b7a22a443866a82f8361434f8096) 🔥 Removed the getForumLink
-  
-      URL is accessible via the url property
-  - [`3f31ea6`](https://github.com/maicol07/flarum-sso-php-plugin/commit/3f31ea614a15c9e409f6cd31dc0792801788b377) ✨ Updated user `update` method
+- [`3f31ea6`](https://github.com/maicol07/flarum-sso-php-plugin/commit/3f31ea614a15c9e409f6cd31dc0792801788b377) ✨ Updated user `update` method
   
       - ✨ Added check if id is set. If not set, it will be fetched automatically.
     - ✨ Response is now saved and passed as argument to the after_update method hook.
     - ✨ The method now returns a bool. True if the user has been updated (the response correctly reports the user id); false if the user can't be fetched (if the user id doesn't exists) or the response id is different from user id
   - [`7b14a69`](https://github.com/maicol07/flarum-sso-php-plugin/commit/7b14a69e8b8853096a90e560957423f656d80ffa) 🚚 💥 Renamed the `fetchUser` method to simply `fetch`
   - [`e9c1c9e`](https://github.com/maicol07/flarum-sso-php-plugin/commit/e9c1c9ed309ead47182e465284900c042f4edca4) 🚚 Moved and Renamed the Basic trait to the Auth trait in the Maicol07\SSO\User\Traits namespace
+  - [`443658d`](https://github.com/maicol07/flarum-sso-php-plugin/commit/443658d6ca64b7a22a443866a82f8361434f8096) 🔥 Removed the getForumLink
+  
+      URL is accessible via the url property
   - [`80d1f7e`](https://github.com/maicol07/flarum-sso-php-plugin/commit/80d1f7eb6991b195eb2dcd2ee4438345cf9e1937) Minor improvements
   - [`c1e71eb`](https://github.com/maicol07/flarum-sso-php-plugin/commit/c1e71eba648d64c2607eb4b7f3e1ea64db0fcc41) **addons:** 🚚 Renamed master property to flarum (consistency)
   - [`e886c59`](https://github.com/maicol07/flarum-sso-php-plugin/commit/e886c596b6e6bdc9c8cf3543bffb732617c8e118) **example:** Updated example
@@ -192,6 +214,12 @@
   - [`f913e74`](https://github.com/maicol07/flarum-sso-php-plugin/commit/f913e74b5402482c2613dc329f189c5aab5c181f) Load namespaces in composer autoloader
   - [`1ce51e4`](https://github.com/maicol07/flarum-sso-php-plugin/commit/1ce51e4ec6e1260d78353a73aa8e96a99a17f955) 🐛 Warnings when username is null
   - [`5e99f70`](https://github.com/maicol07/flarum-sso-php-plugin/commit/5e99f70e54f8e23b86b2247b948b3b3ad3b88603) Replace methods
+  - [`cf2be12`](https://github.com/maicol07/flarum-sso-php-plugin/commit/cf2be127b5e5aa74fd2fad1f31cb50154b0690c4) 🥅 Exception if user does not exists in Flarum
+  
+      - Also added a new hook action
+  - [`0d9c12e`](https://github.com/maicol07/flarum-sso-php-plugin/commit/0d9c12ea655a894ad35c09dc797bb4faf91b1aa6) last commit fixes
+  - [`daeaf04`](https://github.com/maicol07/flarum-sso-php-plugin/commit/daeaf04317c9a183e98e15be078bf08ec4b14a56) ✏️ Typos
+  - [`ff7c262`](https://github.com/maicol07/flarum-sso-php-plugin/commit/ff7c26263b77a41b112cac33b3994303dc17af7f) ✏️ Typos
   - [`be32b36`](https://github.com/maicol07/flarum-sso-php-plugin/commit/be32b36747fca430f1cb31ddb8a36f8c1bd17472) 🐛 Attributes and relationships not initialized
   - [`50bc982`](https://github.com/maicol07/flarum-sso-php-plugin/commit/50bc982f3880d8ae8578a436fb00ce3f5e1b17bc) 🐛 Redirect not working when no scheme was specified
   
@@ -202,12 +230,6 @@
     After the fix:
     example.com --> BECOMES https://example.com --> WORKING
     https://example.com --> WORKING
-  - [`cf2be12`](https://github.com/maicol07/flarum-sso-php-plugin/commit/cf2be127b5e5aa74fd2fad1f31cb50154b0690c4) 🥅 Exception if user does not exists in Flarum
-  
-      - Also added a new hook action
-  - [`0d9c12e`](https://github.com/maicol07/flarum-sso-php-plugin/commit/0d9c12ea655a894ad35c09dc797bb4faf91b1aa6) last commit fixes
-  - [`daeaf04`](https://github.com/maicol07/flarum-sso-php-plugin/commit/daeaf04317c9a183e98e15be078bf08ec4b14a56) ✏️ Typos
-  - [`ff7c262`](https://github.com/maicol07/flarum-sso-php-plugin/commit/ff7c26263b77a41b112cac33b3994303dc17af7f) ✏️ Typos
   - [`6ec4a91`](https://github.com/maicol07/flarum-sso-php-plugin/commit/6ec4a916da70262c5afc88caf33e1a509a5194bc) **deps:** 📌 Can't allow installations
   - [`6ca94d3`](https://github.com/maicol07/flarum-sso-php-plugin/commit/6ca94d3bce7471f4f633a73b9ee620166f9f11c9) **deps:** 📌 Can't allow installations
   
