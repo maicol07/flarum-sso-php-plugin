@@ -106,6 +106,7 @@ class Flarum
         if ($deleted = $this->deleteSessionTokenCookie()) {
             $this->deleteRememberTokenCookie();
         }
+        
         $created = $this->setLogoutCookie();
 
         $this->hooks->do_action('after_logout', $deleted, $created);

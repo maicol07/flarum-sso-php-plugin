@@ -55,12 +55,11 @@ class User
     public function update(): bool
     {
         if ($this->id === null || $this->id === 0) {
-            $fetched = $this->fetch();
-            if (!$fetched) {
+            if (!$this->fetch()) {
                 return false;
             }
         }
-        
+
         $this->flarum->action_hook('before_update');
 
         $response = $this->flarum->api->users($this->id)->patch([
@@ -91,7 +90,7 @@ class User
         if ($this->id === null || $this->id === 0) {
             return false;
         }
-        
+
         try {
             $result = $this->flarum->api->users($this->id)->delete()->request();
         } catch (ClientException $e) {
@@ -101,7 +100,7 @@ class User
                 throw $e;
             }
         }
-        
+
         $this->flarum->action_hook('after_delete');
         $this->flarum->deleteSessionTokenCookie();
         $this->flarum->deleteRememberTokenCookie();
@@ -125,7 +124,7 @@ class User
                 $this->id = null;
                 return false;
             }
-            
+
             throw $e;
         }
 

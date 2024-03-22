@@ -1,4 +1,5 @@
 <?php
+
 namespace Maicol07\SSO\Addons;
 
 use Illuminate\Support\Arr;
@@ -37,7 +38,7 @@ class Groups extends Core
                 }
 
                 // Find ID of the group
-                $id = array_key_first(Arr::where($flarum_groups, static fn($name): bool => $name === $group));
+                $id = array_key_first(Arr::where($flarum_groups, static fn ($name): bool => $name === $group));
                 // If it doesn't exists, create it
                 if ($id === 0 || $id === '' || $id === null) {
                     $id = $this->createGroup($group);
