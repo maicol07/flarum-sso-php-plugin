@@ -23,42 +23,45 @@ class Groups extends Core
     {
         $user = $this->flarum->user();
         if ($user->id !== null && $user->id !== 0) {
-            $groups = [];
+            $user_groups = $user->getDirtyRelationships()['groups'] ?? null;
+            if ($user_groups !== null) {
+                $groups = [];
 
-            /** Search flarum groups - @noinspection NullPointerExceptionInspection */
-            $flarum_groups = Arr::pluck(
-                $this->flarum->api->groups()->request()->collect()->all(),
-                'attributes.nameSingular',
-                'id'
-            );
+                /** Search flarum groups - @noinspection NullPointerExceptionInspection */
+                $flarum_groups = Arr::pluck(
+                    $this->flarum->api->groups()->request()->collect()->all(),
+                    'attributes.nameSingular',
+                    'id'
+                );
 
-            foreach ($user->relationships->groups as $group) {
-                if (empty($group) || !is_string($group)) {
-                    continue;
+                foreach ($user_groups as $group) {
+                    if (empty($group) || !is_string($group)) {
+                        continue;
+                    }
+
+                    // Find ID of the group
+                    $id = array_key_first(Arr::where($flarum_groups, static fn($name): bool => $name === $group));
+                    // If it doesn't exists, create it
+                    if ($id === 0 || $id === '' || $id === null) {
+                        $id = $this->createGroup($group);
+                    }
+
+                    $groups[] = [
+                        'type' => 'groups',
+                        'id' => $id
+                    ];
                 }
 
-                // Find ID of the group
-                $id = array_key_first(Arr::where($flarum_groups, static fn ($name): bool => $name === $group));
-                // If it doesn't exists, create it
-                if ($id === 0 || $id === '' || $id === null) {
-                    $id = $this->createGroup($group);
-                }
-
-                $groups[] = [
-                    'type' => 'groups',
-                    'id' => $id
-                ];
-            }
-
-            $this->flarum->api->users($user->id)->patch([
-                'relationships' => [
-                    'groups' => [
-                        'data' => $groups
+                $this->flarum->api->users($user->id)->patch([
+                    'relationships' => [
+                        'groups' => [
+                            'data' => $groups
+                        ],
                     ],
-                ],
-            ])->request();
+                ])->request();
 
-            $user->relationships->clearDirty();
+                $user->relationships->clearDirty();
+            }
         }
     }
 
