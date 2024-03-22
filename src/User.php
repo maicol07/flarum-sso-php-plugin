@@ -137,6 +137,7 @@ class User
         foreach ($user->attributes ?? [] as $attribute => $value) {
             $this->attributes->$attribute = $value;
         }
+        $this->attributes->clearDirty();
 
         $groups = $user->relationships['groups'] ?? [];
 
@@ -149,6 +150,7 @@ class User
         foreach ($groups as $group) {
             $this->relationships->groups[] = $group->attributes['nameSingular'];
         }
+        $this->relationships->clearDirty();
 
         return true;
     }
