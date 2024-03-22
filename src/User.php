@@ -2,6 +2,8 @@
 namespace Maicol07\SSO;
 
 use GuzzleHttp\Exception\ClientException;
+use Maicol07\Flarum\Api\Resource\Collection;
+use Maicol07\Flarum\Api\Resource\Item;
 use Maicol07\SSO\User\Attributes;
 use Maicol07\SSO\User\Relationships;
 use Maicol07\SSO\User\Traits\Auth;
@@ -118,6 +120,7 @@ class User
     {
         try {
             $user = $this->flarum->api->users($this->attributes->username)->request();
+            assert($user instanceof Item);
         } catch (ClientException $e) {
             if ($e->getCode() === 404 && $e->getResponse()->getReasonPhrase() === "Not Found") {
                 // User doesn't exists in Flarum
@@ -128,20 +131,22 @@ class User
             throw $e;
         }
 
-        $this->id = $user->id;
+        $this->id = $user->id ?? null;
 
         // Set attributes
-        foreach ($user->attributes as $attribute => $value) {
+        foreach ($user->attributes ?? [] as $attribute => $value) {
             $this->attributes->$attribute = $value;
         }
 
+        $groups = $user->relationships['groups'] ?? [];
+
         // Admin?
-        if (array_key_exists(1, $user->relationships['groups'])) {
+        if (array_key_exists(1, $groups)) {
             $this->isAdmin = true;
         }
 
         // Set groups
-        foreach ($user->relationships['groups'] as $group) {
+        foreach ($groups as $group) {
             $this->relationships->groups[] = $group->attributes['nameSingular'];
         }
 

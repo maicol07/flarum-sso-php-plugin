@@ -2,8 +2,6 @@
 
 namespace Maicol07\SSO\User;
 
-use Maicol07\SSO\Flarum;
-
 /**
  * Class Relationships
  * @package Maicol07\SSO\User
@@ -23,9 +21,18 @@ class Relationships
         $this->relationships[$name] = $value;
     }
 
-    public function __get(string $name): mixed
+    public function &__get(string $name): mixed
     {
-        return $this->dirty[$name] ?? $this->relationships[$name];
+        if (isset($this->dirty[$name])) {
+            return $this->dirty[$name];
+        }
+
+        if (isset($this->relationships[$name])) {
+            return $this->relationships[$name];
+        }
+
+        $null = null;
+        return $null;
     }
 
     public function __isset(string $name): bool
@@ -38,7 +45,7 @@ class Relationships
         return $this->relationships;
     }
 
-    public function dirtyToArray(Flarum $flarum): array
+    public function dirtyToArray(): array
     {
         return $this->dirty;
     }

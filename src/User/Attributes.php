@@ -46,9 +46,18 @@ class Attributes
         $this->attrs[$name] = $value;
     }
 
-    public function __get(string $name): mixed
+    public function &__get(string $name): mixed
     {
-        return $this->dirty[$name] ?? $this->attrs[$name];
+        if (isset($this->dirty[$name])) {
+            return $this->dirty[$name];
+        }
+
+        if (isset($this->relationships[$name])) {
+            return $this->relationships[$name];
+        }
+
+        $null = null;
+        return $null;
     }
 
     public function __isset(string $name): bool
