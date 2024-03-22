@@ -1,4 +1,5 @@
 <?php
+
 namespace Maicol07\SSO\User;
 
 use Maicol07\SSO\Flarum;
@@ -6,32 +7,44 @@ use Maicol07\SSO\Flarum;
 /**
  * Class Relationships
  * @package Maicol07\SSO\User
+ *
+ * @property string[] $groups
  */
 class Relationships
 {
-    /** @var array */
-    public $groups = [];
-    
-    /**
-     * @return array{groups: array{data: array<int, array{type: string, id: mixed}>}}
-     */
-    public function toArray(Flarum $flarum): array
+    private array $relationships = [];
+
+    private array $dirty = [];
+
+
+    public function __set(string $name, mixed $value): void
     {
-        $groups = [];
-        $flarum_groups = $flarum->api->groups()->request();
-        foreach ($flarum_groups as $flarum_group) {
-            if (in_array($flarum_group->attributes['nameSingular'], $this->groups, true)) {
-                $groups[] = [
-                    'type' => 'groups',
-                    'id' => $flarum_group->id
-                ];
-            }
-        }
-        
-        return [
-            'groups' => [
-                'data' => $groups
-            ]
-        ];
+        $this->dirty[$name] = $value;
+        $this->relationships[$name] = $value;
+    }
+
+    public function __get(string $name): mixed
+    {
+        return $this->dirty[$name] ?? $this->relationships[$name];
+    }
+
+    public function __isset(string $name): bool
+    {
+        return isset($this->dirty[$name]) || isset($this->relationships[$name]);
+    }
+
+    public function toArray(): array
+    {
+        return $this->relationships;
+    }
+
+    public function dirtyToArray(Flarum $flarum): array
+    {
+        return $this->dirty;
+    }
+
+    public function clearDirty(): void
+    {
+        $this->dirty = [];
     }
 }

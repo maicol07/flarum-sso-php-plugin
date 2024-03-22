@@ -6,98 +6,68 @@ namespace Maicol07\SSO\User;
  * Class Attributes
  * @package Maicol07\SSO\User
  */
-#[\AllowDynamicProperties]
+
+/**
+ * @property string $username
+ * @property string $email
+ * @property string|null $password
+ * @property string $displayName WARNING! This is read only! Overwriting this when updating the user won't do anything! To change the display name use the $nickname variable (beta16+. Nickname extension required).
+ * @property string $nickname WARNING! This is write only! To read this attribute use the $displayName property. To change the nickname you must have the nickname extension installed on your Flarum.
+ * @property string $avatarUrl
+ * @property string $joinTime
+ * @property int $discussionCount
+ * @property int $commentCount
+ * @property bool $canEdit
+ * @property bool $canDelete
+ * @property bool $canSuspend
+ * @property string $bio
+ * @property bool $canViewBio
+ * @property bool $canEditBio
+ * @property bool $canSpamblock
+ * @property bool $blocksPd
+ * @property bool $cannotBeDirectMessaged
+ * @property bool $isBanned
+ * @property bool $canBandIP
+ * @property array $usernameHistory
+ * @property bool $canViewWarnings
+ * @property bool $canManageWarnings
+ * @property bool $canDeleteWarnings
+ * @property int $visibleWarningCount
+ */
 class Attributes
 {
-    /** @var string */
-    public $username;
+    private array $dirty = [];
 
-    /** @var string */
-    public $email;
+    private array $attrs = [];
 
-    /** @var string|null */
-    public $password;
+    public function __set(string $name, mixed $value): void
+    {
+        $this->dirty[$name] = $value;
+        $this->attrs[$name] = $value;
+    }
 
-    /**
-     * WARNING! This is read only! Overwriting this when updating the user won't do anything!
-     * To change the display name use the $nickname variable (beta16+. Nickname extension required).
-     *
-     * @var string
-     * @see $nickname
-     */
-    public $displayName;
+    public function __get(string $name): mixed
+    {
+        return $this->dirty[$name] ?? $this->attrs[$name];
+    }
 
-    /**
-     * WARNING! This is write only! To read this attribute use the $displayName property.
-     * To change the nickname you must have the nickname extension installed on your Flarum.
-     *
-     * @var string
-     */
-    public $nickname;
-
-    /** @var string */
-    public $avatarUrl;
-
-    /** @var string */
-    public $joinTime;
-
-    /** @var int */
-    public $discussionCount;
-
-    /** @var int */
-    public $commentCount;
-
-    /** @var bool */
-    public $canEdit;
-
-    /** @var bool */
-    public $canDelete;
-
-    /** @var bool */
-    public $canSuspend;
-
-    /** @var string */
-    public $bio;
-
-    /** @var bool */
-    public $canViewBio;
-
-    /** @var bool */
-    public $canEditBio;
-
-    /** @var bool */
-    public $canSpamblock;
-
-    /** @var bool */
-    public $blocksPd;
-
-    /** @var bool */
-    public $cannotBeDirectMessaged;
-
-    /** @var bool */
-    public $isBanned;
-
-    /** @var bool */
-    public $canBandIP;
-
-    /** @var array */
-    public $usernameHistory = [];
-
-    /** @var bool */
-    public $canViewWarnings;
-
-    /** @var bool */
-    public $canManageWarnings;
-
-    /** @var bool */
-    public $canDeleteWarnings;
-
-    /** @var int */
-    public $visibleWarningCount;
-
+    public function __isset(string $name): bool
+    {
+        return isset($this->dirty[$name]) || isset($this->attrs[$name]);
+    }
 
     public function toArray(): array
     {
-        return get_object_vars($this);
+        return $this->attrs;
+    }
+
+    public function dirtyToArray(): array
+    {
+        return $this->dirty;
+    }
+
+    public function clearDirty(): void
+    {
+        $this->dirty = [];
     }
 }

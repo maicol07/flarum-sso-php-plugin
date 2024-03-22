@@ -56,6 +56,8 @@ class Groups extends Core
                     ],
                 ],
             ])->request();
+
+            $user->relationships->clearDirty();
         }
     }
 

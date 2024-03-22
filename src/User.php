@@ -64,12 +64,18 @@ class User
         $this->flarum->action_hook('before_update');
 
         $response = $this->flarum->api->users($this->id)->patch([
-            'attributes' => $this->getAttributes()
+            'attributes' => $this->getDirtyAttributes()
         ])->request();
 
         $this->flarum->action_hook('after_update', $response);
 
-        return ($response->id === $this->id);
+        $result = ($response->id === $this->id);
+
+        if ($result) {
+            $this->attributes->clearDirty();
+        }
+
+        return $result;
     }
 
     /**
@@ -148,8 +154,18 @@ class User
         return $this->attributes->toArray();
     }
 
+    public function getDirtyAttributes(): array
+    {
+        return $this->attributes->dirtyToArray();
+    }
+
     public function getRelationships(): array
     {
-        return $this->relationships->toArray($this->flarum);
+        return $this->relationships->toArray();
+    }
+
+    public function getDirtyRelationships(): array
+    {
+        return $this->relationships->dirtyToArray();
     }
 }
