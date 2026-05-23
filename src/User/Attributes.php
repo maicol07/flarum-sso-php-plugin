@@ -52,6 +52,10 @@ class Attributes
             return $this->dirty[$name];
         }
 
+        if (isset($this->attrs[$name])) {
+            return $this->attrs[$name];
+        }
+
         if (isset($this->relationships[$name])) {
             return $this->relationships[$name];
         }
