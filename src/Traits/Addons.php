@@ -28,7 +28,6 @@ trait Addons
      * Unloads an addon from the plugin
      *
      * @param string $addon Addon class name to remove
-     * @return $this
      */
     public function unloadAddon(string $addon): self
     {
@@ -41,8 +40,6 @@ trait Addons
 
     /**
      * Set addon properties
-     *
-     * @return $this
      */
     public function setAddonProperties(string $addon, array $attributes): self
     {

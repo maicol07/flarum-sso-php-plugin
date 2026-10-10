@@ -26,12 +26,12 @@ if (!empty($_GET['redirect'])) {
 <div class="box" style="margin-top: 25px;">
     <h1 class="title">Logout user</h1>
 
-    <?php if (isset($flarum) and !empty($success)) { ?>
+    <?php if (isset($flarum) && !empty($success)) { ?>
         <div class="notification is-success">
             <button class="delete"></button>
             Successfully logged out
         </div>
-    <?php } elseif (isset($flarum) and empty($success)) { ?>
+    <?php } elseif (isset($flarum) && empty($success)) { ?>
         <div class="notification is-danger">
             <button class="delete"></button>
             Something went wrong while logging you out of Flarum :(
@@ -39,6 +39,6 @@ if (!empty($_GET['redirect'])) {
     <?php } ?>
 </div>
 
-<?php require_once 'footer.php' ?>
+<?php require_once __DIR__ . '/footer.php' ?>
 </body>
 </html>

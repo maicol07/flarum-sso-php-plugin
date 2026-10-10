@@ -34,16 +34,16 @@ class Groups extends Core
                     'id'
                 );
 
-                foreach ($user_groups as $group) {
-                    if (empty($group) || !is_string($group)) {
+                foreach ($user_groups as $user_group) {
+                    if (empty($user_group) || !is_string($user_group)) {
                         continue;
                     }
 
                     // Find ID of the group
-                    $id = array_key_first(Arr::where($flarum_groups, static fn($name): bool => $name === $group));
+                    $id = array_key_first(Arr::where($flarum_groups, static fn($name): bool => $name === $user_group));
                     // If it doesn't exists, create it
-                    if ($id === 0 || $id === '' || $id === null) {
-                        $id = $this->createGroup($group);
+                    if (in_array($id, [0, '', null], true)) {
+                        $id = $this->createGroup($user_group);
                     }
 
                     $groups[] = [

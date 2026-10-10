@@ -26,12 +26,12 @@ if (!empty($_GET['redirect'])) {
 <div class="box" style="margin-top: 25px;">
     <h1 class="title">Delete user</h1>
 
-    <?php if (isset($flarum) and !empty($success)) { ?>
+    <?php if (isset($flarum) && !empty($success)) { ?>
         <div class="notification is-success">
             <button class="delete"></button>
             <?php echo "Successfully deleted {$_GET['username']}"; ?><br>
         </div>
-    <?php } elseif (isset($flarum) and empty($success)) { ?>
+    <?php } elseif (isset($flarum) && empty($success)) { ?>
         <div class="notification is-danger">
             <button class="delete"></button>
             <?php echo "Something went wrong while deleting {$_GET['username']} :("; ?><br><br>
@@ -50,6 +50,6 @@ if (!empty($_GET['redirect'])) {
     </details>
 </div>
 
-<?php require_once 'footer.php' ?>
+<?php require_once __DIR__ . '/footer.php' ?>
 </body>
 </html>

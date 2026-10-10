@@ -19,6 +19,7 @@ class Flarum
 {
     use Cookies;
     use Addons;
+    
     /* @var Client Api client */
     /**
      * @var \Maicol07\Flarum\Api\Client
@@ -106,7 +107,7 @@ class Flarum
         if ($deleted = $this->deleteSessionTokenCookie()) {
             $this->deleteRememberTokenCookie();
         }
-        
+
         $created = $this->setLogoutCookie();
 
         $this->hooks->do_action('after_logout', $deleted, $created);
@@ -114,7 +115,7 @@ class Flarum
         return ($deleted && $created);
     }
 
-    public function user(string $username = null): User
+    public function user(?string $username = null): User
     {
         if (!$this->user instanceof \Maicol07\SSO\User) {
             $this->user = new User($username, $this);
@@ -172,10 +173,10 @@ class Flarum
                 if ($grouped) {
                     $plucked = [$filter => $plucked];
                 }
-                
+
                 $filtered = $filtered->mergeRecursive($plucked);
             }
-            
+
             $collection = $filtered;
         }
 
@@ -191,13 +192,13 @@ class Flarum
      *
      * @noinspection MissingReturnTypeInspection
      */
-    public function isSessionRemembered(bool $remember = null)
+    public function isSessionRemembered(?bool $remember = null)
     {
         if ($remember !== null) {
             $this->remember = $remember;
             return;
         }
-        
+
         return $this->remember;
     }
 

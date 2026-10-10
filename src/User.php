@@ -32,12 +32,8 @@ class User
     /** @var bool */
     public $isAdmin = false;
 
-    /** @var Flarum */
-    private $flarum;
-
-    public function __construct(?string $username, Flarum $flarum)
+    public function __construct(?string $username, private Flarum $flarum)
     {
-        $this->flarum = $flarum;
         $this->attributes = new Attributes();
         $this->relationships = new Relationships();
         $this->attributes->username = $username;
@@ -137,6 +133,7 @@ class User
         foreach ($user->attributes ?? [] as $attribute => $value) {
             $this->attributes->$attribute = $value;
         }
+        
         $this->attributes->clearDirty();
 
         $groups = $user->relationships['groups'] ?? [];
@@ -150,6 +147,7 @@ class User
         foreach ($groups as $group) {
             $this->relationships->groups[] = $group->attributes['nameSingular'];
         }
+        
         $this->relationships->clearDirty();
 
         return true;

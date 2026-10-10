@@ -28,7 +28,7 @@ trait Auth
         if (empty($this->attributes->password)) {
             throw new RuntimeException("User's password not set");
         }
-        
+
         $token = $this->getToken();
 
         $this->flarum->action_hook('after_token_obtained', $token);
@@ -52,7 +52,7 @@ trait Auth
                     if (!$signed_up) {
                         return false;
                     }
-                    
+
                     $this->flarum->action_hook('after_signup');
                     $token = $this->getToken();
                 } else {
@@ -95,7 +95,7 @@ trait Auth
             if ($e->getResponse()->getReasonPhrase() === "Unprocessable Entity") {
                 return false;
             }
-            
+
             throw $e;
         }
     }
@@ -126,7 +126,7 @@ trait Auth
             if ($e->getResponse()->getReasonPhrase() === "Unauthorized") {
                 return null;
             }
-            
+
             throw $e;
         }
     }

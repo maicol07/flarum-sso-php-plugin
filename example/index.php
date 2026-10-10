@@ -109,7 +109,7 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
         </div>
     </div>
 
-    <?php if (isset($flarum) and !empty($success)) { ?>
+    <?php if (isset($flarum) && !empty($success)) { ?>
         <div class="notification is-success">
             <button class="delete"></button>
             Successfully logged in! Click the button below to go to Flarum!
@@ -122,7 +122,7 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
                 <summary>User details</summary>
                 <pre style="margin: 16px 0;">
                     <?php
-                    if (isset($flarum_user) and $flarum_user->fetch()) {
+                    if (isset($flarum_user) && $flarum_user->fetch()) {
                         $is_admin = $flarum_user->isAdmin ? 'Yes' : 'No';
                         echo "User ID: $flarum_user->id<br>Is user admin? <b>$is_admin</b><br>User attributes: <br>";
                         var_export($flarum_user->getAttributes());
@@ -135,7 +135,7 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
                 </pre>
             </details>
         </div>
-    <?php } elseif (isset($success) and empty($success)) { ?>
+    <?php } elseif (isset($success) && empty($success)) { ?>
         <div class="notification is-danger">
             <button class="delete"></button>
             Login failed
@@ -143,6 +143,6 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
     <?php } ?>
 </div>
 
-<?php require_once 'footer.php' ?>
+<?php require_once __DIR__ . '/footer.php' ?>
 </body>
 </html>
