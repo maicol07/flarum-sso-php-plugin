@@ -126,3 +126,5 @@ doctum.phar
 
 ### Example
 /example/.env
+### Doctum output (published by .github/workflows/docs.yml)
+/docs/
