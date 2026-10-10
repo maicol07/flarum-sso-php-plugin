@@ -30,6 +30,7 @@ if (!empty(Arr::get($users, $username)) && Arr::get($users, "$username.password"
     $flarum_user = $flarum->user($username);
 
     // Set his password
+    $flarum_user->attributes->username = $username;
     $flarum_user->attributes->password = Arr::get($users, "$username.password");
 
     // If user is not signed up into Flarum...
