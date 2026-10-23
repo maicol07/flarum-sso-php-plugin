@@ -1,7 +1,54 @@
 # Changelog
 
-<a name="unreleased"></a>
-## Unreleased
+<a name="3.3.2"></a>
+## [3.3.2](https://github.com/maicol07/flarum-sso-php-plugin/compare/3.3.1...3.3.2)
+
+> Released on October 10, 2026
+
+### 🐛 Bug Fixes
+
+- [`66f6c50`](https://github.com/maicol07/flarum-sso-php-plugin/commit/66f6c50a815e5003d125a0ffad995465501c0b79) **example:** 🐛 set username attribute before login
+
+### 💄 UI & Style
+
+- <details><summary><a href="https://github.com/maicol07/flarum-sso-php-plugin/commit/b2369d9f25b721e4be787da50ecd11d8199d9460"><code>b2369d9</code></a> 🎨 update font paths to remove unnecessary directory references</summary>
+
+  > - Simplified font URLs in `fonts.less` and `icons.less` by removing leading '../'
+  > - Ensures consistency and easier management of font files
+
+  </details>
+
+### ♻️ Code Refactoring
+
+- <details><summary><a href="https://github.com/maicol07/flarum-sso-php-plugin/commit/cb31b99738cb1b9021838be11147524ad334fd35"><code>cb31b99</code></a> ♻️ apply rector rules and make nullable params explicit</summary>
+
+  > Implicitly nullable parameters are deprecated since PHP 8.4.
+
+  </details>
+
+### 👷 Building scripts changes
+
+- [`e6c0dac`](https://github.com/maicol07/flarum-sso-php-plugin/commit/e6c0dac9d1d2a1a9dbbfee8aa6e246686c0cd277) ⬆️ upgrade rector to 2.x targeting PHP 8.3
+
+### 👷 CI changes
+
+- [`a5da82b`](https://github.com/maicol07/flarum-sso-php-plugin/commit/a5da82bd56a910eb847f01a2d17f4276e9fc569f) 👷 replace git-chglog with git-cliff
+- <details><summary><a href="https://github.com/maicol07/flarum-sso-php-plugin/commit/774ea7b801bddafc1f0a2effb586bb6d23d69b24"><code>774ea7b</code></a> 👷 publish API docs to GitHub Pages from Actions</summary>
+
+  > Generated docs are no longer committed.
+
+  </details>
+- [`8b682a4`](https://github.com/maicol07/flarum-sso-php-plugin/commit/8b682a48b4a871547fb228a1e8503d776b6f6292) 🔥 remove label commenter workflow
+
+### Other changes
+
+- [`72699ef`](https://github.com/maicol07/flarum-sso-php-plugin/commit/72699efa8493601a4b931dfdd9ead23a7a35b1fd) 🔧 add .idea/claudeCodeEditorTabs.xml to .gitignore
+- [`6e78556`](https://github.com/maicol07/flarum-sso-php-plugin/commit/6e78556dd1631f6575704394edc19b0563c8ba50) 🔧 add IntelliJ IDEA configuration files
+
+<a name="3.3.1"></a>
+## [3.3.1](https://github.com/maicol07/flarum-sso-php-plugin/compare/3.3...3.3.1)
+
+> Released on May 23, 2026
 
 ### 🐛 Bug Fixes
 
