@@ -24,8 +24,22 @@ jobs:
   commit_lint:
     uses: maicol07/actions/.github/workflows/commit-lint.yml@v1
 
+  # Quality
+  rector:
+    uses: maicol07/actions/.github/workflows/php.yml@v1
+    with:
+      php_version: '8.5'
+      run: vendor/bin/rector process --dry-run --no-progress-bar
+
+  # Quality: failing on the current code, so not in release.needs until fixed (17 files to format)
+  pint:
+    uses: maicol07/actions/.github/workflows/php.yml@v1
+    with:
+      php_version: '8.5'
+      run: vendor/bin/pint --test
+
   release:
-    needs: [security]
+    needs: [security, rector]
     if: github.event_name == 'push'
     uses: maicol07/actions/.github/workflows/release.yml@v1
     permissions:
