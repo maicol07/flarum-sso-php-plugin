@@ -14,3 +14,11 @@ updates:
     groups:
       github-actions:
         patterns: ["*"]
+  # The documentation theme.
+  - package-ecosystem: npm
+    directory: /documentation/themes/flarum
+    schedule:
+      interval: weekly
+    groups:
+      docs-theme:
+        patterns: ["*"]
