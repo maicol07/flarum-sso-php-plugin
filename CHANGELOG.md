@@ -1,5 +1,28 @@
 # Changelog
 
+<a name="3.3.3"></a>
+## [3.3.3](https://github.com/maicol07/flarum-sso-php-plugin/compare/3.3.2...3.3.3)
+
+> Released on November 17, 2026
+
+### 👷 CI changes
+
+- [`6d876f1`](https://github.com/maicol07/flarum-sso-php-plugin/commit/6d876f1e1bb91f5d2311c15ef42818337f70176a) 👷 move the CI to the maicol07/actions reusable workflows
+- [`f7c0e18`](https://github.com/maicol07/flarum-sso-php-plugin/commit/f7c0e18e858cb1a5d649500e161e49b4d2bbb2d2) 👷 add Dependabot updates
+- [`4c7569b`](https://github.com/maicol07/flarum-sso-php-plugin/commit/4c7569b1ca4ff37097422936f31150b6d2b0742a) 👷 add the quality jobs
+- [`3e0e553`](https://github.com/maicol07/flarum-sso-php-plugin/commit/3e0e5534cef05260af6b34598ad9d7bea49d3fac) 👷 move to maicol07/actions v2 and skip the checks on the release merge
+- [`55c2051`](https://github.com/maicol07/flarum-sso-php-plugin/commit/55c205181cf483905fa5b2bed223c2a06a1e5675) 👷 let Dependabot update every dependency ecosystem of the repo
+- <details><summary><a href="https://github.com/maicol07/flarum-sso-php-plugin/commit/6030f338cb9c588e76eb146c34a4e2dc05464cc6"><code>6030f33</code></a> 🐛 hold the release when a check was cancelled</summary>
+
+  > !failure() is false only for failed needs: a cancelled check let the release run.
+
+  </details>
+
+### Other changes
+
+- [`1bc7949`](https://github.com/maicol07/flarum-sso-php-plugin/commit/1bc794905a293104453943743f32032b389b292b) 🔧 skip the release commits in the changelog
+- [`b72664f`](https://github.com/maicol07/flarum-sso-php-plugin/commit/b72664fe8efcc8216c01cb0d7cc74a3417b3f803) 🔥 drop Renovate in favour of Dependabot
+
 <a name="3.3.2"></a>
 ## [3.3.2](https://github.com/maicol07/flarum-sso-php-plugin/compare/3.3.1...3.3.2)
 
